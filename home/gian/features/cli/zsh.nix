@@ -1,0 +1,140 @@
+{
+  config,
+  pkgs,
+  ...
+}: {
+  # See: https://github.com/starship.
+  programs.starship = {
+    enable = true;
+    enableBashIntegration = true;
+    enableZshIntegration = true;
+    settings = {
+      add_newline = false;
+      directory = {
+        truncation_length = 2;
+        format = "[$path]($style)[$read_only]($read_only_style) ";
+      };
+    };
+  };
+
+  # See: https://github.com/junegunn/fzf.
+  programs.fzf = {
+    enable = true;
+    enableBashIntegration = true;
+    enableZshIntegration = true;
+  };
+
+  # See: https://github.com/ajeetdsouza/zoxide.
+  programs.zoxide.enable = true;
+
+  # See: https://github.com/lsd-rs/lsd.
+  programs.lsd = {
+    enable = true;
+    enableAliases = false;
+  };
+  
+  # See: https://github.com/sharkdp/bat.
+  programs.bat.enable = true;
+
+  programs.zsh = {
+    enable = true;
+
+    dotDir = ".config/zsh";
+    autosuggestion.enable = true;
+    enableCompletion = true;
+    syntaxHighlighting.enable = false;
+
+    historySubstringSearch = {
+      enable = true;
+      searchUpKey = ["^[j" "^[[A" "$terminfo[kcuu1]"];
+      searchDownKey = ["^[k" "^[[B" "$terminfo[kcud1]"];
+    };
+
+    sessionVariables = {
+      TERM = "xterm-256color";
+    };
+
+    shellAliases = {
+      mv = "mv -iv";
+      rm = "rm -I";
+      cp = "cp -iv";
+      ln = "ln -iv";
+      mkdir = "mkdir -pv";
+
+      ls = "lsd";
+      lsl = "lsd -lF";
+      lsa = "lsd -laF";
+      # Just for fun.
+      lalala = "lsa";
+
+      ".." = "cd ..";
+      "..." = "cd ../..";
+      "...." = "cd ../../..";
+      "....." = "cd ../../../..";
+
+      cl = "clear";
+      please = "sudo $(fc -ln -1)";
+      dev = "nix develop --impure -c $SHELL";
+
+      gits = "git status";
+      gitd = "git diff";
+      gita = "git add";
+      gitc = "git commit";
+      gitg = "git graph";
+      # Fast-forward to the latest stuff.
+      gitfresh = "git fetch && git pull --ff-only";
+      # Get latest state of the current branch from remote, and don't care about
+      # any local changes.
+      gitgud = "git fetch && $(git_reset_current_branch_to_origin)";
+      # Rebase the current branch on top of the latest state of the main branch.
+      gitbased = "git fetch --all && git rebase -i origin/$(git_main_branch)";
+      # Delete all local branches that are no longer present on remote.
+      gitclean = "$(git_clean_gone_branches)";
+    };
+
+    initExtra = ''
+      confirm() {
+        read -p "$1 [y/N] " -n 1 -r
+        echo
+        [[ $REPLY =~ ^[Yy]$ ]]
+      }
+
+      git_main_branch() {
+        git branch -r | grep -Po "HEAD -> \K.*$" | sed -e 's|^origin/||'
+      }
+
+      git_current_branch() {
+        git symbolic-ref -q HEAD | sed -e 's|^refs/heads/||'
+      }
+
+      # Fetch and replace local branch with origin.
+      git_reset_current_branch_to_origin() {
+        local current_branch=$(git_current_branch)
+        if confirm "Hard reset current branch to origin/$current_branch?"; then
+          git reset --hard origin/$current_branch
+        fi
+      }
+
+      # Delete all branches that are no longer present on remote.
+      git_clean_gone_branches() {
+        if confirm "Delete all branches that are no longer present on remote?"; then
+          git branch -vv | grep gone | awk '{print $1}' | xargs git branch -D
+        fi
+      }
+    '';
+
+    history = {
+      size = 1000000;
+      save = 1000000;
+      extended = true;
+    };
+
+    antidote = {
+      enable = true;
+      plugins = [
+        "MichaelAquilina/zsh-you-should-use"
+        "zdharma-continuum/fast-syntax-highlighting kind:defer"
+      ];
+    };
+  };
+}
