@@ -1,8 +1,7 @@
 { 
-  config, 
-  lib, 
-  modulesPath, 
-  ... 
+  lib,
+  modulesPath,
+  ...
 }: {
   imports = [
     (modulesPath + "/installer/scan/not-detected.nix")
@@ -14,7 +13,7 @@
       availableKernelModules = [
         "nvme"
         "phy_qcom_qmp_pcie"
-        # "pcie_qcom"
+        "pcie_qcom"
         "i2c_hid_of"
         "i2c_qcom_geni"
         "leds_qcom_lpg"

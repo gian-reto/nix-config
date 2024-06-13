@@ -1,21 +1,62 @@
 {
-  description = "Your new nix config";
+  description = "My NixOS configuration";
 
-  nixConfig = {
-    extra-trusted-substituters = [
-      "https://nix-config.cachix.org"
-      "https://nix-community.cachix.org"
+  outputs = {
+    nixpkgs,
+    ...
+  } @ inputs: let
+    forAllSystems = nixpkgs.lib.genAttrs [
+      "aarch64-linux"
+      "x86_64-linux"
     ];
-    extra-trusted-public-keys = [
-      "nix-config.cachix.org-1:Vd6raEuldeIZpttVQfrUbLvXJHzzzkS0pezXCVVjDG4="
-      "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
-    ];
+    combinedManager = import (builtins.fetchTarball {
+      url = "https://github.com/flafydev/combined-manager/archive/e7ba6d6b57ee03352022660fcd572c973b6b26db.tar.gz";
+      sha256 = "sha256:11raq3s4d7b0crihx8pilhfp74xp58syc36xrsx6hdscyiild1z7";
+    });
+  in {
+    packages = forAllSystems (
+      system: let
+        pkgs = nixpkgs.legacyPackages.${system};
+      in
+        import ./pkgs { inherit pkgs; }
+    );
+    formatter = forAllSystems (
+      system: let
+        pkgs = nixpkgs.legacyPackages.${system};
+      in
+        pkgs.alejandra
+    );
+
+    # Nixos config.
+    nixosConfigurations = {
+
+      # ThinkPad X13s.
+      cassandra = combinedManager.nixosSystem {
+        inherit inputs;
+
+        configuration = {
+          system = "aarch64-linux";
+
+          modules = [
+            # Modules.
+            ./modules
+            # Host configurations.
+            ./hosts/common.nix
+            ./hosts/cassandra
+            # User configurations.
+            ./users/gian
+          ];
+        };
+      };
+
+    };
   };
 
   inputs = {
     # Nix ecosystem.
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-24.05";
+    hardware.url = "github:nixos/nixos-hardware";
     systems.url = "github:nix-systems/default-linux";
 
     nix = {
@@ -23,16 +64,10 @@
       inputs.nixpkgs.follows = "nixpkgs-stable";
     };
 
-    hardware.url = "github:nixos/nixos-hardware";
-
-    # `home-manager`.
+    # Home Manager ecosystem.
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
-    };
-    home-manager-stable = {
-      url = "github:nix-community/home-manager/release-24.05";
-      inputs.nixpkgs.follows = "nixpkgs-stable";
     };
 
     # ThinkPad X13s hardware support.
@@ -41,33 +76,41 @@
     # Hyprland ecosystem.
     hyprland.url = "git+https://github.com/hyprwm/Hyprland?submodules=1";
 
-    hyprland-contrib = {
-      url = "github:hyprwm/contrib";
-      inputs.nixpkgs.follows = "hyprland/nixpkgs";
-    };
-
     hyprland-plugins = {
       url = "github:hyprwm/hyprland-plugins";
       inputs.hyprland.follows = "hyprland";
     };
 
-    hyprlock = {
+    hyprland-contrib = {
+      url = "github:hyprwm/contrib";
+      inputs.nixpkgs.follows = "hyprland/nixpkgs";
+    };
+
+    hyprland-hyprlock = {
       url = "github:hyprwm/hyprlock";
       inputs.hyprlang.follows = "hyprland/hyprlang";
       inputs.nixpkgs.follows = "hyprland/nixpkgs";
       inputs.systems.follows = "hyprland/systems";
     };
 
-    hyprpaper = {
+    hyprland-hyprpaper = {
       url = "github:hyprwm/hyprpaper";
       inputs.hyprlang.follows = "hyprland/hyprlang";
       inputs.nixpkgs.follows = "hyprland/nixpkgs";
       inputs.systems.follows = "hyprland/systems";
     };
-    
-    # Third party programs, packaged with nix
-    firefox-addons = {
-      url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
+
+    hyprland-hyprspace = {
+      url = "github:KZDKM/Hyprspace";
+      inputs.hyprland.follows = "hyprland";
+    };
+
+    # Other stuff.
+    ags.url = "github:Aylur/ags";
+    astal.url = "github:Aylur/astal";
+
+    anyrun = {
+      url = "github:Kirottu/anyrun";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -75,160 +118,15 @@
       url = "github:nix-community/nix-vscode-extensions";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-  };
 
-  outputs = {
-    self,
-    nixpkgs,
-    home-manager,
-    systems,
-    ...
-  } @ inputs: let
-    inherit (self) outputs;
-    lib = nixpkgs.lib // home-manager.lib;
-    forEachSystem = f: lib.genAttrs (import systems) (system: f pkgsFor.${system});
-    pkgsFor = lib.genAttrs (import systems) (
-      system:
-        import nixpkgs {
-          inherit system;
-          config.allowUnfree = true;
-        }
-    );
-  in {
-    inherit lib;
-    nixosModules = import ./modules/nixos;
-    homeManagerModules = import ./modules/home-manager;
-
-    overlays = import ./overlays { inherit inputs outputs; };
-
-    packages = forEachSystem (pkgs: import ./pkgs { inherit pkgs; });
-    formatter = forEachSystem (pkgs: pkgs.alejandra);
-
-    # NixOS configuration entrypoint.
-    # Available through `nixos-rebuild --flake .#hostname`.
-    nixosConfigurations = {
-      # Desktops & Laptops.
-
-      # TODO
-      # andromeda = lib.nixosSystem {
-      #   modules = [
-      #     ./hosts/andromeda
-      #   ];
-      #   specialArgs = { inherit inputs outputs; };
-      # };
-
-      # TODO
-      cassandra = lib.nixosSystem {
-        modules = [
-          ./hosts/cassandra
-        ];
-        specialArgs = { inherit inputs outputs; };
-      };
-
-      # TODO
-      # ganymede = lib.nixosSystem {
-      #   modules = [
-      #     ./hosts/ganymede
-      #   ];
-      #   specialArgs = { inherit inputs outputs; };
-      # };
-
-      # TODO
-      # gilgamesh = lib.nixosSystem {
-      #   modules = [
-      #     ./hosts/gilgamesh
-      #   ];
-      #   specialArgs = { inherit inputs outputs; };
-      # };
-
-      # Servers.
-
-      # TODO
-      # medusa = lib.nixosSystem {
-      #   modules = [
-      #     ./hosts/medusa
-      #   ];
-      #   specialArgs = { inherit inputs outputs; };
-      # };
-
-      # Test VMs.
-
-      # TODO
-      # sandbox = lib.nixosSystem {
-      #   modules = [
-      #     ./hosts/sandbox
-      #   ];
-      #   specialArgs = { inherit inputs outputs; };
-      # };
+    firefox-addons = {
+      url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # Standalone `home-manager` configuration entrypoint.
-    # Available through `home-manager --flake .#username@hostname`.
-    homeConfigurations = {
-      # Desktops & Laptops.
-
-      # TODO
-      # "gian@andromeda" = lib.homeManagerConfiguration {
-      #   extraSpecialArgs = { inherit inputs outputs; };
-      #   modules = [
-      #     ./home/gian/andromeda.nix
-      #     ./home/gian/nixpkgs.nix
-      #   ];
-      #   pkgs = pkgsFor.x86_64-linux;
-      # };
-
-      "gian@cassandra" = lib.homeManagerConfiguration {
-        extraSpecialArgs = { inherit inputs outputs; };
-        modules = [
-          ./home/gian/cassandra.nix
-          ./home/gian/nixpkgs.nix
-        ];
-        pkgs = pkgsFor.aarch64-linux;
-      };
-
-      # TODO
-      # "gian@ganymede" = lib.homeManagerConfiguration {
-      #   extraSpecialArgs = { inherit inputs outputs; };
-      #   modules = [
-      #     ./home/gian/ganymede.nix
-      #     ./home/gian/nixpkgs.nix
-      #   ];
-      #   pkgs = pkgsFor.x86_64-linux;
-      # };
-
-      # TODO
-      # "gian@gilgamesh" = lib.homeManagerConfiguration {
-      #   extraSpecialArgs = { inherit inputs outputs; };
-      #   modules = [
-      #     ./home/gian/gilgamesh.nix
-      #     ./home/gian/nixpkgs.nix
-      #   ];
-      #   pkgs = pkgsFor.x86_64-linux;
-      # };
-
-      # Servers.
-
-      # TODO
-      # "gian@medusa" = lib.homeManagerConfiguration {
-      #   extraSpecialArgs = { inherit inputs outputs; };
-      #   modules = [
-      #     ./home/gian/medusa.nix
-      #     ./home/gian/nixpkgs.nix
-      #   ];
-      #   pkgs = pkgsFor.x86_64-linux;
-      # };
-
-      # Test VMs.
-
-      # TODO
-      # "gian@sandbox" = lib.homeManagerConfiguration {
-      #   extraSpecialArgs = { inherit inputs outputs; };
-      #   modules = [
-      #     ./home/gian/sandbox.nix
-      #     ./home/gian/nixpkgs.nix
-      #   ];
-      #   pkgs = pkgsFor.x86_64-linux;
-      # };
+    firefox-gnome-theme = {
+      url = "github:rafaelmardojai/firefox-gnome-theme";
+      flake = false;
     };
   };
 }

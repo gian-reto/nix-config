@@ -1,5 +1,7 @@
-# Gathers custom packages (can be defined similarly to ones from nixpkgs).
-# You can build them using `nix build .#example`.
-{pkgs ? import <nixpkgs> {}, ...}: rec {
-  # example = pkgs.callPackage ./example { };
+{
+  pkgs,
+  ...
+}: {
+  "apple-color-emoji" = pkgs.callPackage ./overlays/apple-color-emoji {};
+  "apple-fonts" = pkgs.callPackage ./overlays/apple-fonts {};
 }
