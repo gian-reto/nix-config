@@ -63,6 +63,11 @@
         userChrome = ''
           @import "firefox-gnome-theme/userChrome.css";
           @import "firefox-gnome-theme/theme/colors/dark.css";
+
+          /* Hide Firefox View button */
+          #firefox-view-button {
+            visibility: hidden;
+          }
         '';
         userContent = ''
           @import "firefox-gnome-theme/userContent.css";
@@ -86,7 +91,6 @@
             clearurls
             consent-o-matic
             cookie-autodelete
-            gaoptout
             kagi-search
             onepassword-password-manager
             privacy-badger
@@ -321,6 +325,10 @@
           "browser.newtabpage.activity-stream.showSponsoredTopSites" = false;
           "browser.newtabpage.activity-stream.improvesearch.topSiteSearchShortcuts" = false;
           "browser.newtabpage.activity-stream.section.highlights.includePocket" = false;
+
+          # Disable Firefox View.
+          "browser.tabs.firefox-view" = false;
+          "browser.tabs.firefox-view-next" = false;
 
           # Disable annoying web features.
           "dom.push.enabled" = false;
