@@ -19,7 +19,7 @@
         id = "eDP-1";
         width = 1920;
         height = 1200;
-        scale = 1;
+        scale = 1.0;
         refreshRate = 60;
       };
     };

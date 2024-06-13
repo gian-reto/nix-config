@@ -112,6 +112,12 @@ in {
         ]
         ++ (lib.optionals config.features.ags.enable ["ags"]);
 
+        monitor =
+          [
+            "${config.gui.monitors.main.id},${toString config.gui.monitors.main.width}x${toString config.gui.monitors.main.height}@${toString config.gui.monitors.main.refreshRate},0x0,${toString config.gui.monitors.main.scale}"
+          ]
+          ++ (lib.optionals (config.gui.monitors.secondary.id != null) ["monitor=${config.gui.monitors.secondary.id},${toString config.gui.monitors.secondary.width}x${toString config.gui.monitors.secondary.height}@${toString config.gui.monitors.secondary.refreshRate},${toString (config.gui.monitors.main.width * config.gui.monitors.main.scale)}x0,${toString config.gui.monitors.secondary.scale}"]);
+
         general = {
           gaps_in = 3;
           gaps_out = 6;
