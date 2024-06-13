@@ -96,6 +96,7 @@ in {
 
         exec-once = [
           "dbus-update-activation-environment --systemd --all"
+          "hyprpaper"
         ]
         ++ (
           lib.optionals config.features.hyprlock.enable [
@@ -136,6 +137,8 @@ in {
         input = {
           kb_layout = "us";
           kb_options = "lv3:alt_switch";
+
+          sensitivity = 0.45;
 
           follow_mouse = 1;
           natural_scroll = true;
