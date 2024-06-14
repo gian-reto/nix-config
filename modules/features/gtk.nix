@@ -15,13 +15,21 @@
   };
 
   config.hm = lib.mkIf config.features.gtk.enable {
+    home.packages = with pkgs; [
+      # `"adw-gtk3"` theme is required here, because if it's provided to
+      # `package` below, it will apply to GTK4 as well (which I don't want).
+      adw-gtk3
+    ];
+
     gtk = {
       enable = true;
 
       # See: https://github.com/lassekongo83/adw-gtk3.
       theme = {
         name = "adw-gtk3-dark";
-        package = pkgs.adw-gtk3;
+        # Don't provide the theme package here, because it would apply to GTK4
+        # as well.
+        # package = pkgs.adw-gtk3;
       };
       iconTheme = {
         name = "Adwaita";
@@ -45,28 +53,29 @@
       };
     };
 
+    # GNOME theme settings for apps that somehow don't pick up the configured
+    # themes above.
+    dconf.settings = {
+      "org/gnome/desktop/interface" = {
+        color-scheme = "prefer-dark";
+      };
+    };
+
     # TODO: Style QT like GTK (but move this to its own module).
     # qt = {
     #   enable = true;
     #   style.name = "adwaita-dark";
     # };
-
-    # TODO: Enable if needed, else remove.
-    # Also sets `org.freedesktop.appearance` `color-scheme`.
-    # dconf.settings."org/gnome/desktop/interface".color-scheme = "prefer-dark";
   };
 
   config.os = lib.mkIf config.features.gtk.enable {
-    environment.systemPackages = [
-      # Make GTK theme available for all users.
-      hmConfig.gtk.theme.package
-    ];
-
     services = {
       # Needed for GNOME services outside of GNOME Desktop.
       dbus.packages = with pkgs; [
         gcr
         gnome.gnome-settings-daemon
+        # GNOME desktop search engine. Used by some GNOME apps.
+        tracker
       ];
 
       gvfs.enable = true;
