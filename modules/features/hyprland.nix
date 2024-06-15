@@ -219,7 +219,9 @@ in {
           defaultAppFor = type: "${lib.getExe pkgs.handlr-regex} launch ${type}";
         in
           [
-            # Program bindings.
+            # General binds.
+            "${mod} SHIFT,R,exec,hyprctl reload; ags -q ; ags &" # Reload Hyprland and `ags`.
+            # Program binds.
             "${mod},Return,exec,${defaultAppFor "x-scheme-handler/terminal"}"
             "${mod},e,exec,${defaultAppFor "text/plain"}"
             "${mod},b,exec,${defaultAppFor "x-scheme-handler/https"}"
