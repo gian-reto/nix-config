@@ -79,7 +79,7 @@
           "ELECTRON_OZONE_PLATFORM_HINT=wayland"
           "HOME=${hmConfig.home.homeDirectory}"
         ];
-        ExecStart = "${lib.getExe pkgs._1password-gui} --silent --ozone-platform-hint=wayland";
+        ExecStart = "sleep 5s && ${lib.getExe pkgs._1password-gui} --silent --ozone-platform-hint=wayland";
         Restart = "always";
       };
     };
