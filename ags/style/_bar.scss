@@ -1,0 +1,8 @@
+@use "./variables";
+
+.bar {
+  color: variables.$fg;
+  background-color: variables.$bg;
+  min-height: 2rem;
+  padding: 0.4rem;
+}

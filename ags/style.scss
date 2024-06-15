@@ -1,0 +1,6 @@
+@use "style/variables";
+@use "style/bar" as *;
+
+* {
+  font-family: variables.$sans-serif;
+}
