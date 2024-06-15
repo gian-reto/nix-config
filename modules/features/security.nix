@@ -65,25 +65,6 @@
   };
 
   config.hm = lib.mkIf config.features.security.enable {
-    systemd.user.services._1password = {
-      Unit = {
-        Description = "Autostart 1password";
-        After = ["graphical-session.target"];
-        PartOf = ["graphical-session.target"];
-      };
-      Install = {
-        WantedBy = ["graphical-session.target"];
-      };
-      Service = {
-        Environment = [
-          "ELECTRON_OZONE_PLATFORM_HINT=wayland"
-          "HOME=${hmConfig.home.homeDirectory}"
-        ];
-        ExecStart = "sleep 5s && ${lib.getExe pkgs._1password-gui} --silent --ozone-platform-hint=wayland";
-        Restart = "always";
-      };
-    };
-
     # See: https://developer.1password.com/docs/ssh/agent/config.
     xdg.configFile."1Password/ssh/agent.toml".source = pkgs.writers.writeTOML "agent.toml" {
       ssh-keys = [
