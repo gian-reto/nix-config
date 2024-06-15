@@ -1,11 +1,29 @@
 const audio = await Service.import("audio");
 
 export const Volume = () => {
+  const muted = audio.speaker.bind("is_muted");
+  const volume = audio.speaker.bind("volume").as((value) => value * 100);
+  const status = Utils.merge([muted, volume], (mutedValue, volumeValue) =>
+    mutedValue ? "muted" : volumeValue < 50 ? "low" : "high"
+  );
+
+  const icon = Widget.Label({
+    class_name: "icon",
+    vpack: "center",
+    label: status.as((value) =>
+      value === "muted" ? "󰖁" : value === "low" ? "󰖀" : "󰕾"
+    ),
+  });
+
   const label = Widget.Label({
-    label: "Vol",
+    class_name: "label",
+    vpack: "center",
+    label: volume.as((value) => `${Math.round(value)}%`),
   });
 
   const slider = Widget.Slider({
+    class_name: "slider",
+    vpack: "center",
     hexpand: true,
     draw_value: false,
     on_change: ({ value }) => (audio.speaker.volume = value),
@@ -17,6 +35,7 @@ export const Volume = () => {
 
   return Widget.Box({
     class_name: "volume section",
-    children: [label, slider],
+    hpack: "center",
+    children: [icon, label, slider],
   });
 };

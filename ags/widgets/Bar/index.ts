@@ -1,3 +1,4 @@
+import { Battery } from "./sections/Battery";
 import { DateTime } from "./sections/DateTime";
 import { SystemTray } from "./sections/SystemTray";
 import { Volume } from "./sections/Volume";
@@ -16,19 +17,35 @@ export const Bar = (monitor: number = 0) =>
         hexpand: true,
         vexpand: true,
         hpack: "start",
+        vpack: "center",
         children: [Workspaces()],
       }),
       centerWidget: Widget.Box({
         hexpand: true,
         vexpand: true,
         hpack: "center",
+        vpack: "center",
         children: [DateTime()],
       }),
       endWidget: Widget.Box({
         hexpand: true,
         vexpand: true,
         hpack: "end",
-        children: [SystemTray(), Volume()],
+        vpack: "center",
+        children: [
+          Widget.Box({
+            class_name: "group",
+            hpack: "center",
+            vpack: "center",
+            children: [SystemTray()],
+          }),
+          Widget.Box({
+            class_name: "group",
+            hpack: "center",
+            vpack: "center",
+            children: [Volume(), Battery()],
+          }),
+        ],
       }),
     }),
   });

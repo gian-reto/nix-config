@@ -1,8 +1,159 @@
 @use "./variables";
 
 .bar {
-  color: variables.$fg;
-  background-color: variables.$bg;
   min-height: 2rem;
-  padding: 0.4rem;
+  padding: 0.125rem;
+  color: variables.$white;
+  background-color: variables.$black;
+
+  * {
+    all: unset;
+    transition: all 0.1s ease-out;
+  }
+
+  .section {
+    margin: 0 1rem;
+  }
+
+  .group {
+    margin: 0 0.25rem;
+
+    .section {
+      margin: 0 0.75rem;
+    }
+  }
+
+  .workspaces {
+    .workspace {
+      min-width: 0.5rem;
+      min-height: 0.5rem;
+      margin: 0 0.25rem;
+      background-color: variables.$gray-50;
+      border-radius: 0.5rem;
+
+      &.active {
+        min-width: 2.25rem;
+        background-color: variables.$white;
+      }
+
+      &:hover {
+        background-color: variables.$white;
+      }
+    }
+  }
+
+  .system-tray {
+    min-height: 1.75rem;
+
+    .item {
+      min-width: 1.75rem;
+      min-height: 1.75rem;
+      margin: 0 0.25rem;
+      background-color: transparentize(variables.$gray-300, 1);
+      border-radius: 0.5rem;
+
+      &.active,
+      &:hover {
+        background-color: variables.$gray-300;
+      }
+
+      .icon {
+        font-size: 1.25rem;
+      }
+    }
+  }
+
+  .volume {
+    .icon,
+    .label {
+      margin: 0 0.5rem 0 0;
+    }
+
+    .icon {
+      font-size: 1.25rem;
+      font-family: variables.$monospace;
+    }
+
+    .slider {
+      min-width: 4rem;
+      min-height: 0.5rem;
+      background-color: variables.$gray-800;
+      border-radius: 0.5rem;
+
+      highlight {
+        min-height: 0.5rem;
+        background-color: variables.$gray-50;
+        border-radius: 0.5rem;
+
+        &:hover {
+          background-color: variables.$white;
+        }
+      }
+    }
+  }
+
+  .battery {
+    .icon,
+    .label {
+      margin: 0 0.5rem 0 0;
+    }
+
+    .icon {
+      font-size: 1.25rem;
+      font-family: variables.$monospace;
+    }
+
+    .progress {
+      trough {
+        min-width: 4rem;
+        min-height: 0.5rem;
+        background-color: variables.$gray-800;
+        border-radius: 0.5rem;
+
+        progress {
+          min-height: 0.5rem;
+          border-radius: 0.5rem;
+        }
+      }
+    }
+
+    &.normal {
+      .progress progress {
+        background-color: variables.$gray-50;
+      }
+    }
+
+    &.charging {
+      .icon,
+      .label {
+        color: variables.$green-2;
+      }
+
+      .progress progress {
+        background-color: variables.$green-3;
+      }
+    }
+
+    &.low {
+      .icon,
+      .label {
+        color: variables.$yellow-2;
+      }
+
+      .progress progress {
+        background-color: variables.$yellow-3;
+      }
+    }
+
+    &.critical {
+      .icon,
+      .label {
+        color: variables.$red-2;
+      }
+
+      .progress progress {
+        background-color: variables.$red-3;
+      }
+    }
+  }
 }
