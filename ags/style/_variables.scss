@@ -73,3 +73,31 @@ $error-fg-color: $white;
 // Typography
 $sans-serif: "Inter", sans-serif;
 $monospace: "MonaspiceNe NFM", monospace;
+
+$text-xs: 0.75rem; // 12px
+$text-sm: 0.875rem; // 14px
+$text-md: 1rem; // 16px
+$text-xl: 1.25rem; // 20px
+$text-2xl: 1.5rem; // 24px
+
+// Spacing
+$space-xs: 0.125rem; // 2px
+$space-sm: 0.25rem; // 4px
+$space-md: 0.5rem; // 8px
+$space-lg: 0.75rem; // 12px
+$space-xl: 1rem; // 16px
+$space-2xl: 1.25rem; // 20px
+$space-3xl: 1.75rem; // 28px
+
+// Border radius
+$radius-xs: 0.5rem; // 8px
+$radius-sm: 0.625rem; // 10px
+$radius-md: 0.875rem; // 14px
+$radius-lg: 1.25rem; // 20px
+$radius-xl: 1.75rem; // 28px
+$radius-2xl: 2.5rem; // 40px
+$radius-full: 9999px;
+
+// Transition
+$transition-fast: all 0.1s ease-out;
+$transition-normal: all 0.2s ease-out;

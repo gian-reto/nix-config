@@ -1,0 +1,71 @@
+@use "./button" as *;
+@use "./gap" as *;
+@use "./slider" as *;
+
+@use "../variables";
+
+@mixin media() {
+  padding: variables.$space-xl;
+
+  color: variables.$white;
+  background-color: variables.$gray-200;
+  border-radius: variables.$radius-xl;
+
+  transition: variables.$transition-normal;
+
+  .cover {
+    margin-right: variables.$space-xl;
+
+    background-size: cover;
+    background-position: center;
+    background-color: variables.$gray-300;
+    border-radius: variables.$radius-lg;
+  }
+
+  .metadata {
+    .title {
+      color: variables.$white;
+
+      font-size: variables.$text-md;
+    }
+
+    .artist {
+      color: transparentize(variables.$white, 0.2);
+
+      font-size: variables.$text-sm;
+    }
+
+    .slider {
+      @include slider(
+        $progress-background-color: variables.$accent-bg-color,
+        $progress-hover-background-color: variables.$accent-color
+      );
+
+      margin-bottom: variables.$space-lg;
+    }
+
+    .footer {
+      @include gap($spacing: variables.$space-xl);
+
+      .position,
+      .length {
+        font-family: variables.$monospace;
+        font-size: variables.$text-md;
+      }
+
+      button {
+        @include button();
+
+        padding: variables.$space-md;
+
+        &.play-pause {
+          margin: 0 variables.$space-md;
+        }
+
+        image {
+          font-size: variables.$text-xl;
+        }
+      }
+    }
+  }
+}

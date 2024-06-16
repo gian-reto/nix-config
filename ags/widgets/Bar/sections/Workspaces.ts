@@ -30,11 +30,7 @@ export const Workspaces = () => {
   });
 
   return Widget.Box({
-    class_name: "workspaces section",
-    hexpand: false,
-    vexpand: false,
-    hpack: "center",
-    vpack: "center",
+    class_name: "workspaces section horizontal",
     children: workspaces,
   });
 };

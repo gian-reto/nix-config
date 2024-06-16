@@ -17,26 +17,31 @@ export const Battery = () => {
   const icon = Widget.Label({
     class_name: "icon",
     vpack: "center",
+    vexpand: false,
     label: "󱐋",
   });
 
   const label = Widget.Label({
-    vpack: "center",
     class_name: "label",
+    vpack: "fill",
+    vexpand: true,
+    yalign: 0.7,
     label: percentage.as((value) => `${Math.round(value)}%`),
   });
 
   const bar = Widget.ProgressBar({
-    vpack: "center",
     class_name: "progress",
+    vpack: "center",
+    vexpand: true,
     value: percentage.as((value) => (value > 0 ? value / 100 : 0)),
   });
 
   return Widget.Box({
     class_name: Utils.merge([charging, status], (chargingValue, statusValue) =>
-      cx("battery section", chargingValue ? "charging" : statusValue)
+      cx("battery section horizontal", chargingValue ? "charging" : statusValue)
     ),
-    hpack: "center",
+    vpack: "fill",
+    vexpand: true,
     children: [icon, label, bar],
   });
 };

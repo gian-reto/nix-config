@@ -1,5 +1,6 @@
 @use "style/variables";
 @use "style/bar" as *;
+@use "style/quicksettings" as *;
 
 * {
   font-family: variables.$sans-serif;

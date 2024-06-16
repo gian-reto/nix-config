@@ -1,38 +1,44 @@
+@use "./mixins/gap" as *;
+@use "./mixins/slider" as *;
+
 @use "./variables";
 
 .bar {
   min-height: 2rem;
-  padding: 0.125rem;
+
+  padding: variables.$space-xs;
+
   color: variables.$white;
   background-color: variables.$black;
+  font-size: variables.$text-md;
 
   * {
     all: unset;
-    transition: all 0.1s ease-out;
-  }
 
-  .section {
-    margin: 0 1rem;
+    transition: variables.$transition-fast;
   }
 
   .group {
-    margin: 0 0.25rem;
+    @include gap($spacing: variables.$space-3xl);
 
-    .section {
-      margin: 0 0.75rem;
+    .sub-group {
+      @include gap($spacing: variables.$space-2xl);
     }
   }
 
   .workspaces {
+    @include gap();
+
     .workspace {
       min-width: 0.5rem;
       min-height: 0.5rem;
-      margin: 0 0.25rem;
+
       background-color: variables.$gray-50;
-      border-radius: 0.5rem;
+      border-radius: variables.$radius-xs;
 
       &.active {
         min-width: 2.25rem;
+
         background-color: variables.$white;
       }
 
@@ -43,14 +49,14 @@
   }
 
   .system-tray {
-    min-height: 1.75rem;
+    @include gap();
 
     .item {
       min-width: 1.75rem;
       min-height: 1.75rem;
-      margin: 0 0.25rem;
+
       background-color: transparentize(variables.$gray-300, 1);
-      border-radius: 0.5rem;
+      border-radius: variables.$radius-xs;
 
       &.active,
       &:hover {
@@ -58,67 +64,65 @@
       }
 
       .icon {
-        font-size: 1.25rem;
+        font-size: variables.$text-xl;
       }
     }
   }
 
   .volume {
+    @include gap($spacing: variables.$space-lg);
+
     .icon,
     .label {
-      margin: 0 0.5rem 0 0;
+      font-family: variables.$monospace;
+      font-size: variables.$text-md;
+    }
+
+    .label {
+      // Needs some extra space for some reason.
+      margin-right: variables.$space-lg;
     }
 
     .icon {
-      font-size: 1.25rem;
-      font-family: variables.$monospace;
+      font-size: variables.$text-xl;
     }
 
     .slider {
-      min-width: 4rem;
-      min-height: 0.5rem;
-      background-color: variables.$gray-800;
-      border-radius: 0.5rem;
-
-      highlight {
-        min-height: 0.5rem;
-        background-color: variables.$gray-50;
-        border-radius: 0.5rem;
-
-        &:hover {
-          background-color: variables.$white;
-        }
-      }
+      @include slider();
     }
   }
 
   .battery {
+    @include gap($spacing: variables.$space-lg);
+
     .icon,
     .label {
-      margin: 0 0.5rem 0 0;
+      font-family: variables.$monospace;
+      font-size: variables.$text-md;
     }
 
     .icon {
-      font-size: 1.25rem;
-      font-family: variables.$monospace;
+      font-size: variables.$text-xl;
     }
 
     .progress {
       trough {
         min-width: 4rem;
         min-height: 0.5rem;
+
         background-color: variables.$gray-800;
-        border-radius: 0.5rem;
+        border-radius: variables.$radius-full;
 
         progress {
           min-height: 0.5rem;
-          border-radius: 0.5rem;
+
+          border-radius: variables.$radius-full;
         }
       }
     }
 
     &.normal {
-      .progress progress {
+      progress {
         background-color: variables.$gray-50;
       }
     }
@@ -129,7 +133,7 @@
         color: variables.$green-2;
       }
 
-      .progress progress {
+      progress {
         background-color: variables.$green-3;
       }
     }
@@ -140,7 +144,7 @@
         color: variables.$yellow-2;
       }
 
-      .progress progress {
+      progress {
         background-color: variables.$yellow-3;
       }
     }
@@ -151,9 +155,26 @@
         color: variables.$red-2;
       }
 
-      .progress progress {
+      progress {
         background-color: variables.$red-3;
       }
+    }
+  }
+
+  .system-button {
+    min-width: 1.75rem;
+    min-height: 1.75rem;
+
+    background-color: transparentize(variables.$gray-300, 1);
+    border-radius: variables.$radius-xs;
+
+    &.active,
+    &:hover {
+      background-color: variables.$gray-300;
+    }
+
+    .icon {
+      font-size: variables.$text-xl;
     }
   }
 }

@@ -10,6 +10,7 @@ export const Volume = () => {
   const icon = Widget.Label({
     class_name: "icon",
     vpack: "center",
+    vexpand: false,
     label: status.as((value) =>
       value === "muted" ? "󰖁" : value === "low" ? "󰖀" : "󰕾"
     ),
@@ -17,14 +18,16 @@ export const Volume = () => {
 
   const label = Widget.Label({
     class_name: "label",
-    vpack: "center",
+    vpack: "fill",
+    vexpand: true,
+    yalign: 0.7,
     label: volume.as((value) => `${Math.round(value)}%`),
   });
 
   const slider = Widget.Slider({
     class_name: "slider",
     vpack: "center",
-    hexpand: true,
+    vexpand: true,
     draw_value: false,
     on_change: ({ value }) => (audio.speaker.volume = value),
     setup: (self) =>
@@ -34,8 +37,9 @@ export const Volume = () => {
   });
 
   return Widget.Box({
-    class_name: "volume section",
-    hpack: "center",
+    class_name: "volume section horizontal",
+    vpack: "fill",
+    vexpand: true,
     children: [icon, label, slider],
   });
 };

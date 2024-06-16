@@ -14,5 +14,10 @@
 
   config.os = lib.mkIf config.features.network.enable {
     networking.networkmanager.enable = true;
+
+    # Enable NetworkManager GUI if the GUI module is enabled.
+    programs.nm-applet = lib.mkIf config.gui.enable {
+      enable = true;
+    };
   };
 }

@@ -5,11 +5,7 @@ const systemtray = await Service.import("systemtray");
 
 export const SystemTray = () => {
   return Widget.Box({
-    class_name: "system-tray section",
-    hpack: "center",
-    vpack: "center",
-    hexpand: false,
-    vexpand: false,
+    class_name: "system-tray section horizontal",
   }).bind("children", systemtray, "items", (item) =>
     item
       // TODO: Ignore some unwelcome items.
@@ -21,10 +17,6 @@ export const SystemTray = () => {
 const SystemTrayItem = (item: TrayItem) => {
   return Widget.Button({
     class_name: "item",
-    hpack: "center",
-    vpack: "center",
-    hexpand: false,
-    vexpand: false,
     child: Widget.Icon({ class_name: "icon", icon: item.bind("icon") }),
     tooltip_markup: item.bind("tooltip_markup"),
     setup: (self) => {

@@ -1,0 +1,34 @@
+@use "../variables";
+
+@mixin button($round: false) {
+  all: unset;
+
+  color: variables.$white;
+  background-color: variables.$gray-200;
+  border-radius: variables.$radius-sm;
+
+  transition: variables.$transition-normal;
+
+  @if $round {
+    border-radius: variables.$radius-full;
+  }
+
+  &:hover {
+    color: variables.$white;
+    background-color: variables.$gray-100;
+  }
+
+  &.active {
+    color: variables.$accent-fg-color;
+    background-color: variables.$accent-bg-color;
+
+    &:hover {
+      background-color: variables.$accent-color;
+    }
+  }
+
+  &:disabled {
+    color: transparentize(variables.$white, 0.7);
+    background-color: transparent;
+  }
+}

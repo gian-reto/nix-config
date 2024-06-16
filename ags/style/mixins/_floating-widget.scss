@@ -1,0 +1,14 @@
+@use "../variables";
+
+@mixin floating-widget {
+  margin: variables.$space-xl;
+  padding: variables.$space-3xl;
+
+  color: variables.$white;
+  background-color: variables.$gray-500;
+  border: 1px solid variables.$gray-200;
+  border-radius: variables.$radius-2xl;
+
+  box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1),
+    0 8px 10px -6px rgb(0 0 0 / 0.1);
+}
