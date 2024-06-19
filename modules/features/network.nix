@@ -14,9 +14,12 @@
 
   config.os = lib.mkIf config.features.network.enable {
     networking.networkmanager.enable = true;
+  };
 
-    # Enable NetworkManager GUI if the GUI module is enabled.
-    programs.nm-applet = lib.mkIf config.gui.enable {
+  config.hm = lib.mkIf config.features.network.enable {
+    # Enable NetworkManager GUI if the GUI module is enabled. Installing it
+    # using `home-manager` fixes https://github.com/NixOS/nixpkgs/issues/32730.
+    services.network-manager-applet = lib.mkIf config.gui.enable {
       enable = true;
     };
   };
