@@ -70,6 +70,10 @@
         path = "${pkgs.modemmanager}/share/ModemManager/fcc-unlock.available.d/105b";
       }
     ];
+    systemd.services.ModemManager =  {
+      wantedBy = [ "networking.target" ];
+      scriptArgs = "--debug";
+    };
 
     # Enable GPU acceleration.
     hardware.opengl = {
