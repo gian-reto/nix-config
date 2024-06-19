@@ -19,6 +19,7 @@
       packages = with pkgs; [
         apple-color-emoji
         apple-fonts
+        blink-mac-system-fonts
         inter
         (nerdfonts.override { fonts = [ "Monaspace" ]; })
       ];
@@ -28,9 +29,15 @@
       fontconfig = {
         enable = true;
         
+        # Uses `https://github.com/aliifam/BlinkMacSystemFont` to improve
+        # weirdness with font stacks that include Apple Color Emoji before
+        # default `sans-serif` fonts.
         defaultFonts = {
           serif = [ "New York" ];
-          sansSerif = [ "Inter" ];
+          sansSerif = [ 
+            "Inter" 
+            "BlinkMacSystemFont" 
+          ];
           monospace = [ "MonaspiceNe NFM" ];
           emoji = [ "Apple Color Emoji" ];
         };

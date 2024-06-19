@@ -33,6 +33,8 @@
     nativeBuildInputs = [ p7zip ];
 
     installPhase = ''
+      runHook preInstall
+
       7z x ${pro}
       cd SFProFonts 
       7z x 'SF Pro Fonts.pkg'
@@ -66,5 +68,7 @@
       mv $out/fontfiles/*.otf $out/share/fonts/opentype/${pname}/
       mv $out/fontfiles/*.ttf $out/share/fonts/truetype/${pname}/
       rm -rf $out/fontfiles
+
+      runHook postInstall
     '';
   }
