@@ -33,7 +33,6 @@
       packages = with pkgs; [
         comma # Runs programs without installing them. Example: `, cowsay howdy`.
 
-        btop # System monitor.
         httpie # Better curl.
 
         nil # Nix LSP.
