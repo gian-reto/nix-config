@@ -113,9 +113,12 @@
 
       initExtra = ''
         confirm() {
-          read -p "$1 [y/N] " -n 1 -r
-          echo
-          [[ $REPLY =~ ^[Yy]$ ]]
+          read -r -p "$1 [y/N] " response < /dev/tty
+          if [[ $response =~ ^(yes|y|Y)$ ]]; then
+            true
+          else
+            false
+          fi
         }
 
         git_main_branch() {
