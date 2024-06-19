@@ -73,7 +73,24 @@
           @import "firefox-gnome-theme/userContent.css";
         '';
 
-        bookmarks = {};
+        bookmarks = [
+          {
+            name = "Kagi";
+            url = "https://kagi.com";
+          }
+          {
+            name = "NixOS Options";
+            url = "https://search.nixos.org/options";
+          }
+          {
+            name = "Nix Packages";
+            url = "https://search.nixos.org/packages";
+          }
+          {
+            name = "Home Manager Options";
+            url = "https://home-manager-options.extranix.com";
+          }
+        ];
 
         extensions =
           let
