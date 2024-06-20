@@ -76,10 +76,7 @@ in {
       nixPath = lib.mapAttrsToList (n: _: "${n}=flake:${n}") flakeInputs;
 
       gc = {
-        automatic = true;
-        dates = "daily";
-        # Keep the last 4 generations.
-        options = "--delete-older-than +4";
+        automatic = false;
       };
 
       settings = nixSettings;
