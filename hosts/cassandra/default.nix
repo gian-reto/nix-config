@@ -58,21 +58,33 @@
       hostName = "cassandra";
     };
 
+    # System wide packages.
+    environment.systemPackages = with pkgs; [
+      glxinfo
+      pciutils
+      pkgs.modemmanager
+    ];
+
     # Fingerprint.
     services.fprintd.enable = true;
     services.fprintd.tod.enable = true;
     services.fprintd.tod.driver = pkgs.libfprint-2-tod1-goodix;
 
     # Network manager modemmanager setup.
-    networking.networkmanager.fccUnlockScripts = [
-      {
-        id = "105b:e0c3";
-        path = "${pkgs.modemmanager}/share/ModemManager/fcc-unlock.available.d/105b";
-      }
-    ];
-    systemd.services.ModemManager =  {
-      wantedBy = [ "networking.target" ];
-      scriptArgs = "--debug";
+    services.udev.packages = [ pkgs.modemmanager ];
+    services.dbus.packages = [ pkgs.modemmanager ];
+    systemd.packages = [ pkgs.modemmanager ];
+
+    systemd.units.ModemManager.enable = true;
+    networking.networkmanager = {
+      enable = true;
+
+      fccUnlockScripts = [
+        {
+          id = "105b:e0c3";
+          path = "${pkgs.modemmanager}/share/ModemManager/fcc-unlock.available.d/105b:e0c3";
+        }
+      ];
     };
 
     # Enable GPU acceleration.
@@ -99,12 +111,6 @@
     programs = {
       light.enable = true;
     };
-
-    # System wide packages.
-    environment.systemPackages = with pkgs; [
-      glxinfo
-      pciutils
-    ];
 
     system.stateVersion = "24.05";
   };
