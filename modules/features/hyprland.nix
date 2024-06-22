@@ -19,8 +19,11 @@ in {
   };
 
   config.os = lib.mkIf config.features.hyprland.enable {
-    # Electron apps should use Wayland.
-    environment.sessionVariables.NIXOS_OZONE_WL = "1";
+    environment.sessionVariables = {
+      # Electron apps should use Wayland.
+      NIXOS_OZONE_WL = "1";
+      GTK_USE_PORTAL = "true";
+    };
 
     programs.hyprland = {
       enable = true;
@@ -30,7 +33,17 @@ in {
       enable = true;
 
       wlr.enable = lib.mkForce false;
-      extraPortals = [pkgs.xdg-desktop-portal-gtk];
+      config = {
+        common = {
+          default = [
+            "xdph"
+            "gtk"
+          ];
+          "org.freedesktop.impl.portal.Secret" = [ "gnome-keyring" ];
+          "org.freedesktop.portal.FileChooser" = [ "xdg-desktop-portal-gtk" ];
+        };
+      };
+      extraPortals = with pkgs; [ xdg-desktop-portal-gtk ];
       xdgOpenUsePortal = true;
     };
   };
