@@ -15,6 +15,11 @@
   };
 
   config.os = lib.mkIf config.features.security.enable {
+    environment.systemPackages = with pkgs; [
+      gnome.libgnome-keyring
+      libsecret
+    ];
+
     programs = {
       seahorse.enable = true;
       _1password = {
@@ -35,10 +40,15 @@
       polkit.enable = true;
       
       pam.services = {
+        hyprlock = {
+          text = "auth include login";
+          enableGnomeKeyring = true;
+        };
+        greetd = { enableGnomeKeyring = true; };
         login.enableGnomeKeyring = true;
-        hyprlock.enableGnomeKeyring = lib.mkIf config.features.hyprlock.enable true;
       };
     };
+    xdg.portal.config.common."org.freedesktop.impl.portal.Secret" = [ "gnome-keyring" ];
 
     systemd = {
       user.services.polkit-gnome-authentication-agent-1 = {
