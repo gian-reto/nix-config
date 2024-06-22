@@ -1,12 +1,12 @@
 import { ArrowToggleButton, Menu } from "../ToggleButton";
 import { dependencies, sh } from "lib/utils";
 
-import icons from "lib/icons.js";
+import { icons } from "lib/icons";
 
 const { wifi } = await Service.import("network");
 
-export const NetworkToggle = () =>
-  ArrowToggleButton({
+export const NetworkToggle = () => {
+  return ArrowToggleButton({
     name: "network",
     icon: wifi.bind("icon_name"),
     label: wifi.bind("ssid").as((ssid) => ssid || "Not Connected"),
@@ -17,9 +17,10 @@ export const NetworkToggle = () =>
       wifi.scan();
     },
   });
+};
 
-export const WifiSelection = () =>
-  Menu({
+export const NetworkMenu = () => {
+  return Menu({
     name: "network",
     icon: wifi.bind("icon_name"),
     title: "Wifi Selection",
@@ -69,3 +70,4 @@ export const WifiSelection = () =>
       }),
     ],
   });
+};

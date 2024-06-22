@@ -1,11 +1,11 @@
-import { BluetoothDevices, BluetoothToggle } from "./sections/Bluetooth";
-import { NetworkToggle, WifiSelection } from "./sections/Network";
+import { BluetoothMenu, BluetoothToggle } from "./sections/Bluetooth";
+import { NetworkMenu, NetworkToggle } from "./sections/Network";
 
 import type Gtk from "gi://Gtk?version=3.0";
 import { Header } from "./sections/Header";
 import { Media } from "./sections/Media";
 import { Mic } from "./sections/Mic";
-import PopupWindow from "widgets/PopupWindow/index";
+import { PopupWindow } from "widgets/PopupWindow/index";
 
 const media = (await Service.import("mpris")).bind("players");
 const layout = "top-right";
@@ -47,7 +47,7 @@ const Settings = () => {
     class_name: "quicksettings vertical",
     children: [
       Header(),
-      Row([NetworkToggle, BluetoothToggle], [WifiSelection, BluetoothDevices]),
+      Row([NetworkToggle, BluetoothToggle], [NetworkMenu, BluetoothMenu]),
       Row([Mic]),
       Widget.Box({
         hpack: "fill",

@@ -1,4 +1,4 @@
-export default {
+export const icons = {
   audio: {
     mic: {
       high: "microphone-sensitivity-high-symbolic",

@@ -1,11 +1,11 @@
 import { type BluetoothDevice } from "types/service/bluetooth";
 import { Menu, ArrowToggleButton } from "../ToggleButton";
-import icons from "lib/icons";
+import { icons } from "lib/icons";
 
 const bluetooth = await Service.import("bluetooth");
 
-export const BluetoothToggle = () =>
-  ArrowToggleButton({
+export const BluetoothToggle = () => {
+  return ArrowToggleButton({
     name: "bluetooth",
     icon: bluetooth
       .bind("enabled")
@@ -22,9 +22,28 @@ export const BluetoothToggle = () =>
     deactivate: () => (bluetooth.enabled = false),
     activate: () => (bluetooth.enabled = true),
   });
+};
 
-const DeviceItem = (device: BluetoothDevice) =>
-  Widget.Box({
+export const BluetoothMenu = () => {
+  return Menu({
+    name: "bluetooth",
+    icon: icons.bluetooth.disabled,
+    title: "Bluetooth",
+    content: [
+      Widget.Box({
+        class_name: "bluetooth-devices",
+        hexpand: true,
+        vertical: true,
+        children: bluetooth
+          .bind("devices")
+          .as((value) => value.filter((device) => device.name).map(DeviceItem)),
+      }),
+    ],
+  });
+};
+
+const DeviceItem = (device: BluetoothDevice) => {
+  return Widget.Box({
     children: [
       Widget.Icon(device.icon_name + "-symbolic"),
       Widget.Label(device.name),
@@ -47,20 +66,4 @@ const DeviceItem = (device: BluetoothDevice) =>
       }),
     ],
   });
-
-export const BluetoothDevices = () =>
-  Menu({
-    name: "bluetooth",
-    icon: icons.bluetooth.disabled,
-    title: "Bluetooth",
-    content: [
-      Widget.Box({
-        class_name: "bluetooth-devices",
-        hexpand: true,
-        vertical: true,
-        children: bluetooth
-          .bind("devices")
-          .as((value) => value.filter((device) => device.name).map(DeviceItem)),
-      }),
-    ],
-  });
+};

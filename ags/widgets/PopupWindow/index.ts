@@ -12,7 +12,7 @@ type PopupWindowProps = Omit<WindowProps, "name"> & {
   transition?: Transition;
 };
 
-export default ({
+export const PopupWindow = ({
   name,
   child,
   layout = "center",
