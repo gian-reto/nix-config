@@ -28,11 +28,5 @@
         initial_session = session;
       };
     };
-
-    # TODO: Probably not needed because of hyprlock, but let's see.
-    # lib.mkIf config.features.security.enable {
-    #   # Unlock GPG keyring on login.
-    #   security.pam.services.greetd.enableGnomeKeyring = true;
-    # };
   };
 }

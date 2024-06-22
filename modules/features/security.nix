@@ -15,11 +15,6 @@
   };
 
   config.os = lib.mkIf config.features.security.enable {
-    environment.systemPackages = with pkgs; [
-      gnome.libgnome-keyring
-      libsecret
-    ];
-
     programs = {
       seahorse.enable = true;
       _1password = {

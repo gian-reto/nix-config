@@ -18,12 +18,12 @@ in {
   };
 
   config.hm = lib.mkIf config.features.vscode.enable {
-    home.file.".vscode/argv.json" = {
+    home.file.".vscode/argv.json" = lib.mkIf config.features.security.enable {
       text = builtins.toJSON {
         disable-hardware-acceleration = false;
         enable-crash-reporter = false;
         # Fix keyring integration.
-        password-store = lib.mkIf config.features.security.enable "gnome";
+        password-store = "gnome-libsecret";
       };
     };
 
