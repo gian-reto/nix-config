@@ -269,17 +269,10 @@ in {
                 ",XF86AudioStop,exec,${playerctl} stop"
               ]
           )
-          # TODO: Add bind for hyprlock.
-          # ++
-          # # Screen lock.
-          # (
-          #   let
-          #     swaylock = lib.getExe config.programs.swaylock.package;
-          #   in
-          #     lib.optionals config.programs.swaylock.enable [
-          #       "${mod} CTRL,q,exec,${swaylock} -S --grace 2"
-          #     ]
-          # )
+          # Screen lock.
+          ++ (lib.optionals config.features.hyprlock.enable [
+            "${mod},l,exec, ${lib.getExe hmConfig.programs.hyprlock.package}"
+          ])
           ++
           # TODO: Make optional based on whether the `notifications.nix` feature
           # is enabled. 
