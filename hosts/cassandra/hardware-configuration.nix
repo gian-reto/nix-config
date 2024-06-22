@@ -12,19 +12,25 @@
       includeDefaultModules = false;
       availableKernelModules = [
         "nvme"
-        "phy_qcom_qmp_pcie"
-        "pcie_qcom"
-        "i2c_hid_of"
-        "i2c_qcom_geni"
+        "phy-qcom-qmp-pcie"
+        "pcie-qcom"
+
+        "i2c-core"
+        "i2c-hid"
+        "i2c-hid-of"
+        "i2c-qcom-geni"
+
         "leds_qcom_lpg"
         "pwm_bl"
         "qrtr"
         "pmic_glink_altmode"
         "gpio_sbu_mux"
-        "phy_qcom_qmp_combo"
-        "panel-edp"
-        "msm"
+        "phy-qcom-qmp-combo"
+        "gpucc_sc8280xp"
+        "dispcc_sc8280xp"
         "phy_qcom_edp"
+        "panel-edp"
+        # "msm"
       ];
       kernelModules = [ ];
     };
