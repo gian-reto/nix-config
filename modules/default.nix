@@ -7,6 +7,7 @@
     ./features/audio.nix
     ./features/bash.nix
     ./features/bat.nix
+    ./features/bluetooth.nix
     ./features/btop.nix
     ./features/containers.nix
     ./features/cursor.nix

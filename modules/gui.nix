@@ -126,6 +126,7 @@
     features.alacritty.enable = true;
     features.anyrun.enable = true;
     features.audio.enable = true;
+    features.bluetooth.enable = true;
     features.cursor.enable = true;
     features.firefox.enable = true;
     features.fonts.enable = true;

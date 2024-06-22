@@ -20,9 +20,15 @@
     # Disable `pulseaudio`.
     hardware.pulseaudio.enable = false;
 
+    # Probably needed for AirPlay support.
+    services.avahi.enable = true;
+
     # Enable `pipewire` stack.
     services.pipewire = {
       enable = true;
+      package = pkgs.pipewire.override {
+        raopSupport = true;
+      };
 
       alsa.enable = true;
       alsa.support32Bit = true;
@@ -37,6 +43,10 @@
           name = "pipewire-airplay";
           text = builtins.toJSON {
             "context.modules" = [
+              {
+                name = "libpipewire-module-zeroconf-discover";
+                args = { };
+              }
               {
                 name = "libpipewire-module-raop-discover";
                 args = { };
