@@ -102,7 +102,7 @@ in {
         "editor.overviewRulerBorder" = true;
         "editor.renderLineHighlight" = "line";
         "editor.inlineSuggest.enabled" = true;
-        "editor.smoothScrolling" = false;
+        "editor.smoothScrolling" = true;
         "editor.suggestSelection" = "first";
         "editor.guides.indentation" = true;
         "editor.guides.bracketPairs" = true;
