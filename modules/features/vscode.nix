@@ -36,10 +36,10 @@ in {
 
       extensions =
         (with pkgs.vscode-extensions; [
-          bbenoist.nix
           bradlc.vscode-tailwindcss
           christian-kohler.path-intellisense
           esbenp.prettier-vscode
+          jnoortheen.nix-ide
           kamadorueda.alejandra
           ms-azuretools.vscode-docker
           ms-vsliveshare.vsliveshare
@@ -67,6 +67,7 @@ in {
           wholroyd.jinja
           yzhang.markdown-all-in-one
         ]);
+        
       userSettings = {
         "telemetry.telemetryLevel" = "off";
         "breadcrumbs.enabled" = true;
@@ -141,6 +142,13 @@ in {
         };
         "[nix]" = {
           "editor.defaultFormatter" = "kamadorueda.alejandra";
+        };
+        "nix.enableLanguageServer" = true;
+        "nix.serverPath" = "${lib.getExe pkgs.nil}";
+        "nix.serverSettings" = {
+          nil.formatting.command = [
+            "${lib.getExe pkgs.alejandra}"
+          ];
         };
       };
     };
