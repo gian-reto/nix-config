@@ -18,6 +18,15 @@ in {
   };
 
   config.hm = lib.mkIf config.features.vscode.enable {
+    home.file.".vscode/argv.json" = {
+      text = builtins.toJSON {
+        disable-hardware-acceleration = false;
+        enable-crash-reporter = false;
+        # Fix keyring integration.
+        password-store = lib.mkIf config.features.security.enable "gnome";
+      };
+    };
+
     programs.vscode = {
       enable = true;
 
@@ -130,7 +139,9 @@ in {
         "[rust]" = {
           "editor.defaultFormatter" = "rust-lang.rust-analyzer";
         };
-        # TODO: Add settings for nix (autoformatter, etc.).
+        "[nix]" = {
+          "editor.defaultFormatter" = "kamadorueda.alejandra";
+        };
       };
     };
   };
