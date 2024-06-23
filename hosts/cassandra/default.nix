@@ -91,7 +91,6 @@
     hardware.opengl = {
       enable = true;
       
-      driSupport = true;
       package = 
         ((pkgs.mesa.override {
           galliumDrivers = [ "swrast" "freedreno" "zink" ];
