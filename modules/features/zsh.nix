@@ -104,21 +104,24 @@
         gitfresh = "git fetch && git pull --ff-only";
         # Get latest state of the current branch from remote, and don't care about
         # any local changes.
-        gitgud = "git fetch && $(git_reset_current_branch_to_origin)";
+        gitgud = "git fetch && git_reset_current_branch_to_origin";
         # Rebase the current branch on top of the latest state of the main branch.
-        gitbased = "git fetch --all && git rebase -i origin/$(git_main_branch)";
+        gitbased = "git fetch --all && git rebase -i origin/\"$(git_main_branch)\"";
         # Delete all local branches that are no longer present on remote.
-        gitclean = "$(git_clean_gone_branches)";
+        gitclean = "git_clean_gone_branches";
       };
 
       initExtra = ''
         confirm() {
-          read -r -p "$1 [y/N] " response < /dev/tty
-          if [[ $response =~ ^(yes|y|Y)$ ]]; then
-            true
-          else
-            false
-          fi
+          read "response?''${1:-Are you sure? [y/N]} "
+          case "$response" in
+            [yY][eE][sS]|[yY]) 
+                true
+                ;;
+            *)
+                false
+                ;;
+          esac
         }
 
         git_main_branch() {
@@ -126,21 +129,31 @@
         }
 
         git_current_branch() {
-          git symbolic-ref -q HEAD | sed -e 's|^refs/heads/||'
+          git symbolic-ref -q "HEAD" | sed -e 's|^refs/heads/||'
+        }
+
+        git_gone_branches() {
+          git branch -vv | grep gone | awk '{print $1}'
         }
 
         # Fetch and replace local branch with origin.
         git_reset_current_branch_to_origin() {
-          local current_branch=$(git_current_branch)
-          if confirm "Hard reset current branch to origin/$current_branch?"; then
-            git reset --hard origin/$current_branch
+          local current_branch
+          current_branch="$(git_current_branch)"
+          if confirm "Hard reset current branch to origin/$current_branch? [y/N]"; then
+            git reset --hard origin/"$current_branch"
           fi
         }
 
         # Delete all branches that are no longer present on remote.
         git_clean_gone_branches() {
-          if confirm "Delete all branches that are no longer present on remote?"; then
-            git branch -vv | grep gone | awk '{print $1}' | xargs git branch -D
+          if confirm "Delete all branches that are no longer present on remote? [y/N]"; then
+            if [ -z "$(git_gone_branches)" ]; then
+              echo "No branches to delete."
+              return 0
+            fi
+
+            git_gone_branches | xargs git branch -D
           fi
         }
       '';
