@@ -30,7 +30,7 @@
         "dispcc_sc8280xp"
         "phy_qcom_edp"
         "panel-edp"
-        # "msm"
+        "msm"
       ];
       kernelModules = [ ];
     };

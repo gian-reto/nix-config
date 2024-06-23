@@ -60,9 +60,16 @@
 
     # System wide packages.
     environment.systemPackages = with pkgs; [
+      # See: https://github.com/jhovold/linux/wiki/X13s#userspace-dependencies.
+      alsa-ucm-conf
+      libcamera
+      libqmi
+
+      # Some additional tools.
       glxinfo
       pciutils
-      pkgs.modemmanager
+      modemmanager
+      vulkan-tools
     ];
 
     # Fingerprint.
