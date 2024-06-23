@@ -27,12 +27,15 @@
         };
       };
     };
+
+    # ConfigurationDirectory 'bluetooth' already exists but the mode is
+    # different. (File system: 755 ConfigurationDirectoryMode: 555).
+    systemd.services.bluetooth.serviceConfig.ConfigurationDirectoryMode = "0755";
+
+    services.blueman.enable = true;
   };
 
   config.hm = lib.mkIf config.features.bluetooth.enable {
-    home.packages = with pkgs; [
-      bluetuith
-      bluez
-    ];
+    services.blueman-applet.enable = true;
   };
 }

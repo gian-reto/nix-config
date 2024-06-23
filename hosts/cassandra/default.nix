@@ -1,6 +1,7 @@
 {
   pkgs,
   inputs,
+  lib,
   ...
 }: {
   osModules = [
@@ -27,7 +28,7 @@
   laptop.enable = true;
 
   # Machine-specific configuration.
-  os = {
+  os = rec {
     nixpkgs.config = {
       allowUnfree = true;
       allowUnfreePredicate = _: true;
@@ -37,7 +38,7 @@
       enable = true;
 
       kernel = "jhovold";
-      bluetoothMac = "00:00:00:00:5A:AD";
+      bluetoothMac = "E4:38:83:2F:84:FA";
     };
     specialisation = {
       mainline.configuration.nixos-x13s.kernel = "jhovold";
@@ -98,6 +99,55 @@
       wantedBy = [ "NetworkManager.service" ];
       partOf = [ "NetworkManager.service" ];
       after = [ "NetworkManager.service" ];
+    };
+
+    # Fix the bluetooth service. `bluetooth-x13s-mac.service` (from
+    # `nixos-x13s`) seems to be broken.
+    systemd.services = {
+      bluetooth-x13s-mac = {
+        enable = lib.mkForce false;
+      };
+      bluetooth-x13s-mac-fix = {
+        enable = lib.mkDefault true;
+
+        description = "Fix bluetooth device MAC address";
+        unitConfig = {
+          Type = "oneshot";
+        };
+        serviceConfig = {
+          User = "root";
+          RemainAfterExit = true;
+        };
+        wantedBy = [ "multi-user.target" ];
+        after = [ "multi-user.target" "bluetooth.service" ];
+        script = ''
+          count=0
+          while true; do
+            count=$((count + 1))
+
+            if test $count -ge 5; then
+                echo "Bluetooth MAC address not correct after $count attempts"
+                break
+            fi
+
+            mac=$(${pkgs.bluez}/bin/hciconfig | grep "BD Address" | ${pkgs.gawk}/bin/awk '{ print $3 }')
+            if [ "$mac" != "${nixos-x13s.bluetoothMac}" ]; then
+              echo "Bluetooth MAC address is incorrect. Fixing..."
+              echo "Blocking bluetooth device..."
+              ${pkgs.util-linux}/bin/rfkill block bluetooth
+              echo "Unblocking bluetooth device..."
+              ${pkgs.util-linux}/bin/rfkill unblock bluetooth
+              echo "Setting bluetooth MAC address..."
+              ${pkgs.util-linux}/bin/script -c '${pkgs.bluez}/bin/btmgmt --index 0 public-addr ${nixos-x13s.bluetoothMac}'
+            else
+              echo "Bluetooth MAC address correct after $count attempts"
+              break
+            fi
+
+            sleep $((2 + (count * 3)))
+          done
+        '';
+      };
     };
 
     # Enable GPU acceleration.
