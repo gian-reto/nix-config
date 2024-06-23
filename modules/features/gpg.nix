@@ -18,6 +18,8 @@
     services.gpg-agent = {
       enable = true;
 
+      defaultCacheTtl = 60 * 60 * 24;
+			defaultCacheTtlSsh = 60 * 60 * 24;
       enableSshSupport = true;
       # GPG authentication subkey fingerprint.
       sshKeys = ["5F96D8F3B7279399B379E442BAA4C7E744431D44"];
