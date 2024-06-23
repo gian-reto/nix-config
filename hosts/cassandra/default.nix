@@ -93,6 +93,12 @@
         }
       ];
     };
+    systemd.services.ModemManager = {
+      aliases = [ "dbus-org.freedesktop.ModemManager1.service" ];
+      wantedBy = [ "NetworkManager.service" ];
+      partOf = [ "NetworkManager.service" ];
+      after = [ "NetworkManager.service" ];
+    };
 
     # Enable GPU acceleration.
     hardware.opengl = {
