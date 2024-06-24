@@ -126,7 +126,7 @@ in {
         ]
         ++ (lib.optionals config.features.ags.enable ["ags"])
         ++ (lib.optionals config.features.security.enable [
-          "hyprctl dispatch exec \"sleep 5s && ${lib.getExe pkgs._1password-gui} --silent --ozone-platform-hint=wayland\""
+          "hyprctl dispatch exec \"sleep 5s && ${lib.getExe pkgs._1password-gui} --silent --ozone-platform-hint=auto --enable-features=WaylandWindowDecorations\""
         ]);
 
         monitor =
