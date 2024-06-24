@@ -28,9 +28,12 @@
         TLP_DEFAULT_MODE = "BAT";
         # Operation mode select: 0=depend on power source, 1=always use TLP_DEFAULT_MODE.
         TLP_PERSISTENT_DEFAULT = "1";
-        DEVICES_TO_DISABLE_ON_LAN_CONNECT = "wifi wwan";
-        DEVICES_TO_DISABLE_ON_WIFI_CONNECT = "wwan";
-        DEVICES_TO_DISABLE_ON_WWAN_CONNECT = "wifi";
+        # I currently don't want this to be enabled, but it might be useful in
+        # the future. 
+        #
+        # DEVICES_TO_DISABLE_ON_LAN_CONNECT = "wifi wwan";
+        # DEVICES_TO_DISABLE_ON_WIFI_CONNECT = "wwan";
+        # DEVICES_TO_DISABLE_ON_WWAN_CONNECT = "wifi";
       };
     };
   };
