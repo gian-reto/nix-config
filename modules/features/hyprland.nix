@@ -126,7 +126,10 @@ in {
         ]
         ++ (lib.optionals config.features.ags.enable ["ags"])
         ++ (lib.optionals config.features.security.enable [
-          "hyprctl dispatch exec \"sleep 5s && ${lib.getExe pkgs._1password-gui} --silent --ozone-platform-hint=auto --enable-features=WaylandWindowDecorations\""
+          "sleep 5 && ${lib.getExe pkgs._1password-gui} --silent --ozone-platform-hint=auto --enable-features=WaylandWindowDecorations"
+        ])
+        ++ (lib.optionals config.features.bluetooth.enable [
+          "sleep 5 && ${lib.getExe' pkgs.blueman "blueman-applet"}"
         ]);
 
         monitor =

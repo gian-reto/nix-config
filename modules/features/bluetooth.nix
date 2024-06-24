@@ -34,11 +34,4 @@
 
     services.blueman.enable = true;
   };
-
-  config.hm = lib.mkIf config.features.bluetooth.enable {
-    # Enable `blueman` GUI if the GUI module is enabled.
-    services.blueman-applet = lib.mkIf config.gui.enable {
-      enable = true;
-    };
-  };
 }
