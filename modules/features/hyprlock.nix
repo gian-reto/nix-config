@@ -39,18 +39,12 @@
 
             outline_thickness = 0;
 
-            inner_color = "rgb(0, 0, 0)";
+            inner_color = "rgb(36, 36, 36)";
+            check_color = "rgb(36, 36, 36)";
             font_color = "rgb(255, 255, 255)";
+            fail_color = "rgb(224, 27, 36)";
 
-            fade_on_empty = false;
-            placeholder_text = ''
-              <span 
-                font_family="${builtins.head osConfig.fonts.fontconfig.defaultFonts.sansSerif}" 
-                foreground="##18181b"
-              >
-                Password...
-              </span>
-            '';
+            placeholder_text = ''<span font_family="${builtins.head osConfig.fonts.fontconfig.defaultFonts.sansSerif}">Password...</span>'';
 
             dots_spacing = 0.2;
             dots_center = true;
