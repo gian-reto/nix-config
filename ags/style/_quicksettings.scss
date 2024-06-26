@@ -6,7 +6,7 @@
 
 @use "./variables";
 
-window#quicksettings .quicksettings {
+window.quicksettings .settings {
   @include floating-widget;
   @include gap($spacing: variables.$space-2xl);
 
@@ -50,6 +50,7 @@ window#quicksettings .quicksettings {
 
     .title {
       margin-bottom: variables.$space-md;
+
       font-weight: bold;
     }
 
@@ -116,6 +117,7 @@ window#quicksettings .quicksettings {
     font-weight: bold;
 
     image {
+      color: variables.$white;
       font-size: variables.$text-xl;
     }
 

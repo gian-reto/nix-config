@@ -187,9 +187,6 @@ in {
           "blur,gtk-layer-shell"
           "ignorezero,gtk-layer-shell"
 
-          "blur,notifications"
-          "ignorezero,notifications"
-
           "blur,anyrun"
           "ignorealpha 0.6,anyrun"
 
@@ -289,19 +286,6 @@ in {
           ++ (lib.optionals config.features.hyprlock.enable [
             "${mod},l,exec, ${lib.getExe hmConfig.programs.hyprlock.package}"
           ])
-          ++
-          # TODO: Make optional based on whether the `notifications.nix` feature
-          # is enabled. 
-          # Notification manager.
-          (
-            let
-              makoctl = lib.getExe' hmConfig.services.mako.package "makoctl";
-            in
-              lib.optionals hmConfig.services.mako.enable [
-                "${mod},n,exec,${makoctl} dismiss"
-                "${mod} SHIFT,n,exec,${makoctl} restore"
-              ]
-          )
           ++
           # TODO: Make optional based on whether the `anyrun.nix` feature
           # is enabled. Also: Rename `anyrun.nix` to `launcher.nix`.

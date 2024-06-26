@@ -1,3 +1,5 @@
+import { assetPaths } from "assets";
+
 export const icons = {
   audio: {
     mic: {
@@ -15,6 +17,10 @@ export const icons = {
     playing: "media-playback-pause-symbolic",
     prev: "media-skip-backward-symbolic",
     stopped: "media-playback-start-symbolic",
+  },
+  notifications: {
+    silent: "notifications-disabled-symbolic",
+    noisy: assetPaths.icons["org.gnome.Settings-notifications-symbolic"],
   },
   powermenu: {
     logout: "system-log-out-symbolic",

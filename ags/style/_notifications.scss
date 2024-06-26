@@ -1,0 +1,80 @@
+@use "./mixins/button" as *;
+@use "./mixins/floating-widget" as *;
+@use "./mixins/gap" as *;
+
+@use "./variables";
+
+window.notifications {
+  all: unset;
+
+  .list {
+    min-width: 512px;
+  }
+
+  .notification {
+    @include floating-widget;
+
+    margin-bottom: 0;
+    padding: variables.$space-2xl;
+
+    border-radius: variables.$radius-xl;
+
+    .content {
+      .header {
+        @include gap($spacing: variables.$space-lg);
+
+        .title {
+          margin-right: variables.$space-md;
+
+          color: variables.$white;
+          font-size: variables.$text-xl;
+        }
+
+        .time {
+          margin-right: variables.$space-2xl;
+
+          color: variables.$gray-100;
+        }
+
+        button.close-button {
+          @include button($round: true);
+
+          padding: variables.$space-md;
+
+          image {
+            font-size: variables.$text-xl;
+          }
+        }
+      }
+
+      .description {
+        min-width: 350px;
+
+        color: variables.$gray-50;
+        font-size: variables.$text-md;
+      }
+
+      .icon {
+        margin-right: variables.$space-xl;
+
+        border-radius: variables.$radius-lg;
+      }
+    }
+
+    box.actions {
+      @include gap($spacing: variables.$space-md);
+
+      margin-top: variables.$space-lg;
+
+      button {
+        @include button;
+
+        padding: variables.$space-lg variables.$space-xl;
+      }
+    }
+
+    // TODO: Consider adding special styling for critical notifications.
+    //
+    // &.critical { }
+  }
+}

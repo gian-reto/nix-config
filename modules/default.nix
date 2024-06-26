@@ -21,7 +21,6 @@
     ./features/hyprlock.nix
     ./features/i18n.nix
     ./features/network.nix
-    ./features/notifications.nix
     ./features/security.nix
     ./features/ssh.nix
     ./features/tlp.nix

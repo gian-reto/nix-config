@@ -9,5 +9,8 @@ export const assetPaths = {
     "nix-snowflake-symbolic": `${assetPathFor(
       "icons"
     )}/nix-snowflake-symbolic.svg`,
+    "org.gnome.Settings-notifications-symbolic": `${assetPathFor(
+      "icons"
+    )}/org.gnome.Settings-notifications-symbolic.svg`,
   },
 };

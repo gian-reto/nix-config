@@ -134,7 +134,6 @@
     features.gtk.enable = true;
     features.hyprland.enable = true;
     features.hyprlock.enable = true;
-    features.notifications.enable = true;
     features.security.enable = true;
     features.vscode.enable = true;
 

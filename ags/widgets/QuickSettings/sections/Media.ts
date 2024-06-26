@@ -21,7 +21,7 @@ export const Media = () => {
     if (player) {
       widget.child = Player(player);
     } else {
-      widget.child.destroy();
+      widget.child?.destroy();
     }
   };
 
@@ -109,6 +109,8 @@ const Player = (player: MprisPlayer) => {
             return icons.mpris.playing;
           case "Paused":
           case "Stopped":
+            return icons.mpris.stopped;
+          default:
             return icons.mpris.stopped;
         }
       }),
