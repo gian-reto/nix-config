@@ -1,16 +1,28 @@
 import { Bar } from "widgets/Bar/index";
+import { Notifications } from "widgets/Notifications/index";
+import { forMonitors } from "lib/utils";
+import { initNotificationService } from "lib/notifications";
 import { setupQuickSettings } from "widgets/QuickSettings/index";
+
+const init = () => {
+  try {
+    initNotificationService();
+  } catch (error) {
+    logError(error);
+  }
+};
 
 App.config({
   onConfigParsed: () => {
     setupQuickSettings();
+    init();
   },
   closeWindowDelay: {
-    quicksettings: 200,
+    quicksettings: 150,
   },
   windows: [
-    Bar(),
-    // AppLauncher,
-    // NotificationPopups(),
+    ...forMonitors(Notifications),
+    ...forMonitors(Bar),
+    // Launcher()
   ],
 });

@@ -1,6 +1,7 @@
 import { BluetoothMenu, BluetoothToggle } from "./sections/Bluetooth";
 import { NetworkMenu, NetworkToggle } from "./sections/Network";
 
+import { DND } from "./sections/DND";
 import type Gtk from "gi://Gtk?version=3.0";
 import { Header } from "./sections/Header";
 import { Media } from "./sections/Media";
@@ -44,11 +45,11 @@ const Row = (
 const Settings = () => {
   return Widget.Box({
     vertical: true,
-    class_name: "quicksettings vertical",
+    class_name: "settings vertical",
     children: [
       Header(),
       Row([NetworkToggle, BluetoothToggle], [NetworkMenu, BluetoothMenu]),
-      Row([Mic]),
+      Row([Mic, DND]),
       Widget.Box({
         hpack: "fill",
         hexpand: true,
