@@ -86,10 +86,6 @@ in {
 
       package = pkgs.hyprland;
 
-      plugins = [
-        inputs.hyprland-hyprspace.packages.${pkgs.system}.Hyprspace
-      ];
-
       settings = let
         active = "0x66585E6A";
         inactive = "0x66434852";
