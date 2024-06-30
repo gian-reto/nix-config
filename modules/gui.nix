@@ -145,10 +145,28 @@
         gnome.file-roller # Archive manager.
         gnome.gnome-calculator
         gnome.gnome-characters # Character map.
+        gnome.gnome-maps # Maps.
         gnome.nautilus # File manager.
         gnome.totem # Video player.
         loupe # Image viewer.
+
+        apostrophe # Minimal markdown editor.
+        collision # File hash verifier.
+        curtail # Image compressor.
+        d-spy # D-Bus exploration tool.
+        # TODO: Add when it's available in nixpkgs.
+        # decibels # Audio player.
+        dissent # Discord client.
+        gnome-obfuscate # Image obfuscator.
+        impression # Bootable drive writer.
+        metadata-cleaner # Metadata cleaner.
         muzika # YouTube Music player.
+        pods # Podman desktop client.
+        seabird # Kubernetes desktop client.
+        # TODO: Add when it's available in nixpkgs.
+        # showtime # Video player.
+        valent # KDE Connect client.
+        wildcard # Regex testing tool.
       ];
     };
   }; 
