@@ -75,20 +75,98 @@
 
         bookmarks = [
           {
-            name = "Kagi";
-            url = "https://kagi.com";
+            name = "Search";
+            toolbar = true;
+            bookmarks = [
+              {
+                name = "Kagi";
+                keyword = "kg";
+                url = "https://kagi.com";
+              }
+              {
+                name = "DuckDuckGo";
+                keyword = "dg";
+                url = "https://duckduckgo.com";
+              }
+            ];
           }
           {
-            name = "NixOS Options";
-            url = "https://search.nixos.org/options";
+            name = "NixOS";
+            toolbar = true;
+            bookmarks = [
+              {
+                name = "NixOS Options";
+                url = "https://search.nixos.org/options";
+              }
+              {
+                name = "Nix Packages";
+                url = "https://search.nixos.org/packages";
+              }
+              {
+                name = "Home Manager Options";
+                url = "https://home-manager-options.extranix.com";
+              }
+            ];
           }
           {
-            name = "Nix Packages";
-            url = "https://search.nixos.org/packages";
+            name = "Docs";
+            toolbar = true;
+            bookmarks = [
+              {
+                name = "DevDocs";
+                url = "https://devdocs.io";
+              }
+              {
+                name = "MDN Web Docs";
+                url = "https://developer.mozilla.org";
+              }
+              {
+                name = "TypeScript";
+                url = "https://www.typescriptlang.org/docs/";
+              }
+              {
+                name = "Tailwind CSS";
+                url = "https://tailwindcss.com/docs";
+              }
+              {
+                name = "Rust";
+                url = "https://doc.rust-lang.org";
+              }
+              {
+                name = "Kotlin";
+                url = "https://kotlinlang.org/docs";
+              }
+              {
+                name = "Kubernetes";
+                url = "https://kubernetes.io/docs";
+              }
+              {
+                name = "Nix";
+                url = "https://nixos.org/manual/nix/stable";
+              }
+              {
+                name = "NixOS";
+                url = "https://nixos.org/manual/nixos/stable";
+              }
+            ];
           }
           {
-            name = "Home Manager Options";
-            url = "https://home-manager-options.extranix.com";
+            name = "Tools";
+            toolbar = true;
+            bookmarks = [
+              {
+                name = "Excalidraw";
+                url = "https://excalidraw.com";
+              }
+              {
+                name = "emn178/online-tools";
+                url = "https://emn178.github.io/online-tools/";
+              }
+              {
+                name = "Tree";
+                url = "https://tree.nathanfriend.io";
+              }
+            ];
           }
         ];
 
@@ -117,12 +195,14 @@
         search = {
           force = true;
           default = "Kagi";
-          order = ["Kagi" "DuckDuckGo" "Youtube" "GitHub" "NixOS Options" "Nix Packages" "HackerNews"];
+          order = ["Kagi" "DuckDuckGo" "YouTube" "GitHub" "NixOS Options" "Nix Packages" "HackerNews"];
 
           engines = {
             "Bing".metaData.hidden = true;
             "Amazon.com".metaData.hidden = true;
             "Google".metaData.hidden = true;
+            "eBay".metaData.hidden = true;
+            "Qwant".metaData.hidden = true;
 
             "Kagi" = {
               iconUpdateURL = "https://kagi.com/favicon.ico";
@@ -216,7 +296,7 @@
               ];
             };
 
-            "Home Manager" = {
+            "Home Manager Options" = {
               icon = "${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake.svg";
               definedAliases = ["@hm"];
 
