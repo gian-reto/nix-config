@@ -100,11 +100,6 @@
       inputs.systems.follows = "hyprland/systems";
     };
 
-    hyprland-hyprspace = {
-      url = "github:KZDKM/Hyprspace";
-      inputs.hyprland.follows = "hyprland";
-    };
-
     # Other stuff.
     ags.url = "github:Aylur/ags";
 
