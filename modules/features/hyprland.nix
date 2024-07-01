@@ -124,7 +124,7 @@ in {
         ++ [
           "systemctl --user restart xdg-desktop-portal xdg-desktop-portal-hyprland"
         ]
-        ++ (lib.optionals config.features.ags.enable ["ags"])
+        ++ (lib.optionals config.features.ags.enable ["ags -b hypr"])
         ++ (lib.optionals config.features.security.enable [
           "sleep 5 && ${lib.getExe pkgs._1password-gui} --silent --ozone-platform-hint=auto --enable-features=WaylandWindowDecorations"
         ])
@@ -182,16 +182,10 @@ in {
         ];
 
         layerrule = [
-          "blur,bar-0"
-          "ignorezero,bar-0"
-          "blur,gtk-layer-shell"
-          "ignorezero,gtk-layer-shell"
-
-          "blur,anyrun"
-          "ignorealpha 0.6,anyrun"
-
-          "blur,yubikey-state"
-          "ignorealpha 0.6,yubikey-state"
+          "blur,bar-.*"
+          "ignorezero,bar-.*"
+          "blur,launcher"
+          "ignorealpha 0.75,launcher"
         ];
 
         decoration = {
@@ -236,13 +230,14 @@ in {
         in
           [
             # General binds.
-            "${mod} SHIFT,R,exec,hyprctl reload; ags -q ; ags &" # Reload Hyprland and `ags`.
+            "${mod} SHIFT,R,exec,hyprctl reload; ags -b hypr -q; ags -b hypr" # Reload Hyprland and `ags`.
             # Program binds.
             "${mod},Return,exec,${defaultAppFor "x-scheme-handler/terminal"}"
             "${mod},e,exec,${defaultAppFor "text/plain"}"
             "${mod},b,exec,${defaultAppFor "x-scheme-handler/https"}"
             # Applications.
             "CTRL SHIFT,SPACE,exec,${_1password} --quick-access"
+            "${mod},space,exec,ags -b hypr -t launcher"
             # Window management.
             "${mod},Tab,cyclenext"
             "${mod} SHIFT,Tab,cyclenext,prev"
@@ -285,20 +280,7 @@ in {
           # Screen lock.
           ++ (lib.optionals config.features.hyprlock.enable [
             "${mod},l,exec, ${lib.getExe hmConfig.programs.hyprlock.package}"
-          ])
-          ++
-          # TODO: Make optional based on whether the `anyrun.nix` feature
-          # is enabled. Also: Rename `anyrun.nix` to `launcher.nix`.
-          # Launcher.
-          (
-            let
-              anyrun = lib.getExe hmConfig.programs.anyrun.package;
-            in
-              lib.optionals hmConfig.programs.anyrun.enable [
-                # Launch executables.
-                "${mod},space,exec,${anyrun}"
-              ]
-          );
+          ]);
       };
     };
   };

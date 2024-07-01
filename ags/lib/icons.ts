@@ -11,6 +11,10 @@ export const icons = {
     disabled: "bluetooth-disabled-symbolic",
     enabled: "bluetooth-active-symbolic",
   },
+  fallback: {
+    executable: "application-x-executable",
+  },
+  missing: "image-missing-symbolic",
   mpris: {
     next: "media-skip-forward-symbolic",
     paused: "media-playback-start-symbolic",
@@ -37,6 +41,7 @@ export const icons = {
     },
     close: "window-close-symbolic",
     lock: "system-lock-screen-symbolic",
+    search: "system-search-symbolic",
     settings: "emblem-system-symbolic",
     tick: "object-select-symbolic",
   },

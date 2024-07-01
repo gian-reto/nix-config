@@ -124,7 +124,6 @@
   config = lib.mkIf (config.gui.enable && config.gui.environment.flavor == "hyprland") {
     features.ags.enable = true;
     features.alacritty.enable = true;
-    features.anyrun.enable = true;
     features.audio.enable = true;
     features.bluetooth.enable = true;
     features.cursor.enable = true;

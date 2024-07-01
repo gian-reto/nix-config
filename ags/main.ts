@@ -1,4 +1,5 @@
 import { Bar } from "widgets/Bar/index";
+import { Launcher } from "widgets/Launcher/index";
 import { Notifications } from "widgets/Notifications/index";
 import { forMonitors } from "lib/utils";
 import { initNotificationService } from "lib/notifications";
@@ -20,9 +21,5 @@ App.config({
   closeWindowDelay: {
     quicksettings: 150,
   },
-  windows: [
-    ...forMonitors(Notifications),
-    ...forMonitors(Bar),
-    // Launcher()
-  ],
+  windows: [...forMonitors(Notifications), ...forMonitors(Bar), Launcher()],
 });
