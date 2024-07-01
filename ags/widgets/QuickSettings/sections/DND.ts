@@ -9,7 +9,7 @@ export const DND = () => {
     icon: dnd.as(icon),
     label: dnd.as((dnd) => (dnd ? "Silent" : "Noisy")),
     toggle: () => (notifications.dnd = !notifications.dnd),
-    connection: [notifications, () => notifications.dnd],
+    connection: [notifications, () => !notifications.dnd],
   });
 };
 
