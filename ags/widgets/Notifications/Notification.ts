@@ -126,7 +126,7 @@ const NotificationIcon = ({
 
   let icon: string | undefined = undefined;
   if (Utils.lookUpIcon(app_icon)) icon = app_icon;
-  if (Utils.lookUpIcon(app_entry || "")) icon = app_entry || "";
+  if (Utils.lookUpIcon(app_entry || "")) icon = app_entry;
 
   return icon === undefined
     ? undefined
