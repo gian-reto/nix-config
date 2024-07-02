@@ -61,12 +61,6 @@
         gtk-theme = "adw-gtk3-dark";
       };
     };
-
-    # TODO: Style QT like GTK (but move this to its own module).
-    # qt = {
-    #   enable = true;
-    #   style.name = "adwaita-dark";
-    # };
   };
 
   config.os = lib.mkIf config.features.gtk.enable {
@@ -86,6 +80,7 @@
       gnome = {
         glib-networking.enable = true;
         sushi.enable = true;
+        tracker-miners.enable = true;
       };
     };
   };
