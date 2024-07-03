@@ -20,7 +20,7 @@
           description = ''
             The base desktop environment or compositor to use.
           '';
-          type = lib.types.enum [ "hyprland" ];
+          type = lib.types.enum ["hyprland"];
           default = "hyprland";
           example = "hyprland";
         };
@@ -134,6 +134,7 @@
     features.hyprland.enable = true;
     features.hyprlock.enable = true;
     features.security.enable = true;
+    features.valent.enable = true;
     features.vscode.enable = true;
 
     hm = lib.mkIf config.gui.enable {
@@ -166,9 +167,8 @@
         seabird # Kubernetes desktop client.
         # TODO: Add when it's available in nixpkgs.
         # showtime # Video player.
-        valent # KDE Connect client.
         wildcard # Regex testing tool.
       ];
     };
-  }; 
+  };
 }

@@ -24,6 +24,7 @@
     ./features/security.nix
     ./features/ssh.nix
     ./features/tlp.nix
+    ./features/valent.nix
     ./features/vscode.nix
     ./features/xdg.nix
     ./features/yubikey.nix
