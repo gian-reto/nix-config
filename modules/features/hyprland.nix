@@ -39,11 +39,11 @@ in {
             "xdph"
             "gtk"
           ];
-          "org.freedesktop.impl.portal.Secret" = [ "gnome-keyring" ];
-          "org.freedesktop.portal.FileChooser" = [ "xdg-desktop-portal-gtk" ];
+          "org.freedesktop.impl.portal.Secret" = ["gnome-keyring"];
+          "org.freedesktop.portal.FileChooser" = ["xdg-desktop-portal-gtk"];
         };
       };
-      extraPortals = with pkgs; [ xdg-desktop-portal-gtk ];
+      extraPortals = with pkgs; [xdg-desktop-portal-gtk];
       xdgOpenUsePortal = true;
     };
   };
@@ -107,30 +107,31 @@ in {
           "QT_WAYLAND_DISABLE_WINDOWDECORATION,1"
         ];
 
-        exec-once = [
-          "dbus-update-activation-environment --systemd --all"
-          "hyprpaper"
-        ]
-        ++ (
-          lib.optionals config.features.hyprlock.enable [
-            "hyprlock"
+        exec-once =
+          [
+            "dbus-update-activation-environment --systemd --all"
+            "hyprpaper"
           ]
-        )
-        ++ (
-          lib.optionals config.features.cursor.enable [
-            "hyprctl setcursor ${hmConfig.home.pointerCursor.name} ${toString hmConfig.home.pointerCursor.size}"
+          ++ (
+            lib.optionals config.features.hyprlock.enable [
+              "hyprlock"
+            ]
+          )
+          ++ (
+            lib.optionals config.features.cursor.enable [
+              "hyprctl setcursor ${hmConfig.home.pointerCursor.name} ${toString hmConfig.home.pointerCursor.size}"
+            ]
+          )
+          ++ [
+            "systemctl --user restart xdg-desktop-portal xdg-desktop-portal-hyprland"
           ]
-        )
-        ++ [
-          "systemctl --user restart xdg-desktop-portal xdg-desktop-portal-hyprland"
-        ]
-        ++ (lib.optionals config.features.ags.enable ["ags -b hypr"])
-        ++ (lib.optionals config.features.security.enable [
-          "sleep 5 && ${lib.getExe pkgs._1password-gui} --silent --ozone-platform-hint=auto --enable-features=WaylandWindowDecorations"
-        ])
-        ++ (lib.optionals config.features.bluetooth.enable [
-          "sleep 5 && ${lib.getExe' pkgs.blueman "blueman-applet"}"
-        ]);
+          ++ (lib.optionals config.features.ags.enable ["ags -b hypr"])
+          ++ (lib.optionals config.features.security.enable [
+            "sleep 5 && ${lib.getExe pkgs._1password-gui} --silent --ozone-platform-hint=auto --enable-features=WaylandWindowDecorations"
+          ])
+          ++ (lib.optionals config.features.bluetooth.enable [
+            "sleep 5 && ${lib.getExe' pkgs.blueman "blueman-applet"}"
+          ]);
 
         monitor =
           [
@@ -175,10 +176,13 @@ in {
 
         windowrulev2 = let
           nautilusPreviewer = "class:^(org.gnome.NautilusPreviewer)$";
+          fileChooser = "class:^(xdg-desktop-portal-gtk)$,title:^(Open Folder|Open File|Open Files|File Operation Progress)$";
         in [
           "float,${nautilusPreviewer}"
           "maxsize 600 720,${nautilusPreviewer}"
           "center,${nautilusPreviewer}"
+          "float,${fileChooser}"
+          "center,${fileChooser}"
         ];
 
         layerrule = [
