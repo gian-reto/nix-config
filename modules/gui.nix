@@ -156,10 +156,12 @@
         # TODO: Add when it's available in nixpkgs.
         # decibels # Audio player.
         dissent # Discord client.
+        github-desktop # GitHub desktop client.
         gnome-obfuscate # Image obfuscator.
         impression # Bootable drive writer.
         metadata-cleaner # Metadata cleaner.
         muzika # YouTube Music player.
+        obsidian # Note-taking app.
         pods # Podman desktop client.
         seabird # Kubernetes desktop client.
         # TODO: Add when it's available in nixpkgs.
