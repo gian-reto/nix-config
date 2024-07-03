@@ -1,7 +1,6 @@
 {
   config,
   lib,
-  hmConfig,
   pkgs,
   ...
 }: {
@@ -24,7 +23,7 @@
     services.tailscale = {
       enable = true;
 
-      extraUpFlags = ["--accept-routes" "--operator=${hmConfig.home.username}"];
+      extraUpFlags = ["--accept-routes" "--operator=${config.hmUsername}"];
       interfaceName = "tailscale0";
       openFirewall = true;
       useRoutingFeatures = "both";
