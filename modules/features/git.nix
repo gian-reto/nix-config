@@ -37,14 +37,17 @@ in {
       userName = "Gian-Reto Tarnutzer";
       userEmail = "hi@giantarnutzer.com";
       extraConfig = {
-        user.signing.key = "2EFB1A9CA2CE1333B22F84C8EF2E3A235297D053";
+        branch.sort = "committerdate";
         commit.gpgSign = true;
+        core = {
+          editor = "code --wait --new-window";
+        };
         gpg.program = "${hmConfig.programs.gpg.package}/bin/gpg2";
         init.defaultBranch = "main";
         log.date = "iso";
-        branch.sort = "committerdate";
         # Automatically track remote branch.
         push.autoSetupRemote = true;
+        user.signing.key = "2EFB1A9CA2CE1333B22F84C8EF2E3A235297D053";
       };
 
       lfs.enable = true;
