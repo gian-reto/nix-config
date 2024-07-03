@@ -131,6 +131,9 @@ in {
           ])
           ++ (lib.optionals config.features.bluetooth.enable [
             "sleep 5 && ${lib.getExe' pkgs.blueman "blueman-applet"}"
+          ])
+          ++ (lib.optionals config.features.tailscale.enable [
+            "sleep 5 && ${lib.getExe pkgs.trayscale} --hide-window"
           ]);
 
         monitor =

@@ -23,6 +23,7 @@
     ./features/network.nix
     ./features/security.nix
     ./features/ssh.nix
+    ./features/tailscale.nix
     ./features/tlp.nix
     ./features/valent.nix
     ./features/vscode.nix
