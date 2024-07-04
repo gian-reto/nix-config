@@ -1,7 +1,6 @@
 {
   config,
   lib,
-  pkgs,
   ...
 }: {
   options.features.tailscale.enable = lib.mkOption {
@@ -23,16 +22,10 @@
     services.tailscale = {
       enable = true;
 
-      extraUpFlags = ["--accept-routes" "--operator=${config.hmUsername}"];
+      extraUpFlags = ["--operator=${config.hmUsername}" "--accept-routes" "--exit-node-allow-lan-access"];
       interfaceName = "tailscale0";
       openFirewall = true;
       useRoutingFeatures = "both";
     };
-  };
-
-  config.hm = lib.mkIf (config.features.tailscale.enable && config.gui.enable) {
-    home.packages = with pkgs; [
-      trayscale
-    ];
   };
 }
