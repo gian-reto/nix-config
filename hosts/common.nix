@@ -1,7 +1,4 @@
-{
-  pkgs,
-  ...
-}: {
+{pkgs, ...}: {
   imports = [
     ./nix.nix
   ];
@@ -34,6 +31,11 @@
         comma # Runs programs without installing them. Example: `, cowsay howdy`.
 
         httpie # Better curl.
+        jq # JSON processor.
+        nix-index
+        openssl
+        pv # Pipe progress monitor.
+        python3
 
         nil # Nix LSP.
         alejandra # Nix formatter.
