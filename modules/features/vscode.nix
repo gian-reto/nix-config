@@ -67,7 +67,7 @@ in {
           wholroyd.jinja
           yzhang.markdown-all-in-one
         ]);
-        
+
       userSettings = {
         "telemetry.telemetryLevel" = "off";
         "breadcrumbs.enabled" = true;
@@ -81,7 +81,7 @@ in {
         "workbench.panel.defaultLocation" = "bottom";
         "workbench.sideBar.location" = "left";
         "workbench.editor.tabActionLocation" = "right";
-        "workbench.list.smoothScrolling" = false;
+        "workbench.list.smoothScrolling" = true;
         "workbench.startupEditor" = "newUntitledFile";
         "editor.fontFamily" = "${builtins.head osConfig.fonts.fontconfig.defaultFonts.monospace}, 'monospace', monospace";
         "editor.fontSize" = 14;
