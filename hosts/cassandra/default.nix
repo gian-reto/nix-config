@@ -40,9 +40,9 @@
       kernel = "jhovold";
       bluetoothMac = "E4:38:83:2F:84:FA";
     };
-    specialisation = {
-      mainline.configuration.nixos-x13s.kernel = "jhovold";
-    };
+    # specialisation = {
+    #   mainline.configuration.nixos-x13s.kernel = "mainline";
+    # };
 
     boot = {
       initrd.systemd.enable = true;
@@ -79,9 +79,9 @@
     services.fprintd.tod.driver = pkgs.libfprint-2-tod1-goodix;
 
     # Network manager modemmanager setup.
-    services.udev.packages = [ pkgs.modemmanager ];
-    services.dbus.packages = [ pkgs.modemmanager ];
-    systemd.packages = [ pkgs.modemmanager ];
+    services.udev.packages = [pkgs.modemmanager];
+    services.dbus.packages = [pkgs.modemmanager];
+    systemd.packages = [pkgs.modemmanager];
 
     systemd.units.ModemManager.enable = true;
     networking.networkmanager = {
@@ -95,10 +95,10 @@
       ];
     };
     systemd.services.ModemManager = {
-      aliases = [ "dbus-org.freedesktop.ModemManager1.service" ];
-      wantedBy = [ "NetworkManager.service" ];
-      partOf = [ "NetworkManager.service" ];
-      after = [ "NetworkManager.service" ];
+      aliases = ["dbus-org.freedesktop.ModemManager1.service"];
+      wantedBy = ["NetworkManager.service"];
+      partOf = ["NetworkManager.service"];
+      after = ["NetworkManager.service"];
     };
 
     # Fix the bluetooth service. `bluetooth-x13s-mac.service` (from
@@ -118,8 +118,8 @@
           User = "root";
           RemainAfterExit = true;
         };
-        wantedBy = [ "multi-user.target" ];
-        after = [ "multi-user.target" "bluetooth.service" ];
+        wantedBy = ["multi-user.target"];
+        after = ["multi-user.target" "bluetooth.service"];
         script = ''
           count=0
           while true; do
@@ -153,21 +153,29 @@
     # Enable GPU acceleration.
     hardware.opengl = {
       enable = true;
-      
-      package = 
+
+      # From: https://github.com/LunNova/nixos-configs/blob/76ea08c9202ef77ab72eb3cd4715c28475a2667e/hosts/amayadori/x13s.nix#L236.
+      package =
         ((pkgs.mesa.override {
-          galliumDrivers = [ "swrast" "freedreno" "zink" ];
-          vulkanDrivers = [ "swrast" "freedreno" ];
-          enableGalliumNine = false;
-          enableOSMesa = false;
-          enableOpenCL = false;
-        }).overrideAttrs (old: {
-          mesonFlags = old.mesonFlags ++ [
-            "-Dgallium-vdpau=false"
-            "-Dgallium-va=false"
-            "-Dandroid-libbacktrace=disabled"
-          ];
-        })).drivers;
+            galliumDrivers = ["swrast" "freedreno" "zink"];
+            vulkanDrivers = ["swrast" "freedreno"];
+          })
+          .overrideAttrs (old: {
+            mesonFlags =
+              old.mesonFlags
+              ++ [
+                "-Dgallium-vdpau=disabled"
+                "-Dgallium-va=disabled"
+                "-Dandroid-libbacktrace=disabled"
+              ];
+            postPatch = ''
+              ${old.postPatch}
+
+              mkdir -p $spirv2dxil
+              touch $spirv2dxil/dummy
+            '';
+          }))
+        .drivers;
     };
 
     programs = {
