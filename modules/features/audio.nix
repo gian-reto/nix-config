@@ -14,7 +14,6 @@
   };
 
   config.os = lib.mkIf config.features.audio.enable {
-    sound.enable = true;
     security.rtkit.enable = true;
 
     # Disable `pulseaudio`.
@@ -38,24 +37,24 @@
 
       # AirPlay support.
       raopOpenFirewall = true;
-      configPackages = [ 
+      configPackages = [
         (pkgs.writeTextFile {
           name = "pipewire-airplay";
           text = builtins.toJSON {
             "context.modules" = [
               {
                 name = "libpipewire-module-zeroconf-discover";
-                args = { };
+                args = {};
               }
               {
                 name = "libpipewire-module-raop-discover";
-                args = { };
+                args = {};
               }
             ];
           };
           destination = "/share/pipewire/pipewire.conf.d/airplay.conf";
         })
-       ];
+      ];
     };
 
     security.pam.loginLimits = [
