@@ -10,6 +10,7 @@
     ./features/btop.nix
     ./features/containers.nix
     ./features/cursor.nix
+    ./features/direnv.nix
     ./features/fastfetch.nix
     ./features/firefox.nix
     ./features/fonts.nix
