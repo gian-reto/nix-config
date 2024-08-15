@@ -6,7 +6,7 @@
 }: {
   options.features.fonts.enable = lib.mkOption {
     description = ''
-      Whether to enable custom fonts. 
+      Whether to enable custom fonts.
       Note: Font families are hardcoded at the moment.
     '';
     type = lib.types.bool;
@@ -21,25 +21,26 @@
         apple-fonts
         blink-mac-system-fonts
         inter
-        (nerdfonts.override { fonts = [ "Monaspace" ]; })
+        (nerdfonts.override {fonts = ["Monaspace"];})
+        source-serif
       ];
 
       enableDefaultPackages = false;
 
       fontconfig = {
         enable = true;
-        
+
         # Uses `https://github.com/aliifam/BlinkMacSystemFont` to improve
         # weirdness with font stacks that include Apple Color Emoji before
         # default `sans-serif` fonts.
         defaultFonts = {
-          serif = [ "New York" ];
-          sansSerif = [ 
-            "Inter" 
-            "BlinkMacSystemFont" 
+          serif = ["Source Serif"];
+          sansSerif = [
+            "Inter"
+            "BlinkMacSystemFont"
           ];
-          monospace = [ "MonaspiceNe NFM" ];
-          emoji = [ "Apple Color Emoji" ];
+          monospace = ["MonaspiceNe NFM"];
+          emoji = ["Apple Color Emoji"];
         };
       };
     };
