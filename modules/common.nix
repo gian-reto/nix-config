@@ -11,7 +11,6 @@
   config.features.i18n.enable = true;
   config.features.network.enable = true;
   config.features.ssh.enable = true;
-  config.features.tailscale.enable = true;
   config.features.xdg.enable = true;
   config.features.yubikey.enable = true;
   config.features.zsh.enable = true;
