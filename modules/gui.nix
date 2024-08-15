@@ -155,8 +155,7 @@
         collision # File hash verifier.
         curtail # Image compressor.
         d-spy # D-Bus exploration tool.
-        # TODO: Add when it's available in nixpkgs.
-        # decibels # Audio player.
+        decibels # Audio player.
         dissent # Discord client.
         github-desktop # GitHub desktop client.
         gnome-obfuscate # Image obfuscator.
