@@ -143,12 +143,12 @@
         evince # Document viewer.
         gnome-font-viewer # Font viewer.
         gnome-text-editor
-        gnome.file-roller # Archive manager.
-        gnome.gnome-calculator
+        file-roller # Archive manager.
+        gnome-calculator
         gnome.gnome-characters # Character map.
         gnome.gnome-maps # Maps.
-        gnome.nautilus # File manager.
-        gnome.totem # Video player.
+        nautilus # File manager.
+        totem # Video player.
         loupe # Image viewer.
 
         apostrophe # Minimal markdown editor.
