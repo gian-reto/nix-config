@@ -151,7 +151,7 @@
     };
 
     # Enable GPU acceleration.
-    hardware.opengl = {
+    hardware.graphics = {
       enable = true;
 
       # From: https://github.com/LunNova/nixos-configs/blob/76ea08c9202ef77ab72eb3cd4715c28475a2667e/hosts/amayadori/x13s.nix#L236.
