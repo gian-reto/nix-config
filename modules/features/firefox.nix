@@ -22,12 +22,12 @@
     };
 
     xdg.mimeApps.defaultApplications = {
-      "applications/x-www-browser" = [ "firefox.desktop" ];
-      "text/html" = [ "firefox.desktop" ];
-      "text/xml" = [ "firefox.desktop" ];
-      "x-scheme-handler/about" = [ "firefox.desktop" ];
-      "x-scheme-handler/http" = [ "firefox.desktop" ];
-      "x-scheme-handler/https" = [ "firefox.desktop" ];
+      "applications/x-www-browser" = ["firefox.desktop"];
+      "text/html" = ["firefox.desktop"];
+      "text/xml" = ["firefox.desktop"];
+      "x-scheme-handler/about" = ["firefox.desktop"];
+      "x-scheme-handler/http" = ["firefox.desktop"];
+      "x-scheme-handler/https" = ["firefox.desktop"];
     };
 
     home.file = {
@@ -170,27 +170,27 @@
           }
         ];
 
-        extensions =
-          let
-            # FIXME: For some reason, `firefox-addons` doesn't respect or know
-            # about `nixpkgs.config.allowUnfree` being set to `true`, and so
-            # unfree plugins are blocked from evaluation. This is a workaround
-            # to enable unfree plugins. See:
-            # https://github.com/pluiedev/flake/blob/main/users/leah/programs/firefox/default.nix.
-            gaslight = pkgs: pkgs.overrideAttrs { meta.license.free = true; };
-          in
+        extensions = let
+          # FIXME: For some reason, `firefox-addons` doesn't respect or know
+          # about `nixpkgs.config.allowUnfree` being set to `true`, and so
+          # unfree plugins are blocked from evaluation. This is a workaround
+          # to enable unfree plugins. See:
+          # https://github.com/pluiedev/flake/blob/main/users/leah/programs/firefox/default.nix.
+          gaslight = pkgs: pkgs.overrideAttrs {meta.license.free = true;};
+        in
           with inputs.firefox-addons.packages.${pkgs.system};
-          map gaslight [
-            decentraleyes
-            don-t-fuck-with-paste
-            clearurls
-            consent-o-matic
-            cookie-autodelete
-            kagi-search
-            onepassword-password-manager
-            privacy-badger
-            ublock-origin
-          ];
+            map gaslight [
+              decentraleyes
+              don-t-fuck-with-paste
+              clearurls
+              consent-o-matic
+              cookie-autodelete
+              enhanced-h264ify
+              kagi-search
+              onepassword-password-manager
+              privacy-badger
+              ublock-origin
+            ];
 
         search = {
           force = true;
@@ -350,19 +350,19 @@
           "gnomeTheme.hideSingleTab" = true;
           "gnomeTheme.normalWidthTabs" = true;
           "gnomeTheme.bookmarksToolbarUnderTabs" = true;
-          
+
           # Misc.
           "apps.update.auto" = false;
           "browser.disableResetPrompt" = true;
           "browser.download.panel.shown" = true;
           "browser.download.useDownloadDir" = false;
-          
+
           # Make new tab page simple.
           "browser.newtabpage.enabled" = false;
           "browser.newtabpage.introShown" = false;
           "browser.newtabpage.pinned" = [];
           "browser.newtabpage.enhanced" = false;
-          
+
           # Save history on exit.
           "privacy.clearOnShutdown.history" = false;
           "signon.rememberSignons" = false;
@@ -403,7 +403,7 @@
           "datareporting.policy.dataSubmissionEnabled" = false;
           "datareporting.healthreport.uploadEnabled" = false;
           "browser.ping-centre.telemetry" = false;
-          "browser.urlbar.eventTelemetry.enabled" = false; 
+          "browser.urlbar.eventTelemetry.enabled" = false;
           "browser.tabs.crashReporting.sendReport" = false;
 
           # Disable some useless stuff.
