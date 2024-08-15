@@ -141,6 +141,7 @@
       # GUI applications.
       home.packages = with pkgs; [
         evince # Document viewer.
+        gnome-font-viewer # Font viewer.
         gnome-text-editor
         gnome.file-roller # Archive manager.
         gnome.gnome-calculator
