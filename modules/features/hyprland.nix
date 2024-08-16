@@ -258,8 +258,8 @@ in {
             "${mod},f,togglefloating"
             "${mod},left,workspace,-1"
             "${mod},right,workspace,+1"
-            "${mod} SHIFT,left,movetoworkspace,-1"
-            "${mod} SHIFT,right,movetoworkspace,+1"
+            "${mod} CTRL,left,movetoworkspace,-1"
+            "${mod} CTRL,right,movetoworkspace,+1"
             # Brightness control (only works if the system has `lightd`).
             ",XF86MonBrightnessUp,exec,light -A 5"
             ",XF86MonBrightnessDown,exec,light -U 5"
