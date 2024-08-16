@@ -4,7 +4,6 @@
   inputs,
   config,
   hmConfig,
-  osConfig,
   ...
 }: let
   mod = "SUPER";
@@ -50,6 +49,7 @@ in {
 
   config.hm = lib.mkIf config.features.hyprland.enable {
     home.packages = with pkgs; [
+      clipse
       hyprpicker
       inputs.hyprland-contrib.packages.${pkgs.system}.grimblast
       inputs.hyprland-hyprpaper.packages.${pkgs.system}.hyprpaper
@@ -126,6 +126,9 @@ in {
             "systemctl --user restart xdg-desktop-portal xdg-desktop-portal-hyprland"
           ]
           ++ (lib.optionals config.features.ags.enable ["ags -b hypr"])
+          ++ [
+            "sleep 5 && clipse -listen"
+          ]
           ++ (lib.optionals config.features.security.enable [
             "sleep 5 && ${lib.getExe pkgs._1password-gui} --silent --ozone-platform-hint=auto --enable-features=WaylandWindowDecorations"
           ])
@@ -175,14 +178,18 @@ in {
         };
 
         windowrulev2 = let
-          nautilusPreviewer = "class:^(org.gnome.NautilusPreviewer)$";
+          clipse = "class:^(clipse)$";
           fileChooser = "class:^(xdg-desktop-portal-gtk)$,title:^(Open Folder|Open File|Open Files|File Operation Progress)$";
+          nautilusPreviewer = "class:^(org.gnome.NautilusPreviewer)$";
         in [
+          "float,${clipse}"
+          "size 600 720,${clipse}"
+          "center,${clipse}"
+          "float,${fileChooser}"
+          "center,${fileChooser}"
           "float,${nautilusPreviewer}"
           "maxsize 600 720,${nautilusPreviewer}"
           "center,${nautilusPreviewer}"
-          "float,${fileChooser}"
-          "center,${fileChooser}"
         ];
 
         layerrule = [
@@ -235,12 +242,13 @@ in {
           [
             # General binds.
             "${mod} SHIFT,R,exec,hyprctl reload; ags -b hypr -q; ags -b hypr" # Reload Hyprland and `ags`.
-            # Program binds.
+            # Default applications.
             "${mod},Return,exec,${defaultAppFor "x-scheme-handler/terminal"}"
             "${mod},e,exec,${defaultAppFor "text/plain"}"
             "${mod},b,exec,${defaultAppFor "x-scheme-handler/https"}"
             # Applications.
             "CTRL SHIFT,SPACE,exec,${_1password} --quick-access"
+            "${mod} SHIFT,v,exec,${defaultAppFor "x-scheme-handler/terminal"} --class clipse -e 'clipse'"
             "${mod},space,exec,ags -b hypr -t launcher"
             # Window management.
             "${mod},Tab,cyclenext"
