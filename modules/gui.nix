@@ -142,12 +142,13 @@
       # GUI applications.
       home.packages = with pkgs; [
         evince # Document viewer.
-        gnome-font-viewer # Font viewer.
-        gnome-text-editor
         file-roller # Archive manager.
         gnome-calculator
+        gnome-disk-utility # Disk utility.
+        gnome-font-viewer # Font viewer.
         gnome.gnome-characters # Character map.
         gnome.gnome-maps # Maps.
+        gnome-text-editor
         nautilus # File manager.
         totem # Video player.
         loupe # Image viewer.
@@ -157,7 +158,7 @@
         curtail # Image compressor.
         d-spy # D-Bus exploration tool.
         decibels # Audio player.
-        dissent # Discord client.
+        fractal # Matrix client.
         github-desktop # GitHub desktop client.
         gnome-obfuscate # Image obfuscator.
         impression # Bootable drive writer.
@@ -169,6 +170,7 @@
         # TODO: Add when it's available in nixpkgs.
         # showtime # Video player.
         wildcard # Regex testing tool.
+        zed-editor # Code editor.
       ];
     };
   };
