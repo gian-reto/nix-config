@@ -24,10 +24,14 @@ in {
       GTK_USE_PORTAL = "true";
     };
 
-    programs.hyprland = {
-      enable = true;
-      package = pkgs.hyprland;
+    programs = {
+      hyprland = {
+        enable = true;
+
+        package = pkgs.hyprland;
+      };
     };
+
     xdg.portal = {
       enable = true;
 
@@ -221,10 +225,6 @@ in {
           ];
         };
 
-        binds = {
-          pass_mouse_when_bound = false;
-        };
-
         bindm = [
           "${mod},mouse:272,movewindow"
           "${mod},mouse:273,resizewindow"
@@ -247,7 +247,7 @@ in {
             "${mod},b,exec,${defaultAppFor "x-scheme-handler/https"}"
             # Applications.
             "CTRL SHIFT,SPACE,exec,${_1password} --quick-access"
-            "${mod} SHIFT,v,exec,${defaultAppFor "x-scheme-handler/terminal"} --class clipse -e 'clipse'"
+            "${mod} SHIFT,V,exec,alacritty --class clipse -e 'clipse'"
             "${mod},space,exec,ags -b hypr -t launcher"
             # Window management.
             "${mod},Tab,cyclenext"

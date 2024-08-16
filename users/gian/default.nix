@@ -1,6 +1,5 @@
 {
   lib,
-  config,
   pkgs,
   ...
 }: let
@@ -17,13 +16,13 @@ in {
         shell = pkgs.zsh;
         # TODO: Make some groups optional based on config.
         extraGroups = [
-          "wheel"
-          "video"
           "audio"
+          "git"
           "lp"
           "networkmanager"
           "podman"
-          "git"
+          "video"
+          "wheel"
         ];
 
         openssh.authorizedKeys.keys = lib.splitString "\n" (builtins.readFile ../../files/ssh.pub);
