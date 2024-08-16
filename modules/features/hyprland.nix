@@ -159,7 +159,6 @@ in {
 
         input = {
           kb_layout = "us";
-          kb_options = "lv3:alt_switch";
 
           sensitivity = 0.45;
 
