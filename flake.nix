@@ -1,10 +1,7 @@
 {
   description = "My NixOS configuration";
 
-  outputs = {
-    nixpkgs,
-    ...
-  } @ inputs: let
+  outputs = {nixpkgs, ...} @ inputs: let
     forAllSystems = nixpkgs.lib.genAttrs [
       "aarch64-linux"
       "x86_64-linux"
@@ -18,7 +15,7 @@
       system: let
         pkgs = nixpkgs.legacyPackages.${system};
       in
-        import ./pkgs { inherit pkgs; }
+        import ./pkgs {inherit pkgs;}
     );
     formatter = forAllSystems (
       system: let
@@ -29,7 +26,6 @@
 
     # Nixos config.
     nixosConfigurations = {
-
       # ThinkPad X13s.
       cassandra = combinedManager.nixosSystem {
         inherit inputs;
@@ -48,7 +44,6 @@
           ];
         };
       };
-
     };
   };
 
@@ -71,7 +66,7 @@
     };
 
     # ThinkPad X13s hardware support.
-    nixos-x13s.url = "git+https://codeberg.org/adamcstephens/nixos-x13s";
+    nixos-x13s.url = "github:BrainWart/x13s-nixos";
 
     # Hyprland ecosystem.
     hyprland.url = "git+https://github.com/hyprwm/Hyprland?submodules=1";
