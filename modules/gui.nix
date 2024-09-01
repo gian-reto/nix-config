@@ -168,8 +168,7 @@
         obsidian # Note-taking app.
         pods # Podman desktop client.
         seabird # Kubernetes desktop client.
-        # TODO: Add when it's available in nixpkgs.
-        # showtime # Video player.
+        showtime # Video player.
         wildcard # Regex testing tool.
         zed-editor # Code editor.
       ];
