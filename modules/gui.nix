@@ -143,11 +143,12 @@
       home.packages = with pkgs; [
         evince # Document viewer.
         file-roller # Archive manager.
+        geary # Email client.
         gnome-calculator
         gnome-disk-utility # Disk utility.
         gnome-font-viewer # Font viewer.
-        gnome.gnome-characters # Character map.
-        gnome.gnome-maps # Maps.
+        gnome-characters # Character map.
+        gnome-maps # Maps.
         gnome-text-editor
         nautilus # File manager.
         totem # Video player.
