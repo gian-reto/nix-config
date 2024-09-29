@@ -66,7 +66,7 @@
     };
 
     # ThinkPad X13s hardware support.
-    nixos-x13s.url = "github:BrainWart/x13s-nixos";
+    nixos-x13s.url = "github:gian-reto/x13s-nixos";
 
     # Hyprland ecosystem.
     hyprland.url = "git+https://github.com/hyprwm/Hyprland?submodules=1";
