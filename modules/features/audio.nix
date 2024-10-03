@@ -17,7 +17,7 @@
     security.rtkit.enable = true;
 
     # Disable `pulseaudio`.
-    hardware.pulseaudio.enable = false;
+    hardware.pulseaudio.enable = lib.mkForce false;
 
     # Probably needed for AirPlay support.
     services.avahi.enable = true;
@@ -31,9 +31,12 @@
 
       alsa.enable = true;
       alsa.support32Bit = true;
-      jack.enable = true;
+      # jack.enable = true;
       pulse.enable = true;
-      wireplumber.enable = true;
+      wireplumber = {
+        enable = true;
+        package = pkgs.wireplumber;
+      };
 
       # AirPlay support.
       raopOpenFirewall = true;
