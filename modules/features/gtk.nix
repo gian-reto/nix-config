@@ -68,7 +68,7 @@
       # Needed for GNOME services outside of GNOME Desktop.
       dbus.packages = with pkgs; [
         gcr
-        gnome.gnome-settings-daemon
+        gnome-settings-daemon
         # GNOME desktop search engine. Used by some GNOME apps.
         tracker
       ];

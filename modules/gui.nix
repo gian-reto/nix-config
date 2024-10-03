@@ -40,7 +40,7 @@
             description = ''
               The id of the main monitor.
             '';
-            type = lib.types.string;
+            type = lib.types.str;
             example = "eDP-1";
           };
           width = lib.mkOption {
@@ -80,7 +80,7 @@
             description = ''
               The id of the secondary monitor.
             '';
-            type = lib.types.nullOr lib.types.string;
+            type = lib.types.nullOr lib.types.str;
             default = null;
             example = "HDMI-1";
           };
