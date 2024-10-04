@@ -27,9 +27,7 @@
       # See: https://github.com/lassekongo83/adw-gtk3.
       theme = {
         name = "adw-gtk3-dark";
-        # Don't provide the theme package here, because it would apply to GTK4
-        # as well.
-        # package = pkgs.adw-gtk3;
+        package = pkgs.adw-gtk3;
       };
       iconTheme = {
         name = "Adwaita";
@@ -52,6 +50,9 @@
         gtk-application-prefer-dark-theme = true;
       };
     };
+
+    # Prevent theme package from applying to GTK4.
+    xdg.configFile."gtk-4.0/gtk.css".enable = lib.mkForce false;
 
     # GNOME theme settings for apps that somehow don't pick up the configured
     # themes above.
