@@ -53,6 +53,10 @@
         };
         efi.canTouchEfiVariables = true;
       };
+      blacklistedKernelModules = [
+        # Blacklist camera for now, because it causes issues for `wireplumber`.
+        "camcc_sc8280xp"
+      ];
     };
 
     networking = {
@@ -147,6 +151,39 @@
             sleep $((2 + (count * 3)))
           done
         '';
+      };
+    };
+
+    # Fix some audio issues.
+    # See: https://github.com/boletus-edulis/nix-modules/blob/b83b7d7db9c28217f798867f8751c1ed8104fa53/x13s.nix#L86.
+    services.pipewire.extraConfig.pipewire = {
+      "10-fix-crackling" = {
+        "pulse.properties" = {
+          "pulse.min.req" = "1024/48000";
+          "pulse.min.frag" = "1024/48000";
+          "pulse.min.quantum" = "1024/48000";
+        };
+      };
+      "11-disable-suspend" = {
+        "monitor.alsa.rules" = [
+          {
+            "matches" = [
+              {
+                # Matches all sources.
+                "node.name" = "~alsa_input.*";
+              }
+              {
+                # Matches all sinks.
+                "node.name" = "~alsa_output.*";
+              }
+            ];
+            "actions" = {
+              "update-props" = {
+                "session.suspend-timeout-seconds" = 0;
+              };
+            };
+          }
+        ];
       };
     };
 
