@@ -184,6 +184,7 @@ in {
           clipse = "class:^(clipse)$";
           fileChooser = "class:^(xdg-desktop-portal-gtk)$,title:^(Open Folder|Open File|Open Files|File Operation Progress)$";
           nautilusPreviewer = "class:^(org.gnome.NautilusPreviewer)$";
+          pavucontrol = "class:^(org.pulseaudio.pavucontrol)$";
         in [
           "float,${clipse}"
           "size 600 720,${clipse}"
@@ -193,6 +194,7 @@ in {
           "float,${nautilusPreviewer}"
           "maxsize 600 720,${nautilusPreviewer}"
           "center,${nautilusPreviewer}"
+          "noblur,${pavucontrol}"
         ];
 
         layerrule = [
