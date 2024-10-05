@@ -166,6 +166,7 @@
         metadata-cleaner # Metadata cleaner.
         muzika # YouTube Music player.
         obsidian # Note-taking app.
+        parabolic # Video & audio downloader.
         pods # Podman desktop client.
         seabird # Kubernetes desktop client.
         showtime # Video player.
