@@ -30,6 +30,7 @@
       packages = with pkgs; [
         comma # Runs programs without installing them. Example: `, cowsay howdy`.
 
+        devbox # Simple nix powered development environments.
         httpie # Better curl.
         jq # JSON processor.
         nix-index
@@ -37,8 +38,8 @@
         pv # Pipe progress monitor.
         python3
 
-        nil # Nix LSP.
         alejandra # Nix formatter.
+        nil # Nix LSP.
         nh # Nice wrapper for NixOS and `home-manager`.
       ];
     };
