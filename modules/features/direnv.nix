@@ -26,9 +26,8 @@
             # From: https://github.com/venkytv/direnv-op/blob/main/oprc.sh.
             [[ -f .oprc ]] || return 0
             direnv_load op run --env-file .oprc --no-masking -- direnv dump
+            watch_file .oprc
           }
-
-          watch_file .oprc
         '';
         enableZshIntegration = true;
       };
