@@ -30,6 +30,7 @@
       packages = with pkgs; [
         comma # Runs programs without installing them. Example: `, cowsay howdy`.
 
+        age # Modern encryption tool.
         devbox # Simple nix powered development environments.
         httpie # Better curl.
         jq # JSON processor.
@@ -37,6 +38,7 @@
         openssl
         pv # Pipe progress monitor.
         python3
+        sops # Secrets management.
 
         alejandra # Nix formatter.
         nil # Nix LSP.
