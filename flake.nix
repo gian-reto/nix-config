@@ -96,7 +96,7 @@
     };
 
     # Other stuff.
-    ags.url = "github:Aylur/ags";
+    ags.url = "github:aylur/ags/v1";
 
     nix-vscode-extensions = {
       url = "github:nix-community/nix-vscode-extensions";
