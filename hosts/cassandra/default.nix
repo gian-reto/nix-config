@@ -40,9 +40,6 @@
       kernel = "jhovold";
       bluetoothMac = "E4:38:83:2F:84:FA";
     };
-    # specialisation = {
-    #   mainline.configuration.nixos-x13s.kernel = "mainline";
-    # };
 
     boot = {
       initrd.systemd.enable = true;
@@ -53,7 +50,6 @@
         };
         efi.canTouchEfiVariables = true;
       };
-      blacklistedKernelModules = [];
     };
 
     networking = {
