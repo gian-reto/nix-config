@@ -71,7 +71,7 @@
         gcr
         gnome-settings-daemon
         # GNOME desktop search engine. Used by some GNOME apps.
-        tracker
+        tinysparql
       ];
 
       gvfs.enable = true;
@@ -81,7 +81,7 @@
       gnome = {
         glib-networking.enable = true;
         sushi.enable = true;
-        tracker-miners.enable = true;
+        localsearch.enable = true;
       };
     };
   };
