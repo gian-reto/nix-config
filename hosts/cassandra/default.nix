@@ -53,10 +53,7 @@
         };
         efi.canTouchEfiVariables = true;
       };
-      blacklistedKernelModules = [
-        # Blacklist camera for now, because it causes issues for `wireplumber`.
-        "camcc_sc8280xp"
-      ];
+      blacklistedKernelModules = [];
     };
 
     networking = {

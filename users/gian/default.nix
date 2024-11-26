@@ -18,6 +18,7 @@ in {
         extraGroups = [
           "audio"
           "git"
+          "kvm"
           "lp"
           "networkmanager"
           "podman"
