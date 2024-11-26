@@ -20,26 +20,26 @@
       _1password = {
         enable = true;
 
-        package = pkgs._1password;
+        package = pkgs._1password-cli;
       };
       _1password-gui = {
         enable = true;
 
         package = pkgs._1password-gui;
-        polkitPolicyOwners = [ hmConfig.home.username ];
+        polkitPolicyOwners = [hmConfig.home.username];
       };
     };
 
     services.gnome.gnome-keyring.enable = true;
     security = {
       polkit.enable = true;
-      
+
       pam.services = {
         hyprlock = {
           text = "auth include login";
           enableGnomeKeyring = true;
         };
-        greetd = { enableGnomeKeyring = true; };
+        greetd = {enableGnomeKeyring = true;};
         login.enableGnomeKeyring = true;
       };
     };
