@@ -214,7 +214,6 @@ in {
             ignore_opacity = true;
             popups = true;
           };
-          drop_shadow = true;
         };
 
         animations = {
