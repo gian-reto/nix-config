@@ -1,7 +1,6 @@
 {
   inputs,
   lib,
-  osConfig,
   pkgs,
   ...
 }: let
@@ -61,7 +60,7 @@ in {
   os = {
     documentation = {
       enable = true;
-      
+
       doc.enable = false;
       man.enable = true;
       dev.enable = false;

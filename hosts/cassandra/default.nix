@@ -2,8 +2,11 @@
   pkgs,
   inputs,
   lib,
+  hmConfig,
   ...
-}: {
+}: let
+  _1passwordAgentPath = "${hmConfig.home.homeDirectory}/.1password/agent.sock";
+in {
   osModules = [
     inputs.nixos-x13s.nixosModules.default
     ./hardware-configuration.nix
@@ -29,6 +32,45 @@
 
   # Machine-specific configuration.
   os = rec {
+    programs = {
+      light.enable = true;
+
+      ssh = {
+        extraConfig = ''
+          Host eu.nixbuild.net
+            PubkeyAcceptedKeyTypes ssh-ed25519
+            ServerAliveInterval 60
+            IPQoS throughput
+            IdentityAgent ${_1passwordAgentPath}
+        '';
+
+        knownHosts = {
+          nixbuild = {
+            hostNames = ["eu.nixbuild.net"];
+            publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPIQCZc54poJ8vqawd8TraNryQeJnvH1eLpIDgbiqymM";
+          };
+        };
+      };
+    };
+
+    nix = {
+      settings = {
+        # Force local machine to not build anything.
+        max-jobs = lib.mkForce 0;
+      };
+
+      # Build remotely on `nixbuild.net`.
+      distributedBuilds = true;
+      buildMachines = [
+        {
+          hostName = "eu.nixbuild.net";
+          system = pkgs.system;
+          maxJobs = 100;
+          supportedFeatures = ["benchmark" "big-parallel"];
+        }
+      ];
+    };
+
     nixpkgs.config = {
       allowUnfree = true;
       allowUnfreePredicate = _: true;
@@ -206,10 +248,6 @@
             '';
           }))
         .drivers;
-    };
-
-    programs = {
-      light.enable = true;
     };
 
     system.stateVersion = "24.05";
