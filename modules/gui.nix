@@ -155,6 +155,7 @@
         loupe # Image viewer.
 
         apostrophe # Minimal markdown editor.
+        binary # Number base converter.
         collision # File hash verifier.
         curtail # Image compressor.
         d-spy # D-Bus exploration tool.
@@ -168,8 +169,11 @@
         obsidian # Note-taking app.
         parabolic # Video & audio downloader.
         pods # Podman desktop client.
+        resources # System monitor.
         seabird # Kubernetes desktop client.
         showtime # Video player.
+        snapshot # Camera app.
+        warp # Magic Wormhole client.
         wildcard # Regex testing tool.
         zed-editor # Code editor.
       ];
