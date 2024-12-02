@@ -133,11 +133,11 @@ in {
           ++ [
             "sleep 5 && clipse -listen"
           ]
-          ++ (lib.optionals config.features.security.enable [
-            "sleep 5 && ${lib.getExe pkgs._1password-gui} --silent --ozone-platform-hint=auto --enable-features=WaylandWindowDecorations"
-          ])
           ++ (lib.optionals config.features.bluetooth.enable [
             "sleep 5 && ${lib.getExe' pkgs.blueman "blueman-applet"}"
+          ])
+          ++ (lib.optionals config.features.security.enable [
+            "sleep 5 && ${lib.getExe' pkgs._1password-gui "1password"} --silent"
           ]);
 
         monitor =

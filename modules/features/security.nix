@@ -15,6 +15,8 @@
   };
 
   config.os = lib.mkIf config.features.security.enable {
+    environment.variables.XDG_RUNTIME_DIR = "/run/user/$UID";
+
     programs = {
       seahorse.enable = true;
       _1password = {
@@ -35,12 +37,11 @@
       polkit.enable = true;
 
       pam.services = {
+        login.fprintAuth = false;
         hyprlock = {
-          text = "auth include login";
           enableGnomeKeyring = true;
+          fprintAuth = false;
         };
-        greetd = {enableGnomeKeyring = true;};
-        login.enableGnomeKeyring = true;
       };
     };
 
