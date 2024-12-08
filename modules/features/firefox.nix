@@ -75,96 +75,98 @@
 
         bookmarks = [
           {
-            name = "Search";
+            name = "Toolbar";
             toolbar = true;
             bookmarks = [
               {
-                name = "Kagi";
-                keyword = "kg";
-                url = "https://kagi.com";
-              }
-              {
-                name = "DuckDuckGo";
-                keyword = "dg";
-                url = "https://duckduckgo.com";
-              }
-            ];
-          }
-          {
-            name = "NixOS";
-            toolbar = true;
-            bookmarks = [
-              {
-                name = "NixOS Options";
-                url = "https://search.nixos.org/options";
-              }
-              {
-                name = "Nix Packages";
-                url = "https://search.nixos.org/packages";
-              }
-              {
-                name = "Home Manager Options";
-                url = "https://home-manager-options.extranix.com";
-              }
-            ];
-          }
-          {
-            name = "Docs";
-            toolbar = true;
-            bookmarks = [
-              {
-                name = "DevDocs";
-                url = "https://devdocs.io";
-              }
-              {
-                name = "MDN Web Docs";
-                url = "https://developer.mozilla.org";
-              }
-              {
-                name = "TypeScript";
-                url = "https://www.typescriptlang.org/docs/";
-              }
-              {
-                name = "Tailwind CSS";
-                url = "https://tailwindcss.com/docs";
-              }
-              {
-                name = "Rust";
-                url = "https://doc.rust-lang.org";
-              }
-              {
-                name = "Kotlin";
-                url = "https://kotlinlang.org/docs";
-              }
-              {
-                name = "Kubernetes";
-                url = "https://kubernetes.io/docs";
-              }
-              {
-                name = "Nix";
-                url = "https://nixos.org/manual/nix/stable";
+                name = "Search";
+                bookmarks = [
+                  {
+                    name = "Kagi";
+                    keyword = "kg";
+                    url = "https://kagi.com";
+                  }
+                  {
+                    name = "DuckDuckGo";
+                    keyword = "dg";
+                    url = "https://duckduckgo.com";
+                  }
+                ];
               }
               {
                 name = "NixOS";
-                url = "https://nixos.org/manual/nixos/stable";
+                bookmarks = [
+                  {
+                    name = "NixOS Options";
+                    url = "https://search.nixos.org/options";
+                  }
+                  {
+                    name = "Nix Packages";
+                    url = "https://search.nixos.org/packages";
+                  }
+                  {
+                    name = "Home Manager Options";
+                    url = "https://home-manager-options.extranix.com";
+                  }
+                ];
               }
-            ];
-          }
-          {
-            name = "Tools";
-            toolbar = true;
-            bookmarks = [
               {
-                name = "Excalidraw";
-                url = "https://excalidraw.com";
+                name = "Docs";
+                bookmarks = [
+                  {
+                    name = "DevDocs";
+                    url = "https://devdocs.io";
+                  }
+                  {
+                    name = "MDN Web Docs";
+                    url = "https://developer.mozilla.org";
+                  }
+                  {
+                    name = "TypeScript";
+                    url = "https://www.typescriptlang.org/docs/";
+                  }
+                  {
+                    name = "Tailwind CSS";
+                    url = "https://tailwindcss.com/docs";
+                  }
+                  {
+                    name = "Rust";
+                    url = "https://doc.rust-lang.org";
+                  }
+                  {
+                    name = "Kotlin";
+                    url = "https://kotlinlang.org/docs";
+                  }
+                  {
+                    name = "Kubernetes";
+                    url = "https://kubernetes.io/docs";
+                  }
+                  {
+                    name = "Nix";
+                    url = "https://nixos.org/manual/nix/stable";
+                  }
+                  {
+                    name = "NixOS";
+                    url = "https://nixos.org/manual/nixos/stable";
+                  }
+                ];
               }
               {
-                name = "emn178/online-tools";
-                url = "https://emn178.github.io/online-tools/";
-              }
-              {
-                name = "Tree";
-                url = "https://tree.nathanfriend.io";
+                name = "Tools";
+                bookmarks = [
+                  {
+                    name = "Excalidraw";
+                    url = "https://excalidraw.com";
+                  }
+                  {
+                    name = "emn178/online-tools";
+                    url = "https://emn178.github.io/online-tools/";
+                  }
+                  {
+                    name = "Tree";
+                    url = "https://tree.nathanfriend.io";
+                  }
+                ];
               }
             ];
           }
@@ -357,6 +359,7 @@
             "browser.disableResetPrompt" = true;
             "browser.download.panel.shown" = true;
             "browser.download.useDownloadDir" = false;
+            "browser.toolbars.bookmarks.visibility" = "always";
 
             # Make new tab page simple.
             "browser.newtabpage.enabled" = false;
