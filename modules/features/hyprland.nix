@@ -30,6 +30,7 @@ in {
 
         package = pkgs.hyprland;
       };
+      xwayland.enable = true;
     };
 
     xdg.portal = {
@@ -137,7 +138,7 @@ in {
             "sleep 5 && ${lib.getExe' pkgs.blueman "blueman-applet"}"
           ])
           ++ (lib.optionals config.features.security.enable [
-            "sleep 5 && ${lib.getExe' pkgs._1password-gui "1password"} --silent"
+            "sleep 5 && ${lib.getExe' pkgs._1password-gui "1password"} --silent --ozone-platform-hint=x11"
           ]);
 
         monitor =
