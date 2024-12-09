@@ -21,7 +21,7 @@
         apple-fonts
         blink-mac-system-fonts
         inter
-        (nerdfonts.override {fonts = ["Monaspace"];})
+        nerd-fonts.monaspace
         source-serif
       ];
 
