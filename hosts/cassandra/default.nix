@@ -54,11 +54,6 @@ in {
     };
 
     nix = {
-      settings = {
-        # Force local machine to not build anything.
-        max-jobs = lib.mkForce 0;
-      };
-
       # Build remotely on `nixbuild.net`.
       distributedBuilds = true;
       buildMachines = [

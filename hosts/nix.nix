@@ -81,6 +81,11 @@ in {
       };
 
       settings = nixSettings;
+
+      extraOptions = ''
+        # Ensure we can still build when substituter is not accessible.
+        fallback = true
+      '';
     };
   };
 }
