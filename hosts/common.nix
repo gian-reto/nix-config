@@ -41,8 +41,9 @@
         sops # Secrets management.
 
         alejandra # Nix formatter.
-        nil # Nix LSP.
         nh # Nice wrapper for NixOS and `home-manager`.
+        nil # Nix LSP.
+        nurl # Nix fetcher call generator.
       ];
     };
   };
