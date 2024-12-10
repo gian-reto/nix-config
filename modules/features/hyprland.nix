@@ -138,7 +138,7 @@ in {
             "sleep 5 && ${lib.getExe' pkgs.blueman "blueman-applet"}"
           ])
           ++ (lib.optionals config.features.security.enable [
-            "sleep 5 && ${lib.getExe' pkgs._1password-gui "1password"} --silent --ozone-platform-hint=x11"
+            "sleep 5 && ${lib.getExe' pkgs._1password-gui-beta "1password"} --silent --ozone-platform-hint=x11"
           ]);
 
         monitor =
@@ -233,7 +233,7 @@ in {
         ];
 
         bind = let
-          _1password = lib.getExe pkgs._1password-gui;
+          _1password = lib.getExe' pkgs._1password-gui-beta "1password";
           grimblast = lib.getExe inputs.hyprland-contrib.packages.${pkgs.system}.grimblast;
           tesseract = lib.getExe pkgs.tesseract;
           pactl = lib.getExe' pkgs.pulseaudio "pactl";
