@@ -53,6 +53,10 @@ sudo nixos-rebuild switch --flake ~/Code/gian-reto/nix-config#hostname
 # or using `nh`:
 
 nh os switch ~/Code/gian-reto/nix-config#hostname
+
+# It's possible to use remote builders (and disable local building), using e.g.:
+
+nh os boot -u -- --max-jobs 0 --builders 'eu.nixbuild.net'
 ```
 
 ## Thanks
