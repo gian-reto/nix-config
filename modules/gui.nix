@@ -161,6 +161,7 @@
         d-spy # D-Bus exploration tool.
         decibels # Audio player.
         fractal # Matrix client.
+        geekbench # Benchmarking tool.
         github-desktop # GitHub desktop client.
         gnome-obfuscate # Image obfuscator.
         impression # Bootable drive writer.
