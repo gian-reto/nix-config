@@ -141,13 +141,15 @@
     hm = lib.mkIf config.gui.enable {
       # GUI applications.
       home.packages = with pkgs; [
+        baobab # Disk usage analyzer.
         evince # Document viewer.
         file-roller # Archive manager.
         geary # Email client.
         gnome-calculator
+        gnome-characters # Character map.
         gnome-disk-utility # Disk utility.
         gnome-font-viewer # Font viewer.
-        gnome-characters # Character map.
+        gnome-logs # Log viewer.
         gnome-maps # Maps.
         gnome-text-editor
         nautilus # File manager.
