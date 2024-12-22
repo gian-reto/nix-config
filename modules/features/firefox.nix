@@ -16,21 +16,6 @@
   };
 
   config.hm = lib.mkIf config.features.firefox.enable {
-    home.sessionVariables = {
-      BROWSER = "x-www-browser";
-      MOZ_ENABLE_WAYLAND = 1;
-      MOZ_LEGACY_PROFILES = 1;
-    };
-
-    xdg.mimeApps.defaultApplications = {
-      "applications/x-www-browser" = ["firefox.desktop"];
-      "text/html" = ["firefox.desktop"];
-      "text/xml" = ["firefox.desktop"];
-      "x-scheme-handler/about" = ["firefox.desktop"];
-      "x-scheme-handler/http" = ["firefox.desktop"];
-      "x-scheme-handler/https" = ["firefox.desktop"];
-    };
-
     home.file = {
       ".mozilla/firefox/${hmConfig.programs.firefox.profiles."dev-edition-default".path}/chrome/firefox-gnome-theme" = {
         source = inputs.firefox-gnome-theme;
