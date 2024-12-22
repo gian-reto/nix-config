@@ -27,6 +27,11 @@ in {
           IdentityAgent ${gpgAgentPath}
           User git
 
+        Host atlas
+          HostName 192.168.10.10
+          IdentityAgent ${gpgAgentPath}
+          User root
+
         Host *
           IdentityAgent ${_1passwordAgentPath}
       '';
