@@ -12,6 +12,7 @@
     ./features/containers.nix
     ./features/cursor.nix
     ./features/direnv.nix
+    ./features/distributed-builds.nix
     ./features/fastfetch.nix
     ./features/firefox.nix
     ./features/fonts.nix

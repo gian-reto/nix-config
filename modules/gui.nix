@@ -57,6 +57,22 @@
             type = lib.types.int;
             example = 1200;
           };
+          offsetX = lib.mkOption {
+            description = ''
+              The position of the monitor on the X axis relative to 0x0.
+            '';
+            type = lib.types.nullOr lib.types.int;
+            default = 0;
+            example = 1200;
+          };
+          offsetY = lib.mkOption {
+            description = ''
+              The position of the monitor on the Y axis relative to 0x0.
+            '';
+            type = lib.types.nullOr lib.types.int;
+            default = 0;
+            example = 1200;
+          };
           scale = lib.mkOption {
             description = ''
               The scale of the main monitor.
@@ -69,9 +85,21 @@
             description = ''
               The refresh rate of the main monitor.
             '';
-            type = lib.types.int;
+            type = lib.types.oneOf [
+              lib.types.float
+              lib.types.int
+              lib.types.string
+            ];
             default = 60;
             example = 60;
+          };
+          rotation = lib.mkOption {
+            description = ''
+              The rotation of the main monitor.
+            '';
+            type = lib.types.int;
+            default = 0;
+            example = 1;
           };
         };
         # Optional secondary monitor.
@@ -100,6 +128,22 @@
             default = null;
             example = 1200;
           };
+          offsetX = lib.mkOption {
+            description = ''
+              The position of the monitor on the X axis relative to 0x0.
+            '';
+            type = lib.types.nullOr lib.types.int;
+            default = 0;
+            example = 1200;
+          };
+          offsetY = lib.mkOption {
+            description = ''
+              The position of the monitor on the Y axis relative to 0x0.
+            '';
+            type = lib.types.nullOr lib.types.int;
+            default = 0;
+            example = 1200;
+          };
           scale = lib.mkOption {
             description = ''
               The scale of the secondary monitor.
@@ -112,9 +156,21 @@
             description = ''
               The refresh rate of the secondary monitor.
             '';
-            type = lib.types.int;
+            type = lib.types.oneOf [
+              lib.types.float
+              lib.types.int
+              lib.types.string
+            ];
             default = 60;
             example = 60;
+          };
+          rotation = lib.mkOption {
+            description = ''
+              The rotation of the main monitor.
+            '';
+            type = lib.types.int;
+            default = 0;
+            example = 1;
           };
         };
       };

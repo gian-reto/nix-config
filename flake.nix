@@ -26,6 +26,25 @@
 
     # Nixos config.
     nixosConfigurations = {
+      # Workstation.
+      atlas = combinedManager.nixosSystem {
+        inherit inputs;
+
+        configuration = {
+          system = "x86_64-linux";
+
+          modules = [
+            # Modules.
+            ./modules
+            # Host configurations.
+            ./hosts/common.nix
+            ./hosts/atlas
+            # User configurations.
+            ./users/gian
+          ];
+        };
+      };
+
       # ThinkPad X13s.
       cassandra = combinedManager.nixosSystem {
         inherit inputs;
@@ -57,6 +76,11 @@
     nix = {
       url = "github:nixos/nix/2.22-maintenance";
       inputs.nixpkgs.follows = "nixpkgs-stable";
+    };
+
+    disko = {
+      url = "github:nix-community/disko";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
 
     # Home Manager ecosystem.

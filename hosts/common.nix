@@ -29,6 +29,7 @@
 
       packages = with pkgs; [
         comma # Runs programs without installing them. Example: `, cowsay howdy`.
+        curl
 
         age # Modern encryption tool.
         devbox # Simple nix powered development environments.

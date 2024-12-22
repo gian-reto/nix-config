@@ -6,6 +6,7 @@
   config.features.btop.enable = true;
   config.features.containers.enable = true;
   config.features.direnv.enable = true;
+  config.features.distributed-builds.enable = true;
   config.features.fastfetch.enable = true;
   config.features.git.enable = true;
   config.features.gpg.enable = true;

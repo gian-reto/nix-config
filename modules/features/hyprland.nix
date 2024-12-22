@@ -143,9 +143,9 @@ in {
 
         monitor =
           [
-            "${config.gui.monitors.main.id},${toString config.gui.monitors.main.width}x${toString config.gui.monitors.main.height}@${toString config.gui.monitors.main.refreshRate},0x0,${toString config.gui.monitors.main.scale}"
+            "${config.gui.monitors.main.id},${toString config.gui.monitors.main.width}x${toString config.gui.monitors.main.height}@${toString config.gui.monitors.main.refreshRate},${toString config.gui.monitors.main.offsetX}x${toString config.gui.monitors.main.offsetY},${toString config.gui.monitors.main.scale},transform,${toString config.gui.monitors.main.rotation}"
           ]
-          ++ (lib.optionals (config.gui.monitors.secondary.id != null) ["monitor=${config.gui.monitors.secondary.id},${toString config.gui.monitors.secondary.width}x${toString config.gui.monitors.secondary.height}@${toString config.gui.monitors.secondary.refreshRate},${toString (config.gui.monitors.main.width * config.gui.monitors.main.scale)}x0,${toString config.gui.monitors.secondary.scale}"]);
+          ++ (lib.optionals (config.gui.monitors.secondary.id != null) ["${config.gui.monitors.secondary.id},${toString config.gui.monitors.secondary.width}x${toString config.gui.monitors.secondary.height}@${toString config.gui.monitors.secondary.refreshRate},${toString config.gui.monitors.secondary.offsetX}x${toString config.gui.monitors.secondary.offsetY},${toString config.gui.monitors.secondary.scale},transform,${toString config.gui.monitors.secondary.rotation}"]);
 
         general = {
           gaps_in = 3;
@@ -159,6 +159,7 @@ in {
 
         misc = {
           disable_hyprland_logo = true;
+          disable_hyprland_qtutils_check = true;
           disable_splash_rendering = true;
         };
 

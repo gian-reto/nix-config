@@ -54,9 +54,19 @@ sudo nixos-rebuild switch --flake ~/Code/gian-reto/nix-config#hostname
 
 nh os switch ~/Code/gian-reto/nix-config#hostname
 
-# It's possible to use remote builders (and disable local building), using e.g.:
+# It's also possible to use remote builders (and disable local building), using e.g.:
 
 nh os boot -u -- --max-jobs 0 --builders 'eu.nixbuild.net'
+
+# Or deploy to a different machine using `nixos-anywhere` (e.g., `atlas`):
+#
+# Add `--generate-hardware-config nixos-generate-config ./hosts/atlas/hardware-configuration.nix`
+# to generate the hardware configuration for the first time.
+nix run github:nix-community/nixos-anywhere -- \
+    --disk-encryption-keys /tmp/secret.key <(op read op://Development/3x3x7fbtnr74l65fjtakpznuui/password) \
+    --flake .#atlas \
+    --target-host root@atlas \
+    --build-on-remote
 ```
 
 ## Thanks
