@@ -19,6 +19,7 @@
     home.sessionVariables = {
       BROWSER = "x-www-browser";
       MOZ_ENABLE_WAYLAND = 1;
+      MOZ_LEGACY_PROFILES = 1;
     };
 
     xdg.mimeApps.defaultApplications = {
@@ -31,7 +32,7 @@
     };
 
     home.file = {
-      ".mozilla/firefox/${hmConfig.programs.firefox.profiles.default.path}/chrome/firefox-gnome-theme" = {
+      ".mozilla/firefox/${hmConfig.programs.firefox.profiles."dev-edition-default".path}/chrome/firefox-gnome-theme" = {
         source = inputs.firefox-gnome-theme;
       };
     };
@@ -54,10 +55,8 @@
         };
       };
 
-      profiles.default = {
+      profiles."dev-edition-default" = {
         id = 0;
-        name = "dev-edition-default";
-        path = "nix.default";
         isDefault = true;
 
         userChrome = ''
@@ -435,15 +434,17 @@
             "dom.push.enabled" = false;
             "dom.push.connection.enabled" = false;
             "dom.battery.enabled" = false;
-          }
-          # Widevine Support.
-          // lib.mkIf pkgs.stdenv.hostPlatform.isAarch64 {
-            "media.gmp-widevinecdm.version" = pkgs.widevinecdm-aarch64.version;
+
+            # Enable DRM (Widevine).
+            "media.eme.enabled" = true;
             "media.gmp-widevinecdm.visible" = true;
             "media.gmp-widevinecdm.enabled" = true;
-            "media.gmp-widevinecdm.autoupdate" = false;
-            "media.eme.enabled" = true;
             "media.eme.encrypted-media-encryption-scheme.enabled" = true;
+          }
+          # Aarch64 Widevine support.
+          // lib.mkIf pkgs.stdenv.hostPlatform.isAarch64 {
+            "media.gmp-widevinecdm.version" = pkgs.widevinecdm-aarch64.version;
+            "media.gmp-widevinecdm.autoupdate" = false;
           };
       };
     };
@@ -451,7 +452,7 @@
     # Widevine Support.
     home.file."firefox-widevinecdm" = lib.mkIf pkgs.stdenv.hostPlatform.isAarch64 {
       enable = true;
-      target = ".mozilla/firefox/nix.default/gmp-widevinecdm";
+      target = ".mozilla/firefox/dev-edition-default/gmp-widevinecdm";
       source = pkgs.runCommandLocal "firefox-widevinecdm" {} ''
         out=$out/${pkgs.widevinecdm-aarch64.version}
         mkdir -p $out
