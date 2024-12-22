@@ -21,7 +21,7 @@
         id = "DP-1";
         width = 1920;
         height = 1080;
-        scale = 1.0;
+        scale = 0.833333;
         refreshRate = 60;
         # Rotate 270 degrees.
         rotation = 3;
@@ -30,8 +30,6 @@
         id = "HDMI-A-1";
         width = 5120;
         height = 1440;
-        offsetX = 1080;
-        offsetY = -144;
         scale = 1.0;
         refreshRate = 59.98;
         rotation = 0;

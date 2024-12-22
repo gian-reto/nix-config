@@ -143,9 +143,9 @@ in {
 
         monitor =
           [
-            "${config.gui.monitors.main.id},${toString config.gui.monitors.main.width}x${toString config.gui.monitors.main.height}@${toString config.gui.monitors.main.refreshRate},${toString config.gui.monitors.main.offsetX}x${toString config.gui.monitors.main.offsetY},${toString config.gui.monitors.main.scale},transform,${toString config.gui.monitors.main.rotation}"
+            "${config.gui.monitors.main.id},${toString config.gui.monitors.main.width}x${toString config.gui.monitors.main.height}@${toString config.gui.monitors.main.refreshRate},auto-left,${toString config.gui.monitors.main.scale},transform,${toString config.gui.monitors.main.rotation}"
           ]
-          ++ (lib.optionals (config.gui.monitors.secondary.id != null) ["${config.gui.monitors.secondary.id},${toString config.gui.monitors.secondary.width}x${toString config.gui.monitors.secondary.height}@${toString config.gui.monitors.secondary.refreshRate},${toString config.gui.monitors.secondary.offsetX}x${toString config.gui.monitors.secondary.offsetY},${toString config.gui.monitors.secondary.scale},transform,${toString config.gui.monitors.secondary.rotation}"]);
+          ++ (lib.optionals (config.gui.monitors.secondary.id != null) ["${config.gui.monitors.secondary.id},${toString config.gui.monitors.secondary.width}x${toString config.gui.monitors.secondary.height}@${toString config.gui.monitors.secondary.refreshRate},auto-right,${toString config.gui.monitors.secondary.scale},transform,${toString config.gui.monitors.secondary.rotation}"]);
 
         general = {
           gaps_in = 3;
