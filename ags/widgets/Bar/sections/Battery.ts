@@ -9,7 +9,9 @@ export const Battery = () => {
     [battery.bind("charging"), battery.bind("charged")],
     (a, b) => a || b
   );
-  const percentage = battery.bind("percent");
+  const percentage = battery
+    .bind("percent")
+    .transform((value) => (value < 0 ? 100 : value));
   const status = percentage.as((value) =>
     value < 10 ? "critical" : value < 25 ? "low" : "normal"
   );
