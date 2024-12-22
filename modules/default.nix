@@ -32,6 +32,7 @@
     ./features/vscode.nix
     ./features/xdg.nix
     ./features/yubikey.nix
+    ./features/zen-browser.nix
     ./features/zsh.nix
 
     # Modules.

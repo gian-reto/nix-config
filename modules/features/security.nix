@@ -62,10 +62,18 @@
     };
 
     environment.etc."1password/custom_allowed_browsers" = {
-      text = ''
-        firefox
-      '';
       mode = "0755";
+      text = lib.concatLines ([]
+        ++ lib.optionals config.features.firefox.enable [
+          "firefox"
+        ]
+        ++ lib.optionals config.features.zen-browser.enable [
+          ''
+            zen
+            zen-bin
+            .zen-wrapped
+          ''
+        ]);
     };
   };
 

@@ -193,6 +193,7 @@
     features.security.enable = true;
     features.valent.enable = true;
     features.vscode.enable = true;
+    features.zen-browser.enable = true;
 
     hm = lib.mkIf config.gui.enable {
       # GUI applications.
