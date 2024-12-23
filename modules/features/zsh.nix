@@ -51,7 +51,7 @@
       enable = true;
       enableAliases = false;
     };
-    
+
     # See: https://github.com/sharkdp/bat.
     programs.bat.enable = true;
 
@@ -95,6 +95,11 @@
         please = "sudo $(fc -ln -1)";
         dev = "nix develop --impure -c $SHELL";
 
+        # Remove the currently linked smartcard from the GPG agent. Useful in a
+        # multi-smartcard setup when the card is different than the last one
+        # used.
+        gpg-unlink-smartcard = "gpg-connection-agent \"scd serialno\" \"learn --force\" /bye";
+
         gits = "git status";
         gitd = "git diff";
         gita = "git add";
@@ -115,7 +120,7 @@
         confirm() {
           read "response?''${1:-Are you sure? [y/N]} "
           case "$response" in
-            [yY][eE][sS]|[yY]) 
+            [yY][eE][sS]|[yY])
                 true
                 ;;
             *)
