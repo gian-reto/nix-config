@@ -1,6 +1,14 @@
-{pkgs, ...}: {
+{
+  inputs,
+  pkgs,
+  ...
+}: {
   imports = [
     ./nix.nix
+  ];
+
+  config.osModules = [
+    inputs.nix-index-database.nixosModules.nix-index
   ];
 
   config.os = {
@@ -35,7 +43,6 @@
         devbox # Simple nix powered development environments.
         httpie # Better curl.
         jq # JSON processor.
-        nix-index
         openssl
         pv # Pipe progress monitor.
         python3

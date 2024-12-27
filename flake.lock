@@ -815,6 +815,26 @@
         "type": "github"
       }
     },
+    "nix-index-database": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1735222882,
+        "narHash": "sha256-kWNi45/mRjQMG+UpaZQ7KyPavYrKfle3WgLn9YeBBVg=",
+        "owner": "nix-community",
+        "repo": "nix-index-database",
+        "rev": "7e3246f6ad43b44bc1c16d580d7bf6467f971530",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-community",
+        "repo": "nix-index-database",
+        "type": "github"
+      }
+    },
     "nix-vscode-extensions": {
       "inputs": {
         "flake-compat": "flake-compat_3",
@@ -1050,6 +1070,7 @@
         "hyprland-hyprpaper": "hyprland-hyprpaper",
         "hyprland-plugins": "hyprland-plugins",
         "nix": "nix",
+        "nix-index-database": "nix-index-database",
         "nix-vscode-extensions": "nix-vscode-extensions",
         "nixos-x13s": "nixos-x13s",
         "nixpkgs": "nixpkgs_4",
