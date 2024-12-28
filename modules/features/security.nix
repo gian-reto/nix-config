@@ -66,13 +66,6 @@
       text = lib.concatLines ([]
         ++ lib.optionals config.features.firefox.enable [
           "firefox"
-        ]
-        ++ lib.optionals config.features.zen-browser.enable [
-          ''
-            zen
-            zen-bin
-            .zen-wrapped
-          ''
         ]);
     };
   };
