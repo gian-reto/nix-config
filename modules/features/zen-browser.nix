@@ -20,20 +20,5 @@ in {
     home.packages = [
       zen-browser
     ];
-
-    home.sessionVariables = {
-      BROWSER = "x-www-browser";
-      MOZ_ENABLE_WAYLAND = 1;
-      MOZ_LEGACY_PROFILES = 1;
-    };
-
-    xdg.mimeApps.defaultApplications = {
-      "applications/x-www-browser" = ["zen.desktop"];
-      "text/html" = ["zen.desktop"];
-      "text/xml" = ["zen.desktop"];
-      "x-scheme-handler/about" = ["zen.desktop"];
-      "x-scheme-handler/http" = ["zen.desktop"];
-      "x-scheme-handler/https" = ["zen.desktop"];
-    };
   };
 }
