@@ -36,6 +36,10 @@ in {
       };
       userName = "Gian-Reto Tarnutzer";
       userEmail = "hi@giantarnutzer.com";
+
+      delta.enable = true;
+      lfs.enable = true;
+
       extraConfig = {
         branch.sort = "committerdate";
         commit.gpgSign = true;
@@ -49,8 +53,40 @@ in {
         push.autoSetupRemote = true;
         user.signing.key = "2EFB1A9CA2CE1333B22F84C8EF2E3A235297D053";
       };
+    };
 
-      lfs.enable = true;
+    programs.lazygit = {
+      enable = true;
+
+      settings = {
+        disableStartupPopups = true;
+        git = {
+          autoFetch = false;
+          autoRefresh = false;
+          allBranchesLogCmd = "git log --graph --all --abbrev-commit --color=always --decorate  --pretty=full --show-signature";
+          branchLogCmd = "git log --graph --abbrev-commit --color=always --decorate --pretty=full --show-signature {{branchName}} --";
+          commit = {
+            signOff = true;
+          };
+          paging = {
+            colorArg = "always";
+            pager = "delta --dark --paging=never --line-numbers --hyperlinks --hyperlinks-file-link-format=\"lazygit-edit://{path}:{line}\"";
+            useConfig = false;
+          };
+        };
+        gui = {
+          filterMode = "fuzzy";
+          nerdFontsVersion = "3";
+        };
+        os = {
+          editPreset = "vscode";
+          open = "xdg-open {{filename}}";
+          openLink = "xdg-open {{link}}";
+        };
+        update = {
+          method = "never";
+        };
+      };
     };
   };
 }
