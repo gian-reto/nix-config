@@ -16,6 +16,7 @@
     ./features/fastfetch.nix
     ./features/firefox.nix
     ./features/fonts.nix
+    ./features/ghostty.nix
     ./features/git.nix
     ./features/gpg.nix
     ./features/greeter.nix

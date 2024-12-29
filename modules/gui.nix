@@ -154,6 +154,7 @@
     features.cursor.enable = true;
     features.firefox.enable = true;
     features.fonts.enable = true;
+    features.ghostty.enable = true;
     features.greeter.enable = true;
     features.gtk.enable = true;
     features.hyprland.enable = true;
