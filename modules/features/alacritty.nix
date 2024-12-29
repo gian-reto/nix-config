@@ -14,15 +14,6 @@
   };
 
   config.hm = lib.mkIf config.features.alacritty.enable {
-    xdg.mimeApps = {
-      associations.added = {
-        "x-scheme-handler/terminal" = "Alacritty.desktop";
-      };
-      defaultApplications = {
-        "x-scheme-handler/terminal" = "Alacritty.desktop";
-      };
-    };
-
     programs.alacritty = {
       enable = true;
 

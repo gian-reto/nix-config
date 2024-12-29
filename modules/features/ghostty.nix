@@ -20,6 +20,15 @@
   ];
 
   config.hm = lib.mkIf config.features.ghostty.enable {
+    xdg.mimeApps = {
+      associations.added = {
+        "x-scheme-handler/terminal" = "com.mitchellh.ghostty.desktop";
+      };
+      defaultApplications = {
+        "x-scheme-handler/terminal" = "com.mitchellh.ghostty.desktop";
+      };
+    };
+
     programs.ghostty = {
       enable = true;
 
