@@ -66,7 +66,7 @@
 
             /* Hide Firefox View button */
             #firefox-view-button {
-              visibility: hidden;
+              display: none;
             }
           '';
           userContent = ''
