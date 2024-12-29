@@ -5,7 +5,7 @@
 }: {
   options.features.bash.enable = lib.mkOption {
     description = ''
-      Whether to enable bash. 
+      Whether to enable bash.
     '';
     type = lib.types.bool;
     default = false;

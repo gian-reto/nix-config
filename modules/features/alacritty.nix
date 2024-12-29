@@ -22,7 +22,7 @@
         "x-scheme-handler/terminal" = "Alacritty.desktop";
       };
     };
-    
+
     programs.alacritty = {
       enable = true;
 

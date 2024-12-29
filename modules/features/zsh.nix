@@ -1,8 +1,6 @@
 {
   config,
   lib,
-  pkgs,
-  hmConfig,
   ...
 }: {
   options.features.zsh.enable = lib.mkOption {

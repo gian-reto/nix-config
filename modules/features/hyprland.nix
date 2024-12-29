@@ -280,7 +280,7 @@ in {
           ++ (
             let
               playerctl = lib.getExe' hmConfig.services.playerctld.package "playerctl";
-              playerctld = lib.getExe' hmConfig.services.playerctld.package "playerctld";
+              # playerctld = lib.getExe' hmConfig.services.playerctld.package "playerctld";
             in
               lib.optionals hmConfig.services.playerctld.enable [
                 # Media control.

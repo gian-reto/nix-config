@@ -15,7 +15,7 @@
   config.hm = lib.mkIf config.features.btop.enable {
     programs.btop = {
       enable = true;
-      
+
       settings = {
         color_theme = "TTY";
         theme_background = false;

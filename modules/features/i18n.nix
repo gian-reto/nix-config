@@ -23,7 +23,7 @@
         "de_CH.UTF-8/UTF-8"
       ];
     };
-    
+
     time.timeZone = lib.mkDefault "Europe/Zurich";
   };
 }

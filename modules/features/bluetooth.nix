@@ -1,7 +1,6 @@
 {
   config,
   lib,
-  pkgs,
   ...
 }: {
   options.features.bluetooth.enable = lib.mkOption {
@@ -19,7 +18,7 @@
 
       powerOnBoot = true;
       settings = {
-        General = { 
+        General = {
           # Necessary for AirPods.
           ControllerMode = "dual";
           # For `gnome-bluetooth` percentage (useful for `ags`).

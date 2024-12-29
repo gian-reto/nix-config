@@ -27,7 +27,7 @@
 
     programs.ags = {
       enable = true;
-      
+
       configDir = ../../ags;
       # See: https://aylur.github.io/ags-docs/config/home-manager.
       # extraPackages = with pkgs; [
