@@ -74,6 +74,8 @@
       };
 
       shellAliases = {
+        # Misc aliases.
+
         mv = "mv -iv";
         rm = "rm -I";
         cp = "cp -iv";
@@ -99,6 +101,15 @@
         # multi-smartcard setup when the card is different than the last one
         # used.
         gpg-unlink-smartcard = "gpg-connection-agent \"scd serialno\" \"learn --force\" /bye";
+
+        # Nix/OS aliases.
+
+        oss = "nh os switch";
+        osb = "nh os boot";
+        osu = "nh os boot -u";
+        osc = "nh clean all --keep 5";
+
+        # Git aliases.
 
         gits = "git status";
         gitd = "git diff";
