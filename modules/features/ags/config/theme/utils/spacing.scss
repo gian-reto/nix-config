@@ -1,0 +1,207 @@
+/* 
+ * Adapted from TailwindCSS default spacing scale.
+ * 
+ * See: https://tailwindcss.com/docs/customizing-spacing#default-spacing-scale.
+ */
+$spacing: (
+  "0": 0px,
+  "px": 1px,
+  "0\\.5": 2px,
+  "1": 4px,
+  "1\\.5": 6px,
+  "2": 8px,
+  "2\\.5": 10px,
+  "3": 12px,
+  "3\\.5": 14px,
+  "4": 16px,
+  "5": 20px,
+  "6": 24px,
+  "7": 28px,
+  "8": 32px,
+  "9": 36px,
+  "10": 40px,
+  "11": 44px,
+  "12": 48px,
+  "14": 56px,
+  "16": 64px,
+  "20": 80px,
+  "24": 96px,
+  "28": 112px,
+  "32": 128px,
+  "36": 144px,
+  "40": 160px,
+  "44": 176px,
+  "48": 192px,
+  "52": 208px,
+  "56": 224px,
+  "60": 240px,
+  "64": 256px,
+  "72": 288px,
+  "80": 320px,
+  "96": 384px,
+  "128": 512px,
+);
+
+@each $key, $value in $spacing {
+  /* Paddings */
+
+  .p-#{$key} {
+    padding: $value;
+  }
+
+  .px-#{$key} {
+    padding-left: $value;
+    padding-right: $value;
+  }
+
+  .py-#{$key} {
+    padding-top: $value;
+    padding-bottom: $value;
+  }
+
+  .pt-#{$key} {
+    padding-top: $value;
+  }
+
+  .pr-#{$key} {
+    padding-right: $value;
+  }
+
+  .pb-#{$key} {
+    padding-bottom: $value;
+  }
+
+  .pl-#{$key} {
+    padding-left: $value;
+  }
+
+  /* Margins */
+
+  .m-#{$key} {
+    margin: $value;
+  }
+
+  .mx-#{$key} {
+    margin-left: $value;
+    margin-right: $value;
+  }
+
+  .my-#{$key} {
+    margin-top: $value;
+    margin-bottom: $value;
+  }
+
+  .mt-#{$key} {
+    margin-top: $value;
+  }
+
+  .mr-#{$key} {
+    margin-right: $value;
+  }
+
+  .mb-#{$key} {
+    margin-bottom: $value;
+  }
+
+  .ml-#{$key} {
+    margin-left: $value;
+  }
+
+  /* Space between */
+
+  .space-x-#{$key} > * + * {
+    margin-left: $value;
+  }
+
+  .space-y-#{$key} > * + * {
+    margin-top: $value;
+  }
+
+  /* Width */
+
+  .min-w-#{$key} {
+    min-width: $value;
+  }
+
+  /* Height */
+
+  .min-h-#{$key} {
+    min-height: $value;
+  }
+
+  .hover\:p-#{$key}:hover {
+    padding: $value;
+  }
+
+  .hover\:px-#{$key}:hover {
+    padding-left: $value;
+    padding-right: $value;
+  }
+
+  .hover\:py-#{$key}:hover {
+    padding-top: $value;
+    padding-bottom: $value;
+  }
+
+  .hover\:pt-#{$key}:hover {
+    padding-top: $value;
+  }
+
+  .hover\:pr-#{$key}:hover {
+    padding-right: $value;
+  }
+
+  .hover\:pb-#{$key}:hover {
+    padding-bottom: $value;
+  }
+
+  .hover\:pl-#{$key}:hover {
+    padding-left: $value;
+  }
+
+  .hover\:m-#{$key}:hover {
+    margin: $value;
+  }
+
+  .hover\:mx-#{$key}:hover {
+    margin-left: $value;
+    margin-right: $value;
+  }
+
+  .hover\:my-#{$key}:hover {
+    margin-top: $value;
+    margin-bottom: $value;
+  }
+
+  .hover\:mt-#{$key}:hover {
+    margin-top: $value;
+  }
+
+  .hover\:mr-#{$key}:hover {
+    margin-right: $value;
+  }
+
+  .hover\:mb-#{$key}:hover {
+    margin-bottom: $value;
+  }
+
+  .hover\:ml-#{$key}:hover {
+    margin-left: $value;
+  }
+
+  .hover\:space-x-#{$key}:hover > * + * {
+    margin-left: $value;
+  }
+
+  .hover\:space-y-#{$key}:hover > * + * {
+    margin-top: $value;
+  }
+
+  .hover\:min-w-#{$key}:hover {
+    min-width: $value;
+  }
+
+  .hover\:min-h-#{$key}:hover {
+    min-height: $value;
+  }
+}

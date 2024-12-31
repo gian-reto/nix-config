@@ -1,7 +1,7 @@
 {
   imports = [
     # Features.
-    ./features/ags.nix
+    ./features/ags
     ./features/alacritty.nix
     ./features/audio.nix
     ./features/bash.nix

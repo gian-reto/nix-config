@@ -1,0 +1,62 @@
+.gtk-calendar {
+  border: none;
+
+  header {
+    border: none;
+
+    button {
+      border-radius: 9999px;
+      color: var(--gray-100);
+
+      &:hover {
+        color: var(--white);
+      }
+    }
+
+    stack.month,
+    label.year {
+      color: var(--white);
+      font-size: 14px;
+      font-weight: 500;
+    }
+  }
+
+  grid {
+    label.day-name {
+      color: var(--gray-100);
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    label.week-number,
+    label.day-number {
+      min-width: 24px;
+      min-height: 24px;
+    }
+
+    label.week-number {
+      background-color: var(--gray-500);
+      border-radius: 4px;
+      color: var(--gray-100);
+      font-size: 12px;
+      font-weight: 500;
+      margin: 9px 5px;
+    }
+
+    label.day-number {
+      border-radius: 9999px;
+      font-size: 12px;
+      font-weight: 500;
+      margin: 5px 1px;
+    }
+
+    label.other-month {
+      color: var(--gray-300);
+    }
+
+    label.today {
+      background-color: var(--primary-3);
+      color: var(--white);
+    }
+  }
+}

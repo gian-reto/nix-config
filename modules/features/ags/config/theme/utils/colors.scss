@@ -1,0 +1,181 @@
+@use "effects";
+
+$colors: (
+  "black": rgb(0, 0, 0),
+  "white": rgb(255, 255, 255),
+  "transparent": transparent,
+  "blue-1": var(--blue-1),
+  "blue-2": var(--blue-2),
+  "blue-3": var(--blue-3),
+  "blue-4": var(--blue-4),
+  "blue-5": var(--blue-5),
+  "green-1": var(--green-1),
+  "green-2": var(--green-2),
+  "green-3": var(--green-3),
+  "green-4": var(--green-4),
+  "green-5": var(--green-5),
+  "yellow-1": var(--yellow-1),
+  "yellow-2": var(--yellow-2),
+  "yellow-3": var(--yellow-3),
+  "yellow-4": var(--yellow-4),
+  "yellow-5": var(--yellow-5),
+  "orange-1": var(--orange-1),
+  "orange-2": var(--orange-2),
+  "orange-3": var(--orange-3),
+  "orange-4": var(--orange-4),
+  "orange-5": var(--orange-5),
+  "red-1": var(--red-1),
+  "red-2": var(--red-2),
+  "red-3": var(--red-3),
+  "red-4": var(--red-4),
+  "red-5": var(--red-5),
+  "purple-1": var(--purple-1),
+  "purple-2": var(--purple-2),
+  "purple-3": var(--purple-3),
+  "purple-4": var(--purple-4),
+  "purple-5": var(--purple-5),
+  "gray-50": var(--gray-50),
+  "gray-100": var(--gray-100),
+  "gray-200": var(--gray-200),
+  "gray-300": var(--gray-300),
+  "gray-400": var(--gray-400),
+  "gray-500": var(--gray-500),
+  "gray-600": var(--gray-600),
+  "gray-700": var(--gray-700),
+  "gray-800": var(--gray-800),
+  "gray-900": var(--gray-900),
+  "gray-950": var(--gray-950),
+  "primary-1": var(--primary-1),
+  "primary-2": var(--primary-2),
+  "primary-3": var(--primary-3),
+  "primary-4": var(--primary-4),
+  "primary-5": var(--primary-5),
+);
+
+@each $key, $value in $colors {
+  .bg-#{$key} {
+    background-color: $value;
+  }
+
+  .text-#{$key} {
+    color: $value;
+  }
+
+  .border-#{$key} {
+    border-color: $value;
+  }
+
+  .divide-#{$key} > * + * {
+    border-color: $value;
+  }
+
+  .shadow-#{$key} {
+    --local-shadow-color: #{$value};
+  }
+
+  .hover\:bg-#{$key}:hover {
+    background-color: $value;
+  }
+
+  .hover\:text-#{$key}:hover {
+    color: $value;
+  }
+
+  .hover\:border-#{$key}:hover {
+    border-color: $value;
+  }
+
+  .hover\:divide-#{$key}:hover > * + * {
+    border-color: $value;
+  }
+
+  .hover\:shadow-#{$key}:hover {
+    --local-shadow-color: #{$value};
+  }
+
+  .focus\:bg-#{$key}:focus {
+    background-color: $value;
+  }
+
+  .focus\:text-#{$key}:focus {
+    color: $value;
+  }
+
+  .focus\:border-#{$key}:focus {
+    border-color: $value;
+  }
+
+  .focus\:divide-#{$key}:focus > * + * {
+    border-color: $value;
+  }
+
+  .focus\:shadow-#{$key}:focus {
+    --local-shadow-color: #{$value};
+  }
+
+  .active\:bg-#{$key}:active {
+    background-color: $value;
+  }
+
+  .active\:text-#{$key}:active {
+    color: $value;
+  }
+
+  .active\:border-#{$key}:active {
+    border-color: $value;
+  }
+
+  .active\:divide-#{$key}:active > * + * {
+    border-color: $value;
+  }
+
+  .active\:shadow-#{$key}:active {
+    --local-shadow-color: #{$value};
+  }
+
+  .disabled\:bg-#{$key}:disabled {
+    background-color: $value;
+  }
+
+  .disabled\:text-#{$key}:disabled {
+    color: $value;
+  }
+
+  .disabled\:border-#{$key}:disabled {
+    border-color: $value;
+  }
+
+  .disabled\:divide-#{$key}:disabled > * + * {
+    border-color: $value;
+  }
+
+  .disabled\:shadow-#{$key}:disabled {
+    --local-shadow-color: #{$value};
+  }
+
+  .checked\:bg-#{$key}:checked {
+    background-color: $value;
+  }
+
+  .checked\:text-#{$key}:checked {
+    color: $value;
+  }
+
+  .checked\:border-#{$key}:checked {
+    border-color: $value;
+  }
+
+  .checked\:divide-#{$key}:checked > * + * {
+    border-color: $value;
+  }
+
+  .checked\:shadow-#{$key}:checked {
+    --local-shadow-color: #{$value};
+  }
+
+  @each $opacity-key, $opacity-value in effects.$opacities {
+    .bg-#{$key}\/#{$opacity-key} {
+      background-color: rgb(from $value r g b / $opacity-value);
+    }
+  }
+}
