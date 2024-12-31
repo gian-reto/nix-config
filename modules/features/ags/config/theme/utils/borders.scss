@@ -1,0 +1,459 @@
+/* 
+ * Adapted from TailwindCSS default border radius scale.
+ * 
+ * See: https://tailwindcss.com/docs/border-radius.
+ */
+$radii: (
+  "none": 0px,
+  "sm": 2px,
+  "md": 6px,
+  "lg": 8px,
+  "xl": 12px,
+  "2xl": 16px,
+  "3xl": 24px,
+  "full": 9999px,
+);
+
+$default-radius: 4px;
+
+.rounded {
+  border-radius: $default-radius;
+}
+
+.rounded-t {
+  border-top-left-radius: $default-radius;
+  border-top-right-radius: $default-radius;
+}
+
+.rounded-r {
+  border-top-right-radius: $default-radius;
+  border-bottom-right-radius: $default-radius;
+}
+
+.rounded-b {
+  border-bottom-left-radius: $default-radius;
+  border-bottom-right-radius: $default-radius;
+}
+
+.rounded-l {
+  border-top-left-radius: $default-radius;
+  border-bottom-left-radius: $default-radius;
+}
+
+@each $key, $value in $radii {
+  .rounded-#{$key} {
+    border-radius: $value;
+  }
+
+  .rounded-t-#{$key} {
+    border-top-left-radius: $value;
+    border-top-right-radius: $value;
+  }
+
+  .rounded-r-#{$key} {
+    border-top-right-radius: $value;
+    border-bottom-right-radius: $value;
+  }
+
+  .rounded-b-#{$key} {
+    border-bottom-left-radius: $value;
+    border-bottom-right-radius: $value;
+  }
+
+  .rounded-l-#{$key} {
+    border-top-left-radius: $value;
+    border-bottom-left-radius: $value;
+  }
+}
+
+$widths: (
+  "0": 0px,
+  "2": 2px,
+  "4": 4px,
+  "6": 6px,
+  "8": 8px,
+);
+
+$default-width: 1px;
+
+.border {
+  border-width: $default-width;
+}
+
+.border-t {
+  border-top-width: $default-width;
+}
+
+.border-r {
+  border-right-width: $default-width;
+}
+
+.border-b {
+  border-bottom-width: $default-width;
+}
+
+.border-l {
+  border-left-width: $default-width;
+}
+
+.border-x {
+  border-left-width: $default-width;
+  border-right-width: $default-width;
+}
+
+.border-y {
+  border-top-width: $default-width;
+  border-bottom-width: $default-width;
+}
+
+.divide-x > * + * {
+  border-left-width: $default-width;
+  border-right-width: $default-width;
+}
+
+.divide-y > * + * {
+  border-top-width: $default-width;
+  border-bottom-width: $default-width;
+}
+
+.hover\:border:hover {
+  border-width: $default-width;
+}
+
+.hover\:border-t:hover {
+  border-top-width: $default-width;
+}
+
+.hover\:border-r:hover {
+  border-right-width: $default-width;
+}
+
+.hover\:border-b:hover {
+  border-bottom-width: $default-width;
+}
+
+.hover\:border-l:hover {
+  border-left-width: $default-width;
+}
+
+.hover\:border-x:hover {
+  border-left-width: $default-width;
+  border-right-width: $default-width;
+}
+
+.hover\:border-y:hover {
+  border-top-width: $default-width;
+  border-bottom-width: $default-width;
+}
+
+.focus\:border:focus {
+  border-width: $default-width;
+}
+
+.focus\:border-t:focus {
+  border-top-width: $default-width;
+}
+
+.focus\:border-r:focus {
+  border-right-width: $default-width;
+}
+
+.focus\:border-b:focus {
+  border-bottom-width: $default-width;
+}
+
+.focus\:border-l:focus {
+  border-left-width: $default-width;
+}
+
+.focus\:border-x:focus {
+  border-left-width: $default-width;
+  border-right-width: $default-width;
+}
+
+.focus\:border-y:focus {
+  border-top-width: $default-width;
+  border-bottom-width: $default-width;
+}
+
+.active\:border:active {
+  border-width: $default-width;
+}
+
+.active\:border-t:active {
+  border-top-width: $default-width;
+}
+
+.active\:border-r:active {
+  border-right-width: $default-width;
+}
+
+.active\:border-b:active {
+  border-bottom-width: $default-width;
+}
+
+.active\:border-l:active {
+  border-left-width: $default-width;
+}
+
+.active\:border-x:active {
+  border-left-width: $default-width;
+  border-right-width: $default-width;
+}
+
+.active\:border-y:active {
+  border-top-width: $default-width;
+  border-bottom-width: $default-width;
+}
+
+.disabled\:border:disabled {
+  border-width: $default-width;
+}
+
+.disabled\:border-t:disabled {
+  border-top-width: $default-width;
+}
+
+.disabled\:border-r:disabled {
+  border-right-width: $default-width;
+}
+
+.disabled\:border-b:disabled {
+  border-bottom-width: $default-width;
+}
+
+.disabled\:border-l:disabled {
+  border-left-width: $default-width;
+}
+
+.disabled\:border-x:disabled {
+  border-left-width: $default-width;
+  border-right-width: $default-width;
+}
+
+.disabled\:border-y:disabled {
+  border-top-width: $default-width;
+  border-bottom-width: $default-width;
+}
+
+.checked\:border:checked {
+  border-width: $default-width;
+}
+
+.checked\:border-t:checked {
+  border-top-width: $default-width;
+}
+
+.checked\:border-r:checked {
+  border-right-width: $default-width;
+}
+
+.checked\:border-b:checked {
+  border-bottom-width: $default-width;
+}
+
+.checked\:border-l:checked {
+  border-left-width: $default-width;
+}
+
+.checked\:border-x:checked {
+  border-left-width: $default-width;
+  border-right-width: $default-width;
+}
+
+.checked\:border-y:checked {
+  border-top-width: $default-width;
+  border-bottom-width: $default-width;
+}
+
+@each $key, $value in $widths {
+  .border-#{$key} {
+    border-width: $value;
+  }
+
+  .border-t-#{$key} {
+    border-top-width: $value;
+  }
+
+  .border-r-#{$key} {
+    border-right-width: $value;
+  }
+
+  .border-b-#{$key} {
+    border-bottom-width: $value;
+  }
+
+  .border-l-#{$key} {
+    border-left-width: $value;
+  }
+
+  .border-x-#{$key} {
+    border-left-width: $value;
+    border-right-width: $value;
+  }
+
+  .border-y-#{$key} {
+    border-top-width: $value;
+    border-bottom-width: $value;
+  }
+
+  .divide-x-#{$key} > * + * {
+    border-left-width: $value;
+    border-right-width: $value;
+  }
+
+  .divide-y-#{$key} > * + * {
+    border-top-width: $value;
+    border-bottom-width: $value;
+  }
+
+  .hover\:border-#{$key}:hover {
+    border-width: $value;
+  }
+
+  .hover\:border-t-#{$key}:hover {
+    border-top-width: $value;
+  }
+
+  .hover\:border-r-#{$key}:hover {
+    border-right-width: $value;
+  }
+
+  .hover\:border-b-#{$key}:hover {
+    border-bottom-width: $value;
+  }
+
+  .hover\:border-l-#{$key}:hover {
+    border-left-width: $value;
+  }
+
+  .hover\:border-x-#{$key}:hover {
+    border-left-width: $value;
+    border-right-width: $value;
+  }
+
+  .hover\:border-y-#{$key}:hover {
+    border-top-width: $value;
+    border-bottom-width: $value;
+  }
+
+  .focus\:border-#{$key}:focus {
+    border-width: $value;
+  }
+
+  .focus\:border-t-#{$key}:focus {
+    border-top-width: $value;
+  }
+
+  .focus\:border-r-#{$key}:focus {
+    border-right-width: $value;
+  }
+
+  .focus\:border-b-#{$key}:focus {
+    border-bottom-width: $value;
+  }
+
+  .focus\:border-l-#{$key}:focus {
+    border-left-width: $value;
+  }
+
+  .focus\:border-x-#{$key}:focus {
+    border-left-width: $value;
+    border-right-width: $value;
+  }
+
+  .focus\:border-y-#{$key}:focus {
+    border-top-width: $value;
+    border-bottom-width: $value;
+  }
+
+  .active\:border-#{$key}:active {
+    border-width: $value;
+  }
+
+  .active\:border-t-#{$key}:active {
+    border-top-width: $value;
+  }
+
+  .active\:border-r-#{$key}:active {
+    border-right-width: $value;
+  }
+
+  .active\:border-b-#{$key}:active {
+    border-bottom-width: $value;
+  }
+
+  .active\:border-l-#{$key}:active {
+    border-left-width: $value;
+  }
+
+  .active\:border-x-#{$key}:active {
+    border-left-width: $value;
+    border-right-width: $value;
+  }
+
+  .active\:border-y-#{$key}:active {
+    border-top-width: $value;
+    border-bottom-width: $value;
+  }
+
+  .disabled\:border-#{$key}:disabled {
+    border-width: $value;
+  }
+
+  .disabled\:border-t-#{$key}:disabled {
+    border-top-width: $value;
+  }
+
+  .disabled\:border-r-#{$key}:disabled {
+    border-right-width: $value;
+  }
+
+  .disabled\:border-b-#{$key}:disabled {
+    border-bottom-width: $value;
+  }
+
+  .disabled\:border-l-#{$key}:disabled {
+    border-left-width: $value;
+  }
+
+  .disabled\:border-x-#{$key}:disabled {
+    border-left-width: $value;
+    border-right-width: $value;
+  }
+
+  .disabled\:border-y-#{$key}:disabled {
+    border-top-width: $value;
+    border-bottom-width: $value;
+  }
+
+  .checked\:border-#{$key}:checked {
+    border-width: $value;
+  }
+
+  .checked\:border-t-#{$key}:checked {
+    border-top-width: $value;
+  }
+
+  .checked\:border-r-#{$key}:checked {
+    border-right-width: $value;
+  }
+
+  .checked\:border-b-#{$key}:checked {
+    border-bottom-width: $value;
+  }
+
+  .checked\:border-l-#{$key}:checked {
+    border-left-width: $value;
+  }
+
+  .checked\:border-x-#{$key}:checked {
+    border-left-width: $value;
+    border-right-width: $value;
+  }
+
+  .checked\:border-y-#{$key}:checked {
+    border-top-width: $value;
+    border-bottom-width: $value;
+  }
+}
