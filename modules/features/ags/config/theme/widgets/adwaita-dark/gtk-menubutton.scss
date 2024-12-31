@@ -1,0 +1,11 @@
+.gtk-menubutton {
+  button {
+    background-color: transparent;
+    filter: none;
+    padding: 0;
+
+    image {
+      -gtk-icon-style: requested;
+    }
+  }
+}

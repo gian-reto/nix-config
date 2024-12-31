@@ -134,7 +134,7 @@
     ghostty-hm-module.url = "github:clo4/ghostty-hm-module";
 
     # Other stuff.
-    ags.url = "github:aylur/ags/v1";
+    ags.url = "github:aylur/ags";
 
     nix-vscode-extensions = {
       url = "github:nix-community/nix-vscode-extensions";
