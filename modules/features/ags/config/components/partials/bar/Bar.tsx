@@ -113,15 +113,6 @@ export default function Bar(props: BarProps) {
           hexpand={false}
         >
           <Tray
-            extraItems={[
-              {
-                iconName: "system-search-symbolic",
-                tooltipMarkup: "Launcher",
-                onClicked: () => {
-                  App.toggle_window("launcher");
-                },
-              },
-            ]}
             halign={Gtk.Align.END}
             hexpand={false}
             valign={Gtk.Align.CENTER}
