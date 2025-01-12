@@ -200,10 +200,8 @@ in {
         ];
 
         layerrule = [
-          "blur,bar-.*"
-          "ignorezero,bar-.*"
-          "blur,launcher"
-          "ignorealpha 0.75,launcher"
+          "blur,gtk4-layer-shell"
+          "ignorealpha 0.75,gtk4-layer-shell"
         ];
 
         decoration = {
