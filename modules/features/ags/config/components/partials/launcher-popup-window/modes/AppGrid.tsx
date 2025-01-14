@@ -92,7 +92,7 @@ export const AppGrid = (props: AppGridProps) => {
                               tooltipText={app.name}
                               valign={Gtk.Align.CENTER}
                               vexpand={false}
-                              onButtonPressed={() => {
+                              onClicked={() => {
                                 onItemClicked?.(self, app);
                               }}
                             >

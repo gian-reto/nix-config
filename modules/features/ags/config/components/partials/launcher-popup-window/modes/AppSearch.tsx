@@ -111,18 +111,21 @@ export const AppSearch = (props: AppSearchProps) => {
           self &&
           appsList.map((app) => (
             <GtkListBoxRow
+              focusable={false}
               name={app.name}
               cssClasses={["bg-transparent", "p-0"]}
             >
               <revealer
+                focusable={false}
                 revealChild={bind(searchResultsState).as((searchResults) =>
                   searchResults.has(app.name)
                 )}
               >
                 <SearchResult
                   app={app}
+                  focusable={true}
                   window={window}
-                  onButtonPressed={() => {
+                  onClicked={() => {
                     onResultClicked?.(self, app);
                   }}
                 />
@@ -140,7 +143,7 @@ type SearchResultProps = ButtonProps & {
 };
 
 export const SearchResult = (props: SearchResultProps) => {
-  const { app, window, onClicked, ...restProps } = props;
+  const { app, window, ...restProps } = props;
 
   const icon = getIconFromNameOrPath(app.iconName, window, 64);
 
