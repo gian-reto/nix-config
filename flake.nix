@@ -124,15 +124,6 @@
       inputs.systems.follows = "hyprland/systems";
     };
 
-    # Ghostty.
-    ghostty = {
-      url = "github:ghostty-org/ghostty";
-      inputs.nixpkgs-unstable.follows = "nixpkgs";
-      inputs.nixpkgs-stable.follows = "nixpkgs-stable";
-    };
-
-    ghostty-hm-module.url = "github:clo4/ghostty-hm-module";
-
     # Other stuff.
     ags.url = "github:aylur/ags";
 

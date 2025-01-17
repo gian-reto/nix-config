@@ -1,9 +1,7 @@
 {
   config,
-  inputs,
   lib,
   osConfig,
-  pkgs,
   ...
 }: {
   options.features.ghostty.enable = lib.mkOption {
@@ -14,10 +12,6 @@
     default = false;
     example = true;
   };
-
-  config.hmModules = lib.mkIf config.features.ghostty.enable [
-    inputs.ghostty-hm-module.homeModules.default
-  ];
 
   config.hm = lib.mkIf config.features.ghostty.enable {
     xdg.mimeApps = {
@@ -32,8 +26,9 @@
     programs.ghostty = {
       enable = true;
 
-      package = inputs.ghostty.packages.${pkgs.system}.default;
-      shellIntegration.enable = true;
+      enableBashIntegration = true;
+      enableZshIntegration = true;
+
       settings = {
         # Misc. settings.
         auto-update = "off";
