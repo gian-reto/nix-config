@@ -15,7 +15,8 @@
     hardware.enableRedistributableFirmware = true;
 
     # Enable mounting of `nfs` shares.
-    boot.initrd.supportedFilesystems = ["nfs"];
+    boot.supportedFilesystems = ["nfs"];
+    environment.systemPackages = with pkgs; [nfs-utils];
 
     programs = {
       dconf.enable = true;
