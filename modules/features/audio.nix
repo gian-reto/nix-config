@@ -17,7 +17,7 @@
     security.rtkit.enable = true;
 
     # Disable `pulseaudio`.
-    hardware.pulseaudio.enable = lib.mkForce false;
+    services.pulseaudio.enable = lib.mkForce false;
 
     # Probably needed for AirPlay support.
     services.avahi.enable = true;
