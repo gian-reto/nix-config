@@ -1,4 +1,5 @@
 {
+  config,
   lib,
   pkgs,
   ...
@@ -14,17 +15,21 @@ in {
       users.users."${username}" = {
         isNormalUser = true;
         shell = pkgs.zsh;
-        # TODO: Make some groups optional based on config.
-        extraGroups = [
-          "audio"
-          "git"
-          "kvm"
-          "lp"
-          "networkmanager"
-          "podman"
-          "video"
-          "wheel"
-        ];
+        # TODO: Make additional groups optional based on config.
+        extraGroups =
+          [
+            "audio"
+            "git"
+            "kvm"
+            "lp"
+            "networkmanager"
+            "podman"
+            "video"
+            "wheel"
+          ]
+          ++ (lib.optionals config.features.android.enable [
+            "adbusers"
+          ]);
 
         openssh.authorizedKeys.keys = lib.splitString "\n" (builtins.readFile ../../files/ssh.pub);
       };

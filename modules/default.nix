@@ -3,6 +3,7 @@
     # Features.
     ./features/ags
     ./features/alacritty.nix
+    ./features/android.nix
     ./features/audio.nix
     ./features/bash.nix
     ./features/bat.nix

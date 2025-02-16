@@ -1,7 +1,7 @@
 {
-  pkgs,
   inputs,
   lib,
+  pkgs,
   ...
 }: {
   osModules = [
@@ -36,6 +36,9 @@
       };
     };
   };
+
+  # Enable individual features.
+  features.android.enable = true;
 
   # Machine-specific configuration.
   os = {
