@@ -172,27 +172,29 @@
             }
           ];
 
-          extensions = let
-            # FIXME: For some reason, `firefox-addons` doesn't respect or know
-            # about `nixpkgs.config.allowUnfree` being set to `true`, and so
-            # unfree plugins are blocked from evaluation. This is a workaround
-            # to enable unfree plugins. See:
-            # https://github.com/pluiedev/flake/blob/main/users/leah/programs/firefox/default.nix.
-            gaslight = pkgs: pkgs.overrideAttrs {meta.license.free = true;};
-          in
-            with inputs.firefox-addons.packages.${pkgs.system};
-              map gaslight [
-                decentraleyes
-                don-t-fuck-with-paste
-                clearurls
-                consent-o-matic
-                cookie-autodelete
-                enhanced-h264ify
-                kagi-search
-                onepassword-password-manager
-                privacy-badger
-                ublock-origin
-              ];
+          extensions = {
+            packages = let
+              # FIXME: For some reason, `firefox-addons` doesn't respect or know
+              # about `nixpkgs.config.allowUnfree` being set to `true`, and so
+              # unfree plugins are blocked from evaluation. This is a workaround
+              # to enable unfree plugins. See:
+              # https://github.com/pluiedev/flake/blob/main/users/leah/programs/firefox/default.nix.
+              gaslight = pkgs: pkgs.overrideAttrs {meta.license.free = true;};
+            in
+              with inputs.firefox-addons.packages.${pkgs.system};
+                map gaslight [
+                  decentraleyes
+                  don-t-fuck-with-paste
+                  clearurls
+                  consent-o-matic
+                  cookie-autodelete
+                  enhanced-h264ify
+                  kagi-search
+                  onepassword-password-manager
+                  privacy-badger
+                  ublock-origin
+                ];
+          };
 
           search = {
             force = true;
