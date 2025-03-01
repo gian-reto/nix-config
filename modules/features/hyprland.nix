@@ -1,9 +1,10 @@
 {
-  pkgs,
-  lib,
-  inputs,
   config,
   hmConfig,
+  inputs,
+  lib,
+  osConfig,
+  pkgs,
   ...
 }: let
   mod = "SUPER";
@@ -25,11 +26,7 @@ in {
     };
 
     programs = {
-      hyprland = {
-        enable = true;
-
-        package = pkgs.hyprland;
-      };
+      hyprland.enable = true;
       xwayland.enable = true;
     };
 
@@ -37,18 +34,28 @@ in {
       enable = true;
 
       wlr.enable = lib.mkForce false;
+      xdgOpenUsePortal = true;
+
       config = {
-        common = {
+        common.default = ["gtk"];
+        hyprland = {
           default = [
-            "xdph"
             "gtk"
+            "hyprland"
           ];
           "org.freedesktop.impl.portal.Secret" = ["gnome-keyring"];
-          "org.freedesktop.portal.FileChooser" = ["xdg-desktop-portal-gtk"];
+          "org.freedesktop.impl.portal.FileChooser" = ["xdg-desktop-portal-gtk"];
         };
       };
-      extraPortals = with pkgs; [xdg-desktop-portal-gtk];
-      xdgOpenUsePortal = true;
+      configPackages = [
+        pkgs.xdg-desktop-portal-gtk
+        osConfig.programs.hyprland.portalPackage
+        pkgs.xdg-desktop-portal
+      ];
+      extraPortals = with pkgs; [
+        xdg-desktop-portal-gtk
+        xdg-desktop-portal
+      ];
     };
   };
 
@@ -89,7 +96,15 @@ in {
     wayland.windowManager.hyprland = {
       enable = true;
 
-      package = pkgs.hyprland;
+      package = null;
+      portalPackage = null;
+
+      systemd = {
+        enable = true;
+
+        enableXdgAutostart = true;
+        variables = ["--all"];
+      };
 
       settings = let
         active = "0x66585E6A";
@@ -114,7 +129,6 @@ in {
 
         exec-once =
           [
-            "dbus-update-activation-environment --systemd --all"
             "hyprpaper"
           ]
           ++ (
@@ -127,9 +141,6 @@ in {
               "hyprctl setcursor ${hmConfig.home.pointerCursor.name} ${toString hmConfig.home.pointerCursor.size}"
             ]
           )
-          ++ [
-            "systemctl --user restart xdg-desktop-portal xdg-desktop-portal-hyprland"
-          ]
           ++ (lib.optionals config.features.ags.enable ["ags run --gtk4"])
           ++ [
             "sleep 5 && clipse -listen"

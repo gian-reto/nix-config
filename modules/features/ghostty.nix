@@ -33,6 +33,9 @@
         # Misc. settings.
         auto-update = "off";
 
+        # Window settings.
+        window-decoration = "client";
+
         # Font settings.
         font-family = builtins.head osConfig.fonts.fontconfig.defaultFonts.monospace;
         font-style-bold = false;

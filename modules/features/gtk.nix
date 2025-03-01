@@ -24,7 +24,6 @@
     gtk = {
       enable = true;
 
-      # See: https://github.com/lassekongo83/adw-gtk3.
       theme = {
         name = "adw-gtk3-dark";
         package = pkgs.adw-gtk3;
@@ -44,22 +43,31 @@
           "file://${home}/Pictures"
           "file://${home}/Videos"
         ];
-        extraConfig.gtk-application-prefer-dark-theme = true;
-      };
-      gtk4.extraConfig = {
-        gtk-application-prefer-dark-theme = true;
+        extraConfig = {
+          gtk-application-prefer-dark-theme = true;
+        };
       };
     };
 
     # Prevent theme package from applying to GTK4.
     xdg.configFile."gtk-4.0/gtk.css".enable = lib.mkForce false;
 
+    # Force dark theme for `libadwaita` apps.
+    xdg.configFile."gtk-4.0/settings.ini".text = ''
+      [AdwStyleManager]
+      color-scheme=ADW_COLOR_SCHEME_FORCE_DARK
+    '';
+
     # GNOME theme settings for apps that somehow don't pick up the configured
     # themes above.
-    dconf.settings = {
-      "org/gnome/desktop/interface" = {
-        color-scheme = "prefer-dark";
-        gtk-theme = "adw-gtk3-dark";
+    dconf = {
+      enable = true;
+
+      settings = {
+        "org/gnome/desktop/interface" = {
+          color-scheme = "prefer-dark";
+          gtk-theme = "adw-gtk3-dark";
+        };
       };
     };
   };
