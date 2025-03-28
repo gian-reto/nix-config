@@ -49,27 +49,39 @@ in {
               rust-lang.rust-analyzer
               signageos.signageos-vscode-sops
             ])
-            ++ (with extensions.vscode-marketplace; [
-              amatiasq.sort-imports
-              csstools.postcss
-              dbaeumer.vscode-eslint
-              github.copilot
-              github.copilot-chat
-              heybourn.headwind
-              mikestead.dotenv
-              mrmlnc.vscode-json5
-              piousdeer.adwaita-theme
-              redhat.vscode-yaml
-              s-nlf-fh.glassit
-              solomonkinard.git-blame
-              stkb.rewrap
-              svelte.svelte-vscode
-              tamasfe.even-better-toml
-              teabyii.ayu
-              wayou.vscode-todo-highlight
-              wholroyd.jinja
-              yzhang.markdown-all-in-one
-            ]);
+            ++ (
+              let
+                # FIXME: For some reason, `extensions.vscode-marketplace`
+                # doesn't respect or know about `nixpkgs.config.allowUnfree`
+                # being set to `true`, and so unfree plugins are blocked from
+                # evaluation. This is a workaround to enable unfree plugins. See
+                # (originally for `firefox`):
+                # https://github.com/pluiedev/flake/blob/main/users/leah/programs/firefox/default.nix.
+                gaslight = pkg: pkg.overrideAttrs {meta.license.free = true;};
+                marketplaceExtensions = with extensions.vscode-marketplace; [
+                  amatiasq.sort-imports
+                  csstools.postcss
+                  dbaeumer.vscode-eslint
+                  github.copilot
+                  github.copilot-chat
+                  heybourn.headwind
+                  mikestead.dotenv
+                  mrmlnc.vscode-json5
+                  piousdeer.adwaita-theme
+                  redhat.vscode-yaml
+                  s-nlf-fh.glassit
+                  solomonkinard.git-blame
+                  stkb.rewrap
+                  svelte.svelte-vscode
+                  tamasfe.even-better-toml
+                  teabyii.ayu
+                  wayou.vscode-todo-highlight
+                  wholroyd.jinja
+                  yzhang.markdown-all-in-one
+                ];
+              in
+                map gaslight marketplaceExtensions
+            );
 
           userSettings = {
             "telemetry.telemetryLevel" = "off";
