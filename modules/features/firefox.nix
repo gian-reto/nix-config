@@ -207,18 +207,28 @@
           search = {
             force = true;
 
-            default = "Kagi";
-            order = ["Kagi" "DuckDuckGo" "YouTube" "GitHub" "NixOS Options" "Nix Packages" "HackerNews"];
+            default = "kagi";
+            order = [
+              "kagi"
+              "ddg"
+              "youtube"
+              "github"
+              "nixos-options"
+              "nix-packages"
+              "home-manager-options"
+              "hacker-news"
+            ];
 
             engines = {
-              "Bing".metaData.hidden = true;
-              "Amazon.com".metaData.hidden = true;
-              "Google".metaData.hidden = true;
-              "eBay".metaData.hidden = true;
-              "Qwant".metaData.hidden = true;
+              amazondotcom-us.metaData.hidden = true;
+              bing.metaData.hidden = true;
+              ebay.metaData.hidden = true;
+              google.metaData.hidden = true;
+              qwant.metaData.hidden = true;
 
-              "Kagi" = {
-                iconUpdateURL = "https://kagi.com/favicon.ico";
+              kagi = {
+                name = "Kagi";
+                icon = "https://kagi.com/favicon.ico";
                 updateInterval = 24 * 60 * 60 * 1000;
                 definedAliases = ["@k"];
                 urls = [
@@ -234,8 +244,9 @@
                 ];
               };
 
-              "YouTube" = {
-                iconUpdateURL = "https://youtube.com/favicon.ico";
+              youtube = {
+                name = "YouTube";
+                icon = "https://youtube.com/favicon.ico";
                 updateInterval = 24 * 60 * 60 * 1000;
                 definedAliases = ["@yt"];
                 urls = [
@@ -251,8 +262,9 @@
                 ];
               };
 
-              "GitHub" = {
-                iconUpdateURL = "https://github.com/favicon.ico";
+              github = {
+                name = "GitHub";
+                icon = "https://github.com/favicon.ico";
                 updateInterval = 24 * 60 * 60 * 1000;
                 definedAliases = ["@gh"];
 
@@ -269,7 +281,8 @@
                 ];
               };
 
-              "Nix Packages" = {
+              nix-packages = {
+                name = "Nix Packages";
                 icon = "${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake.svg";
                 definedAliases = ["@np"];
                 urls = [
@@ -289,7 +302,8 @@
                 ];
               };
 
-              "NixOS Options" = {
+              nixos-options = {
+                name = "NixOS Options";
                 icon = "${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake.svg";
                 definedAliases = ["@no"];
                 urls = [
@@ -309,7 +323,8 @@
                 ];
               };
 
-              "Home Manager Options" = {
+              home-manager-options = {
+                name = "Home Manager Options";
                 icon = "${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake.svg";
                 definedAliases = ["@hm"];
 
@@ -326,8 +341,9 @@
                 ];
               };
 
-              "HackerNews" = {
-                iconUpdateURL = "https://hn.algolia.com/favicon.ico";
+              hacker-news = {
+                name = "Hacker News";
+                icon = "https://hn.algolia.com/favicon.ico";
                 updateInterval = 24 * 60 * 60 * 1000;
                 definedAliases = ["@hn"];
 
