@@ -183,6 +183,7 @@
 
         apostrophe # Minimal markdown editor.
         binary # Number base converter.
+        code-cursor # Cursor editor.
         collision # File hash verifier.
         curtail # Image compressor.
         d-spy # D-Bus exploration tool.
