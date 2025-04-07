@@ -32,6 +32,11 @@ in {
           IdentityAgent ${gpgAgentPath}
           User root
 
+        Host cassandra
+          HostName 192.168.10.11
+          IdentityAgent ${gpgAgentPath}
+          User root
+
         Host *
           IdentityAgent ${_1passwordAgentPath}
       '';

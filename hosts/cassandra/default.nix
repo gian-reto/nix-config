@@ -5,7 +5,9 @@
   ...
 }: {
   osModules = [
+    inputs.disko.nixosModules.disko
     inputs.nixos-x13s.nixosModules.default
+    ./disk-configuration.nix
     ./hardware-configuration.nix
   ];
 
