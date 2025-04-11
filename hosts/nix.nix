@@ -68,7 +68,10 @@ in {
       dev.enable = false;
     };
 
-    nixpkgs.overlays = [(import ../pkgs/overlays)];
+    nixpkgs.overlays = [
+      (import ../pkgs/overlays)
+      inputs.vscode-insiders.overlays.default
+    ];
 
     nix = {
       package = inputs.nixpkgs-stable.legacyPackages.${pkgs.system}.nix;

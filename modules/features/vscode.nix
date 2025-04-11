@@ -18,7 +18,15 @@ in {
   };
 
   config.hm = lib.mkIf config.features.vscode.enable {
-    home.file.".vscode/argv.json" = lib.mkIf config.features.security.enable {
+    xdg.mimeApps = {
+      enable = true;
+
+      defaultApplications = {
+        "text/plain" = ["code-insiders.desktop"];
+      };
+    };
+
+    home.file.".vscode-insiders/argv.json" = lib.mkIf config.features.security.enable {
       text = builtins.toJSON {
         disable-hardware-acceleration = false;
         enable-crash-reporter = false;
@@ -30,8 +38,8 @@ in {
     programs.vscode = {
       enable = true;
 
+      package = pkgs.vscode-insiders;
       mutableExtensionsDir = true;
-
       profiles = {
         default = {
           enableExtensionUpdateCheck = true;

@@ -1116,7 +1116,8 @@
         "nixos-x13s": "nixos-x13s",
         "nixpkgs": "nixpkgs_3",
         "nixpkgs-stable": "nixpkgs-stable",
-        "systems": "systems_3"
+        "systems": "systems_3",
+        "vscode-insiders": "vscode-insiders"
       }
     },
     "systems": {
@@ -1161,6 +1162,26 @@
       "original": {
         "owner": "nix-systems",
         "repo": "default-linux",
+        "type": "github"
+      }
+    },
+    "vscode-insiders": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1744330551,
+        "narHash": "sha256-jseNYU84EtFDgZP/UAGEYwWJ4CgaB53TsscM4CQHWjk=",
+        "owner": "iosmanthus",
+        "repo": "code-insiders-flake",
+        "rev": "9067c35ac4bd41d0d916bff1051d78384a5f9e97",
+        "type": "github"
+      },
+      "original": {
+        "owner": "iosmanthus",
+        "repo": "code-insiders-flake",
         "type": "github"
       }
     },

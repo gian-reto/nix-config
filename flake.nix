@@ -124,6 +124,16 @@
       inputs.systems.follows = "hyprland/systems";
     };
 
+    # VSCode stuff.
+    vscode-insiders = {
+      url = "github:iosmanthus/code-insiders-flake";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    nix-vscode-extensions = {
+      url = "github:nix-community/nix-vscode-extensions";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     # Other stuff.
     astal = {
       url = "github:aylur/astal/897c6d810acfd31e6cc55df7692755b177a84fcb";
@@ -133,11 +143,6 @@
       url = "github:aylur/ags/90db9b9fecc0f4228440d83107c6c745a35e7d77";
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.astal.follows = "astal";
-    };
-
-    nix-vscode-extensions = {
-      url = "github:nix-community/nix-vscode-extensions";
-      inputs.nixpkgs.follows = "nixpkgs";
     };
 
     firefox-addons = {
