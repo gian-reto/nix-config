@@ -47,7 +47,10 @@
     # See: https://github.com/lsd-rs/lsd.
     programs.lsd = {
       enable = true;
-      enableAliases = false;
+      # Disable shell integrations to use my own aliases.
+      enableBashIntegration = false;
+      enableFishIntegration = false;
+      enableZshIntegration = false;
     };
 
     # See: https://github.com/sharkdp/bat.
