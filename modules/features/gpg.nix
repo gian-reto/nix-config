@@ -24,7 +24,9 @@
       # GPG authentication subkey fingerprint.
       sshKeys = ["5F96D8F3B7279399B379E442BAA4C7E744431D44"];
       enableExtraSocket = true;
-      pinentryPackage = pkgs.pinentry-gnome3;
+      pinentry = {
+        package = pkgs.pinentry-gnome3;
+      };
     };
 
     home.packages = lib.optional hmConfig.gtk.enable pkgs.gcr;
