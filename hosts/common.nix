@@ -36,7 +36,7 @@
         NIXPKGS_ALLOW_UNFREE = "1";
         NIXPKGS_ALLOW_INSECURE = "1";
         # Default flake path for `nh` (https://github.com/viperML/nh).
-        FLAKE = "$HOME/Code/gian-reto/nix-config";
+        NH_FLAKE = "$HOME/Code/gian-reto/nix-config";
       };
 
       packages = with pkgs; [
