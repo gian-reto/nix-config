@@ -5,6 +5,7 @@
   config.features.bluetooth.enable = true;
   config.features.btop.enable = true;
   config.features.containers.enable = true;
+  config.features.dev-local.enable = true;
   config.features.direnv.enable = true;
   config.features.distributed-builds.enable = true;
   config.features.fastfetch.enable = true;
