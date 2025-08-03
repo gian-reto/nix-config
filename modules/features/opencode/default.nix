@@ -7,6 +7,12 @@
   ...
 }: let
   mcpPackages = inputs.mcp-servers-nix.packages.${pkgs.system};
+
+  # Create prompt files in the nix store.
+  codePrompt = pkgs.writeText "code-prompt.md" (builtins.readFile ./prompts/code.md);
+  debugPrompt = pkgs.writeText "debug-prompt.md" (builtins.readFile ./prompts/debug.md);
+  documentPrompt = pkgs.writeText "document-prompt.md" (builtins.readFile ./prompts/document.md);
+  planPrompt = pkgs.writeText "plan-prompt.md" (builtins.readFile ./prompts/plan.md);
 in {
   options.features.opencode.enable = lib.mkOption {
     description = ''
@@ -23,6 +29,7 @@ in {
 
       These are global guidelines that you MUST always adhere to.
 
+      - You MUST ALWAYS adhere to the current project's AGENTS.md file if it exists.
       - You MUST ALWAYS ask before running consequential commands (e.g., commands that apply changes to the system).
       - You MUST ALWAYS perform a deeper research to find existing patterns or integrations in the existing code.
       - You MUST ALWAYS mimic the existing code style and structure.
@@ -38,8 +45,42 @@ in {
       settings = {
         autoshare = false;
         autoupdate = false;
-        model = "openrouter/anthropic/claude-4-sonnet-20250522";
+        model = "github-copilot/claude-sonnet-4";
+        small_model = "github-copilot/gpt-4.1";
         theme = "system";
+
+        mode = {
+          code = {
+            model = "github-copilot/claude-sonnet-4";
+            prompt = "{file:${codePrompt}}";
+          };
+          debug = {
+            model = "github-copilot/claude-sonnet-4";
+            prompt = "{file:${debugPrompt}}";
+            tools = {
+              bash = true;
+              edit = false;
+              glob = true;
+              grep = true;
+              list = true;
+              patch = false;
+              read = true;
+              todowrite = false;
+              todoread = true;
+              webfetch = true;
+              write = false;
+            };
+          };
+          document = {
+            model = "github-copilot/gpt-4.1";
+            prompt = "{file:${documentPrompt}}";
+          };
+          plan = {
+            model = "openrouter/anthropic/claude-opus-4";
+            prompt = "{file:${planPrompt}}";
+            temperature = 0.2;
+          };
+        };
 
         mcp = {
           context7 = {
