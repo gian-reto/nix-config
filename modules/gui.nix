@@ -159,6 +159,7 @@
     features.gtk.enable = true;
     features.hyprland.enable = true;
     features.hyprlock.enable = true;
+    features.opencode.enable = true;
     features.security.enable = true;
     features.valent.enable = true;
     features.vscode.enable = true;

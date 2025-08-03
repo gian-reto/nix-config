@@ -79,6 +79,7 @@ in {
                   redhat.vscode-yaml
                   s-nlf-fh.glassit
                   solomonkinard.git-blame
+                  sst-dev.opencode
                   stkb.rewrap
                   svelte.svelte-vscode
                   tamasfe.even-better-toml
