@@ -38,7 +38,7 @@ in {
       settings = {
         autoshare = false;
         autoupdate = false;
-        model = "anthropic/claude-sonnet-4-20250514";
+        model = "openrouter/anthropic/claude-4-sonnet-20250522";
         theme = "system";
 
         mcp = {
