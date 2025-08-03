@@ -1,6 +1,7 @@
 {
   config,
   lib,
+  hmConfig,
   ...
 }: {
   options.features.zsh.enable = lib.mkOption {
@@ -59,7 +60,7 @@
     programs.zsh = {
       enable = true;
 
-      dotDir = ".config/zsh";
+      dotDir = "${hmConfig.xdg.configHome}/zsh";
       autosuggestion.enable = true;
       enableCompletion = true;
       syntaxHighlighting.enable = false;
