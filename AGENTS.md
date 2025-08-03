@@ -99,3 +99,7 @@ Note: The directory `modules/features/ags/` is different from the other features
 - Always consult the respective recipe in the `docs/` directory, if available.
 - Always ask for clarification if something is not clear.
 - Always ask before building or switching to a new configuration.
+
+## Tips & Tricks
+
+- Because this repository uses `combined-manager`, suggestions from error messages or web searches may not be directly applicable. For example, `config.xdg.configHome` is actually `hmConfig.xdg.configHome` in this repository, because the `home-manager` configuration is accessed through the `hmConfig` attribute. The same applies to the system config, which is accessed through the `osConfig` attribute. So, depending on the context, you may need to use `hmConfig` or `osConfig` instead of `config`.
