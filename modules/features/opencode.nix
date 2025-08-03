@@ -45,7 +45,7 @@ in {
           context7 = {
             type = "local";
             enabled = true;
-            command = ["${mcpPackages.context7-mcp}/bin/mcp-server-context7"];
+            command = ["${mcpPackages.context7-mcp}/bin/context7-mcp"];
           };
           fetch = {
             type = "local";
