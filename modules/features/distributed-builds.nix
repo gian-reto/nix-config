@@ -47,6 +47,16 @@ in {
           supportedFeatures = ["benchmark" "big-parallel"];
         }
       ];
+
+      settings = {
+        # Use nixbuild.net as a substituter (binary cache).
+        substituters = [
+          "ssh://eu.nixbuild.net"
+        ];
+        trusted-public-keys = [
+          "nixbuild.net/DOBGQF-1:0xJhg75e5ASA7BYHJhE2UH1HD12W6nvo+Yd4C38mlnw="
+        ];
+      };
     };
   };
 }

@@ -29,6 +29,9 @@
   };
   laptop.enable = true;
 
+  # Enable individual features.
+  features.distributed-builds.enable = true;
+
   # Machine-specific configuration.
   os = rec {
     programs = {
