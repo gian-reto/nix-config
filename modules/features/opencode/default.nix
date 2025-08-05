@@ -12,7 +12,6 @@
   codePrompt = pkgs.writeText "code-prompt.md" (builtins.readFile ./prompts/code.md);
   debugPrompt = pkgs.writeText "debug-prompt.md" (builtins.readFile ./prompts/debug.md);
   documentPrompt = pkgs.writeText "document-prompt.md" (builtins.readFile ./prompts/document.md);
-  planPrompt = pkgs.writeText "plan-prompt.md" (builtins.readFile ./prompts/plan.md);
 in {
   options.features.opencode.enable = lib.mkOption {
     description = ''
@@ -74,11 +73,6 @@ in {
           document = {
             model = "github-copilot/gpt-4.1";
             prompt = "{file:${documentPrompt}}";
-          };
-          plan = {
-            model = "openrouter/anthropic/claude-opus-4";
-            prompt = "{file:${planPrompt}}";
-            temperature = 0.2;
           };
         };
 
