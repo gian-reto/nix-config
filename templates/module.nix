@@ -22,8 +22,8 @@
   config = lib.mkIf config.mymodule.enable {
     # TODO: Toggle features or options that are specific to this module.
 
-    # Example: Enable the `tlp` feature from `modules/features/tlp.nix`:
+    # Example: Enable the `i18n` feature from `modules/features/i18n.nix`:
     #
-    # features.tlp.enable = true;
+    # features.i18n.enable = true;
   };
 }

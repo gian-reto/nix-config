@@ -27,7 +27,6 @@
       };
     };
   };
-  laptop.enable = true;
 
   # Enable individual features.
   features.distributed-builds.enable = true;
@@ -78,6 +77,15 @@
       modemmanager
       vulkan-tools
     ];
+
+    # Power management.
+    services.power-profiles-daemon.enable = false;
+    powerManagement.powertop.enable = true;
+    services.tlp = {
+      enable = true;
+
+      settings = import ./tlp.nix;
+    };
 
     # Fingerprint.
     services.fprintd.enable = true;

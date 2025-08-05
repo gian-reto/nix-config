@@ -30,7 +30,6 @@
     ./features/opencode
     ./features/security.nix
     ./features/ssh.nix
-    ./features/tlp.nix
     ./features/valent.nix
     ./features/vpn.nix
     ./features/vscode.nix
@@ -41,6 +40,5 @@
     # Modules.
     ./common.nix
     ./gui.nix
-    ./laptop.nix
   ];
 }

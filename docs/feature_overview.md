@@ -21,7 +21,6 @@ All features are defined in separate files in `modules/features`, and imported i
 There are additional modules that are only used by selected hosts which enable or disable certain features, such as:
 
 - `modules/gui.nix`: Enables features that are only relevant for graphical desktop environments, such as `hyprland`, `firefox`, etc.
-- `modules/laptop.nix`: Enables features that are only relevant for laptops, such as `tlp`, etc.
 
 Features might also be enabled directly in the configuration of a single host or user, e.g. in `hosts/<hostname>/default.nix` or `users/gian/default.nix`.
 
