@@ -7,6 +7,7 @@
   ...
 }: let
   mcpPackages = inputs.mcp-servers-nix.packages.${pkgs.system};
+  mcpNixosPackage = inputs.mcp-nixos.packages.${pkgs.system}.default;
 
   # Create prompt files in the nix store.
   codePrompt = pkgs.writeText "code-prompt.md" (builtins.readFile ./prompts/code.md);
@@ -105,6 +106,11 @@ in {
             type = "local";
             enabled = true;
             command = ["${mcpPackages.mcp-server-memory}/bin/mcp-server-memory"];
+          };
+          nixos = {
+            type = "local";
+            enabled = true;
+            command = ["${mcpNixosPackage}/bin/mcp-nixos"];
           };
           playwright = {
             type = "local";

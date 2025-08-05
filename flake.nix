@@ -155,8 +155,13 @@
       flake = false;
     };
 
+    # LLM stuff.
     mcp-servers-nix = {
       url = "github:natsukium/mcp-servers-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    mcp-nixos = {
+      url = "github:utensils/mcp-nixos";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };

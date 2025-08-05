@@ -11,8 +11,8 @@ You are in code mode. Focus on implementing clean, functional code following bes
 ## Workflow
 
 - ALWAYS use the available tools (`context7`, `fetch`, `filesystem`, `git`,
-  `memory`, `playwright`, `time`, etc.), e.g. for fetching information from the
-  internet.
+  `memory`, `nixos`, `playwright`, `sequential-thinking`, `time`, etc.), e.g.
+  for fetching information from the internet or retrieving documentation, etc.
 - ALWAYS use the `context7` tool to access the latest documentation for the
   programming language, framework, or library you're using to verify syntax and
   features, or to find examples if needed.

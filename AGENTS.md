@@ -95,10 +95,18 @@ Note: The directory `modules/features/ags/` is different from the other features
 
 ## Workflow
 
-- Always ask for confirmation before executing a command that applies changes to the system.
-- Always consult the respective recipe in the `docs/` directory, if available.
-- Always ask for clarification if something is not clear.
-- Always ask before building or switching to a new configuration.
+- ALWAYS use the `nixos` tool / MCP server to search NixOS packages, programs
+  and options, and verify that they actually exist. Also use the tool to find
+  `home-manager` programs and options.
+- ALWAYS use the `context7` tool to access the latest documentation for NixOS,
+  the Nix language, or the Nix package manager if you're unsure about syntax,
+  features, or to find examples if needed.
+- ALWAYS make sure that your code is suitable for a Nix configuration with
+  flakes enabled.
+- ALWAYS ask for confirmation before executing a command that applies changes to the system.
+- ALWAYS consult the respective recipe in the `docs/` directory, if available.
+- ALWAYS ask for clarification if something is not clear.
+- ALWAYS ask before building or switching to a new configuration.
 
 ## Tips & Tricks
 
