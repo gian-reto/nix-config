@@ -104,7 +104,7 @@
     services.dbus.packages = [pkgs.modemmanager];
     systemd.packages = [pkgs.modemmanager];
     systemd.units.ModemManager.enable = true;
-    networking.networkmanager = let
+    networking.modemmanager = let
       fccUnlockScript = rec {
         id = "2c7c:030a";
         path = "${pkgs.modemmanager}/share/ModemManager/fcc-unlock.available.d/${id}";
