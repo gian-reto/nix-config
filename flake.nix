@@ -63,6 +63,25 @@
           ];
         };
       };
+
+      # ThinkPad X13 Gen 4.
+      tycho = combinedManager.nixosSystem {
+        inherit inputs;
+
+        configuration = {
+          system = "x86_64-linux";
+
+          modules = [
+            # Modules.
+            ./modules
+            # Host configurations.
+            ./hosts/common.nix
+            ./hosts/tycho
+            # User configurations.
+            ./users/gian
+          ];
+        };
+      };
     };
   };
 

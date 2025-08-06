@@ -37,6 +37,11 @@ in {
           IdentityAgent ${gpgAgentPath}
           User root
 
+        Host tycho
+          HostName 192.168.10.12
+          IdentityAgent ${gpgAgentPath}
+          User root
+
         Host *
           IdentityAgent ${_1passwordAgentPath}
       '';
