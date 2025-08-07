@@ -50,10 +50,6 @@
       };
     };
 
-    networking = {
-      hostName = "tycho";
-    };
-
     # System wide packages.
     environment = {
       systemPackages = with pkgs; [
@@ -62,6 +58,10 @@
         glxinfo
         rocmPackages.rocminfo
         vulkan-tools
+
+        # Modem support.
+        modemmanager
+        libmbim # MBIM protocol support for the Quectel EM05-G modem.
       ];
 
       # Force RADV over AMDVLK.
@@ -99,26 +99,71 @@
     # Fingerprint.
     services.fprintd.enable = true;
 
-    # Network manager modemmanager setup.
-    services.udev.packages = [pkgs.modemmanager];
-    services.dbus.packages = [pkgs.modemmanager];
-    systemd.packages = [pkgs.modemmanager];
-    systemd.units.ModemManager.enable = true;
-    networking.modemmanager = let
-      fccUnlockScript = rec {
-        id = "2c7c:030a";
-        path = "${pkgs.modemmanager}/share/ModemManager/fcc-unlock.available.d/${id}";
-      };
-    in {
-      enable = true;
+    # NetworkManager / ModemManager setup.
+    networking = {
+      hostName = "tycho";
 
-      fccUnlockScripts = [fccUnlockScript];
+      # Cellular modem configuration.
+      modemmanager = {
+        enable = true;
+        package = pkgs.modemmanager;
+
+        fccUnlockScripts = [
+          {
+            id = "2c7c:030a"; # Quectel EM05-G modem USB ID.
+            path = "${pkgs.modemmanager}/share/ModemManager/fcc-unlock.available.d/2c7c:030a";
+          }
+        ];
+      };
+
+      networkmanager.ensureProfiles.profiles.swisscom = {
+        connection = {
+          id = "Swisscom";
+          type = "gsm";
+          autoconnect = true;
+          autoconnect-priority = 1;
+          interface-name = "cdc-wdm0";
+        };
+        gsm = {
+          apn = "gprs.swisscom.ch";
+          number = "*99#";
+          # Flag value 4 = NM_SETTING_SECRET_FLAG_NOT_REQUIRED (no password/PIN needed).
+          password-flags = "4";
+          pin-flags = "4";
+        };
+        ipv4 = {
+          # Automatically obtain IP configuration from cellular network.
+          method = "auto";
+        };
+        ipv6 = {
+          # Automatically obtain IPv6 configuration from cellular network.
+          method = "auto";
+          # Generate IPv6 addresses using stable algorithm (consistent but privacy-preserving).
+          addr-gen-mode = "stable-privacy";
+        };
+        # PPP section required for GSM connections (using defaults).
+        ppp = {};
+        # No proxy configuration needed.
+        proxy = {};
+      };
     };
+
+    systemd.units.ModemManager.enable = true;
     systemd.services.ModemManager = {
       aliases = ["dbus-org.freedesktop.ModemManager1.service"];
       wantedBy = ["NetworkManager.service"];
       partOf = ["NetworkManager.service"];
       after = ["NetworkManager.service"];
+    };
+    systemd.services."enable-wwan" = {
+      description = "Enable WWAN radio at boot";
+      after = ["NetworkManager.service"];
+      wants = ["NetworkManager.service"];
+      serviceConfig = {
+        Type = "oneshot";
+        ExecStart = "${pkgs.networkmanager}/bin/nmcli radio wwan on";
+      };
+      wantedBy = ["multi-user.target"];
     };
 
     services.openssh.enable = true;
