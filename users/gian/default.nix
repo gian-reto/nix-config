@@ -19,6 +19,7 @@ in {
         extraGroups =
           [
             "audio"
+            "dialout" # Serial port access.
             "git"
             "kvm"
             "lp"
