@@ -55,6 +55,21 @@ in {
       };
     };
 
+    programs.gh = {
+      enable = true;
+
+      package = pkgs.gh;
+      settings = {
+        color_labels = "enabled";
+        editor = "code-insiders --wait --new-window";
+        git_protocol = "ssh";
+        pager = lib.mkIf config.features.bat.enable "bat";
+      };
+      gitCredentialHelper = {
+        enable = true;
+      };
+    };
+
     programs.lazygit = {
       enable = true;
 
