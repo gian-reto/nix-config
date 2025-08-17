@@ -126,6 +126,7 @@ in {
             "editor.overviewRulerBorder" = true;
             "editor.renderLineHighlight" = "line";
             "editor.inlineSuggest.enabled" = true;
+            "editor.inertialScroll" = true;
             "editor.smoothScrolling" = true;
             "editor.suggestSelection" = "first";
             "editor.guides.indentation" = true;
@@ -138,6 +139,8 @@ in {
             "terminal.integrated.cursorBlinking" = true;
             "terminal.integrated.enableVisualBell" = false;
             "terminal.integrated.scrollback" = 100000;
+            "terminal.integrated.smoothScrolling" = true;
+            "terminal.integrated.mouseWheelScrollSensitivity" = 1;
             "security.workspace.trust.enabled" = false;
             "security.workspace.trust.untrustedFiles" = "open";
             "security.workspace.trust.banner" = "never";
