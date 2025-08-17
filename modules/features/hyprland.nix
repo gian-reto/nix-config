@@ -141,7 +141,7 @@ in {
               "hyprctl setcursor ${hmConfig.home.pointerCursor.name} ${toString hmConfig.home.pointerCursor.size}"
             ]
           )
-          ++ (lib.optionals config.features.ags.enable ["ags run --gtk4"])
+          ++ (lib.optionals config.features.ags.enable ["adw-shell"])
           ++ [
             "sleep 5 && clipse -listen"
           ]
@@ -252,7 +252,7 @@ in {
         in
           [
             # General binds.
-            "${mod} SHIFT,R,exec,hyprctl reload; ags quit; ags run --gtk4" # Reload Hyprland and `ags`.
+            "${mod} SHIFT,R,exec,hyprctl reload; ags quit --instance 'adw-shell'; adw-shell" # Reload Hyprland and shell.
             # Default applications.
             "${mod},Return,exec,${defaultAppFor "x-scheme-handler/terminal"}"
             "${mod},e,exec,${defaultAppFor "text/plain"}"
@@ -260,7 +260,7 @@ in {
             # Applications.
             "CTRL SHIFT,SPACE,exec,${_1password} --quick-access"
             "${mod} SHIFT,V,exec,alacritty --class clipse -e 'clipse'"
-            "${mod},space,exec,ags request toggle-launcher"
+            "${mod},space,exec,ags request toggle-launcher --instance 'adw-shell'"
             # Window management.
             "${mod},Tab,cyclenext"
             "${mod} SHIFT,Tab,cyclenext,prev"

@@ -1,26 +1,47 @@
 {
   "nodes": {
-    "ags": {
+    "adw-shell": {
       "inputs": {
-        "astal": [
-          "astal"
-        ],
+        "ags": "ags",
         "nixpkgs": [
           "nixpkgs"
         ]
       },
       "locked": {
-        "lastModified": 1736677288,
-        "narHash": "sha256-Vj3WOLy6o6Zf44Rwg9eLqNRQPlVoDrQ89tsef3l3990=",
+        "lastModified": 1755469878,
+        "narHash": "sha256-/ty1k5F1nWz9MnoHPS3YhL5m63pnWQJhpfQvnVyzpK4=",
+        "owner": "gian-reto",
+        "repo": "adw-shell",
+        "rev": "d7cc54aa888edff18d0d526790407376bedeef98",
+        "type": "github"
+      },
+      "original": {
+        "owner": "gian-reto",
+        "repo": "adw-shell",
+        "rev": "d7cc54aa888edff18d0d526790407376bedeef98",
+        "type": "github"
+      }
+    },
+    "ags": {
+      "inputs": {
+        "astal": "astal",
+        "nixpkgs": [
+          "adw-shell",
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1754932414,
+        "narHash": "sha256-V8c+68Axn5AGDCaG9Zv+EqNU4D6xWPHNXLIapq6AGiM=",
         "owner": "aylur",
         "repo": "ags",
-        "rev": "90db9b9fecc0f4228440d83107c6c745a35e7d77",
+        "rev": "9e6912b51d7bc58f35d10b11be1a126b926b56d3",
         "type": "github"
       },
       "original": {
         "owner": "aylur",
         "repo": "ags",
-        "rev": "90db9b9fecc0f4228440d83107c6c745a35e7d77",
+        "rev": "9e6912b51d7bc58f35d10b11be1a126b926b56d3",
         "type": "github"
       }
     },
@@ -60,21 +81,22 @@
     "astal": {
       "inputs": {
         "nixpkgs": [
+          "adw-shell",
+          "ags",
           "nixpkgs"
         ]
       },
       "locked": {
-        "lastModified": 1737052425,
-        "narHash": "sha256-sRX9eWJEThJ/0ZErG7LhHO9cFa3EIZloKA5NaLFfaF4=",
+        "lastModified": 1752404970,
+        "narHash": "sha256-XULTToDUkIshNXEO+YP2mAHdQv8bxWDvKjbamBfOC8E=",
         "owner": "aylur",
         "repo": "astal",
-        "rev": "897c6d810acfd31e6cc55df7692755b177a84fcb",
+        "rev": "2c5eb54f39e1710c6e2c80915a240978beb3269a",
         "type": "github"
       },
       "original": {
         "owner": "aylur",
         "repo": "astal",
-        "rev": "897c6d810acfd31e6cc55df7692755b177a84fcb",
         "type": "github"
       }
     },
@@ -1176,8 +1198,7 @@
     },
     "root": {
       "inputs": {
-        "ags": "ags",
-        "astal": "astal",
+        "adw-shell": "adw-shell",
         "disko": "disko",
         "firefox-addons": "firefox-addons",
         "firefox-gnome-theme": "firefox-gnome-theme",
