@@ -54,7 +54,6 @@
     environment = {
       systemPackages = with pkgs; [
         # Some additional tools.
-        amdgpu_top
         glxinfo
         rocmPackages.rocminfo
         vulkan-tools

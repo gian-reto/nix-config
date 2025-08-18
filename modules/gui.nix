@@ -188,7 +188,6 @@
         curtail # Image compressor.
         d-spy # D-Bus exploration tool.
         decibels # Audio player.
-        dissent # Discord client.
         fractal # Matrix client.
         geekbench # Benchmarking tool.
         github-desktop # GitHub desktop client.
