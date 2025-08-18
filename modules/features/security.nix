@@ -66,6 +66,7 @@
       text = lib.concatLines ([]
         ++ lib.optionals config.features.firefox.enable [
           "firefox"
+          "firefox-devedition"
         ]);
     };
   };
