@@ -141,7 +141,6 @@ in {
               "hyprctl setcursor ${hmConfig.home.pointerCursor.name} ${toString hmConfig.home.pointerCursor.size}"
             ]
           )
-          ++ (lib.optionals config.features.ags.enable ["adw-shell"])
           ++ [
             "sleep 5 && clipse -listen"
           ]
@@ -252,7 +251,7 @@ in {
         in
           [
             # General binds.
-            "${mod} SHIFT,R,exec,hyprctl reload; ags quit --instance 'adw-shell'; adw-shell" # Reload Hyprland and shell.
+            "${mod} SHIFT,R,exec,hyprctl reload; systemctl --user restart adw-shell" # Reload Hyprland and shell.
             # Default applications.
             "${mod},Return,exec,${defaultAppFor "x-scheme-handler/terminal"}"
             "${mod},e,exec,${defaultAppFor "text/plain"}"
