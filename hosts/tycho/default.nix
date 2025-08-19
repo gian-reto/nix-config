@@ -115,6 +115,9 @@
         ];
       };
 
+      # Disable WiFi power saving to prevent connection drops.
+      networkmanager.wifi.powersave = false;
+
       networkmanager.ensureProfiles.profiles.swisscom = {
         connection = {
           id = "Swisscom";
@@ -164,6 +167,7 @@
       };
       wantedBy = ["multi-user.target"];
     };
+    # TODO: Add a systemd service to fix the Quectel EM05-G modem after suspend / hibernate.
 
     services.openssh.enable = true;
     users.users.root = {
