@@ -24,15 +24,15 @@
     systemd.user.services.adw-shell = {
       Unit = {
         Description = "Adwaita Shell";
+        Documentation = "https://github.com/gian-reto/adw-shell";
         PartOf = ["graphical-session.target"];
         After = ["graphical-session-pre.target"];
-        Requisite = ["graphical-session.target"];
       };
 
       Service = {
         ExecStart = "${inputs.adw-shell.packages.${pkgs.system}.default}/bin/adw-shell";
         Restart = "on-failure";
-        RestartSec = 3;
+        RestartSec = 5;
         KillMode = "mixed";
       };
 
