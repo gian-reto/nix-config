@@ -155,7 +155,7 @@
 
     # Other stuff.
     adw-shell = {
-      url = "github:gian-reto/adw-shell/a01f015b1add92607165c9be154ebab5f011cdec";
+      url = "github:gian-reto/adw-shell/0b5b3f2df807ba1a575528640174fed1f2f8e039";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
