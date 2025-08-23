@@ -187,7 +187,24 @@
       };
       wantedBy = ["multi-user.target"];
     };
-    # TODO: Add a systemd service to fix the Quectel EM05-G modem after suspend / hibernate.
+    # Service to fix the Quectel EM05-G modem after suspend / hibernate.
+    systemd.services."restart-wwan" = {
+      description = "Restart ModemManager after suspend/hibernate";
+      after = [
+        "suspend.target"
+        "hibernate.target"
+        "suspend-then-hibernate.target"
+      ];
+      serviceConfig = {
+        Type = "oneshot";
+        ExecStart = "${pkgs.systemd}/bin/systemctl restart ModemManager.service";
+      };
+      wantedBy = [
+        "suspend.target"
+        "hibernate.target"
+        "suspend-then-hibernate.target"
+      ];
+    };
 
     services.openssh.enable = true;
     users.users.root = {
