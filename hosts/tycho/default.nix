@@ -95,6 +95,24 @@
       settings = import ./tlp.nix;
     };
 
+    # Sleep.
+    services.logind = {
+      # Suspend first then hibernate when closing the lid.
+      lidSwitch = "suspend-then-hibernate";
+
+      # Hibernate on power button pressed
+      powerKey = "hibernate";
+      powerKeyLongPress = "poweroff";
+    };
+    # Delay for hibernation.
+    systemd.sleep.extraConfig = ''
+      HibernateDelaySec=15m
+      HibernateOnACPower=no
+      # Deep sleep is not supported on this device.
+      MemorySleepMode=s2idle
+      SuspendState=mem
+    '';
+
     # Fingerprint.
     services.fprintd.enable = true;
 
