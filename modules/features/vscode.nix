@@ -132,6 +132,8 @@ in {
             "editor.guides.indentation" = true;
             "editor.guides.bracketPairs" = true;
             "editor.bracketPairColorization.enabled" = true;
+            "editor.mouseWheelScrollSensitivity" = 0.3;
+            "editor.fastScrollSensitivity" = 0.9;
             "explorer.confirmDelete" = true;
             "explorer.compactFolders" = false;
             "terminal.integrated.fontFamily" = builtins.head osConfig.fonts.fontconfig.defaultFonts.monospace;
@@ -140,7 +142,8 @@ in {
             "terminal.integrated.enableVisualBell" = false;
             "terminal.integrated.scrollback" = 100000;
             "terminal.integrated.smoothScrolling" = true;
-            "terminal.integrated.mouseWheelScrollSensitivity" = 1;
+            "terminal.integrated.mouseWheelScrollSensitivity" = 1.2;
+            "terminal.integrated.fastScrollSensitivity" = 3;
             "security.workspace.trust.enabled" = false;
             "security.workspace.trust.untrustedFiles" = "open";
             "security.workspace.trust.banner" = "never";
