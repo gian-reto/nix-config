@@ -157,6 +157,7 @@
     features.ghostty.enable = true;
     features.greeter.enable = true;
     features.gtk.enable = true;
+    features.hypridle.enable = true;
     features.hyprland.enable = true;
     features.hyprlock.enable = true;
     features.opencode.enable = true;

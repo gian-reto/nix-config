@@ -132,6 +132,11 @@ in {
             "hyprpaper"
           ]
           ++ (
+            lib.optionals config.features.hypridle.enable [
+              "hypridle"
+            ]
+          )
+          ++ (
             lib.optionals config.features.hyprlock.enable [
               "hyprlock"
             ]

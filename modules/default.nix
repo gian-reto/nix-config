@@ -25,6 +25,7 @@
     ./features/gtk.nix
     ./features/hyprland.nix
     ./features/hyprlock.nix
+    ./features/hypridle.nix
     ./features/i18n.nix
     ./features/network.nix
     ./features/opencode
