@@ -6,6 +6,7 @@ Important: Most of the time, adding a new module is not necessary. Prefer adding
 
 - `modules/common.nix`: Contains features that are enabled for all hosts. This mostly contains CLI-only features that are useful on servers, laptops, or desktops alike.
 - `modules/gui.nix`: Contains features that are only relevant in graphical desktop environments.
+- `modules/laptop.nix`: Contains features that are only relevant for laptops.
 
 ## Anatomy of a Module
 

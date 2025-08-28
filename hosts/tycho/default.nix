@@ -27,6 +27,7 @@
       };
     };
   };
+  laptop.enable = true;
 
   # Machine-specific configuration.
   os = {

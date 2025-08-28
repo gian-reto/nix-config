@@ -41,5 +41,6 @@
     # Modules.
     ./common.nix
     ./gui.nix
+    ./laptop.nix
   ];
 }

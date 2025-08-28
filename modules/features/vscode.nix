@@ -126,14 +126,23 @@ in {
             "editor.overviewRulerBorder" = true;
             "editor.renderLineHighlight" = "line";
             "editor.inlineSuggest.enabled" = true;
-            "editor.inertialScroll" = true;
+            "editor.inertialScroll" =
+              if config.laptop.enable
+              then true
+              else false;
             "editor.smoothScrolling" = true;
             "editor.suggestSelection" = "first";
             "editor.guides.indentation" = true;
             "editor.guides.bracketPairs" = true;
             "editor.bracketPairColorization.enabled" = true;
-            "editor.mouseWheelScrollSensitivity" = 0.3;
-            "editor.fastScrollSensitivity" = 0.9;
+            "editor.mouseWheelScrollSensitivity" =
+              if config.laptop.enable
+              then 0.3
+              else 1;
+            "editor.fastScrollSensitivity" =
+              if config.laptop.enable
+              then 0.9
+              else 3;
             "explorer.confirmDelete" = true;
             "explorer.compactFolders" = false;
             "terminal.integrated.fontFamily" = builtins.head osConfig.fonts.fontconfig.defaultFonts.monospace;
