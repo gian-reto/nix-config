@@ -12,6 +12,7 @@
   config.features.gpg.enable = true;
   config.features.i18n.enable = true;
   config.features.network.enable = true;
+  config.features.sops.enable = true;
   config.features.ssh.enable = true;
   config.features.vpn.enable = true;
   config.features.xdg.enable = true;
