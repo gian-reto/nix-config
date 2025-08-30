@@ -10,9 +10,10 @@
   mcpNixosPackage = inputs.mcp-nixos.packages.${pkgs.system}.default;
 
   # Create prompt files in the nix store.
-  codePrompt = pkgs.writeText "code-prompt.md" (builtins.readFile ./prompts/code.md);
+  buildPrompt = pkgs.writeText "build-prompt.md" (builtins.readFile ./prompts/build.md);
+  codeExampleResearchPrompt = pkgs.writeText "code-example-research-prompt.md" (builtins.readFile ./prompts/code-example-research.md);
   debugPrompt = pkgs.writeText "debug-prompt.md" (builtins.readFile ./prompts/debug.md);
-  documentPrompt = pkgs.writeText "document-prompt.md" (builtins.readFile ./prompts/document.md);
+  planPrompt = pkgs.writeText "plan-prompt.md" (builtins.readFile ./prompts/plan.md);
 in {
   options.features.opencode.enable = lib.mkOption {
     description = ''
@@ -46,34 +47,104 @@ in {
         autoshare = false;
         autoupdate = false;
         model = "github-copilot/claude-sonnet-4";
-        small_model = "github-copilot/gpt-4.1";
+        small_model = "github-copilot/gpt-5-mini";
         theme = "system";
+        permission = {
+          edit = "allow";
+          # Deny webfetch in favor of the `fetch` MCP server.
+          webfetch = "deny";
+          bash = {
+            "alejandra" = "allow";
+            "cat" = "allow";
+            "cd" = "allow";
+            "bat" = "allow";
+            "find" = "allow";
+            "fzf" = "allow";
+            "gh help" = "allow";
+            "gh search *" = "allow";
+            "gh *" = "ask";
+            "git diff" = "allow";
+            "git log" = "allow";
+            "git show" = "allow";
+            "git stash list" = "allow";
+            "git status" = "allow";
+            "git *" = "ask";
+            "grep" = "allow";
+            "head" = "allow";
+            "journalctl" = "allow";
+            "jq" = "allow";
+            "less" = "allow";
+            "ls" = "allow";
+            "lsd" = "allow";
+            "man" = "allow";
+            "nh os build" = "ask";
+            "nh search *" = "allow";
+            "nh *" = "deny";
+            "nil diagnostics" = "allow";
+            "nil parse" = "allow";
+            "nil *" = "ask";
+            "nixos-rebuild" = "deny";
+            "pwd" = "allow";
+            "rg *" = "allow";
+            "tail" = "allow";
+            "tree" = "allow";
+            "z *" = "allow";
+            "*" = "ask";
+          };
+        };
 
-        mode = {
-          code = {
+        agent = {
+          build = {
+            description = "Builds new features or entire applications based on a high-level description of what needs to be done.";
+            mode = "primary";
             model = "github-copilot/claude-sonnet-4";
-            prompt = "{file:${codePrompt}}";
+            prompt = "{file:${buildPrompt}}";
+            tools = {
+              bash = true;
+              edit = true;
+              patch = true;
+              write = true;
+              webfetch = false;
+            };
+          };
+          "code-example-research" = {
+            description = "Finds relevant code examples from GitHub based on provided keywords and a brief description of what you're looking for.";
+            mode = "subagent";
+            model = "github-copilot/gpt-5-mini";
+            prompt = "{file:${codeExampleResearchPrompt}}";
+            tools = {
+              bash = true;
+              edit = false;
+              patch = false;
+              write = false;
+              webfetch = false;
+            };
           };
           debug = {
+            description = "Finds and fixes bugs in the codebase based on error messages, logs, or a description of the issue.";
+            mode = "primary";
             model = "github-copilot/claude-sonnet-4";
             prompt = "{file:${debugPrompt}}";
             tools = {
               bash = true;
-              edit = false;
-              glob = true;
-              grep = true;
-              list = true;
-              patch = false;
-              read = true;
-              todowrite = false;
-              todoread = true;
-              webfetch = true;
-              write = false;
+              edit = true;
+              patch = true;
+              write = true;
+              webfetch = false;
             };
           };
-          document = {
-            model = "github-copilot/gpt-4.1";
-            prompt = "{file:${documentPrompt}}";
+          plan = {
+            description = "Creates a clear and actionable plan for implementing a feature or solving a problem based on a high-level description of the task.";
+            mode = "primary";
+            model = "github-copilot/gpt-5";
+            prompt = "{file:${planPrompt}}";
+            tools = {
+              bash = true;
+              edit = false;
+              patch = false;
+              write = false;
+              webfetch = false;
+            };
           };
         };
 

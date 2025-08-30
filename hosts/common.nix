@@ -50,8 +50,10 @@
         openssl
         pv # Pipe progress monitor.
         python3
+        ripgrep
         shellcheck
         sops # Secrets management.
+        tree
 
         alejandra # Nix formatter.
         nh # Nice wrapper for NixOS and `home-manager`.
