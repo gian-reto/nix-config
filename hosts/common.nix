@@ -50,6 +50,7 @@
         openssl
         pv # Pipe progress monitor.
         python3
+        shellcheck
         sops # Secrets management.
 
         alejandra # Nix formatter.
