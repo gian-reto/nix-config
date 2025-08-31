@@ -17,6 +17,7 @@
       in
         import ./pkgs {inherit pkgs;}
     );
+
     formatter = forAllSystems (
       system: let
         pkgs = nixpkgs.legacyPackages.${system};

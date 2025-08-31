@@ -152,9 +152,12 @@
     features.bluetooth.enable = true;
     features.chromium.enable = true;
     features.cursor.enable = true;
+    features.dev-local.enable = true;
     features.firefox.enable = true;
     features.fonts.enable = true;
     features.ghostty.enable = true;
+    features.git.enable = true;
+    features.gpg.enable = true;
     features.greeter.enable = true;
     features.gtk.enable = true;
     features.hypridle.enable = true;
@@ -162,8 +165,11 @@
     features.hyprlock.enable = true;
     features.opencode.enable = true;
     features.security.enable = true;
+    features.ssh.enable = true;
     features.valent.enable = true;
+    features.vpn.enable = true;
     features.vscode.enable = true;
+    features.yubikey.enable = true;
 
     hm = lib.mkIf config.gui.enable {
       # GUI applications.
