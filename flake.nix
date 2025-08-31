@@ -83,6 +83,25 @@
           ];
         };
       };
+
+      # Server configuration.
+      trantor = combinedManager.nixosSystem {
+        inherit inputs;
+
+        configuration = {
+          system = "x86_64-linux";
+
+          modules = [
+            # Modules.
+            ./modules
+            # Host configurations.
+            ./hosts/common.nix
+            ./hosts/trantor
+            # User configurations.
+            ./users/gian
+          ];
+        };
+      };
     };
   };
 

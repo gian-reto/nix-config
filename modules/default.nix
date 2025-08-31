@@ -33,6 +33,7 @@
     ./features/sops.nix
     ./features/ssh.nix
     ./features/valent.nix
+    ./features/virtualization.nix
     ./features/vpn.nix
     ./features/vscode.nix
     ./features/xdg.nix

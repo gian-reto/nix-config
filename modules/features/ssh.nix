@@ -42,6 +42,12 @@ in {
           IdentityAgent ${gpgAgentPath}
           User root
 
+        Host vm
+          HostName localhost
+          Port 2222
+          IdentityAgent ${gpgAgentPath}
+          User root
+
         Host *
           IdentityAgent ${_1passwordAgentPath}
       '';
