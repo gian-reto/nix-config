@@ -3,7 +3,6 @@
   lib,
   pkgs,
   inputs,
-  hmConfig,
   ...
 }: let
   mcpPackages = inputs.mcp-servers-nix.packages.${pkgs.system};
@@ -11,7 +10,6 @@
 
   # Create prompt files in the nix store.
   buildPrompt = pkgs.writeText "build-prompt.md" (builtins.readFile ./prompts/build.md);
-  codeExampleResearchPrompt = pkgs.writeText "code-example-research-prompt.md" (builtins.readFile ./prompts/code-example-research.md);
   debugPrompt = pkgs.writeText "debug-prompt.md" (builtins.readFile ./prompts/debug.md);
   planPrompt = pkgs.writeText "plan-prompt.md" (builtins.readFile ./prompts/plan.md);
 in {
@@ -28,7 +26,7 @@ in {
     home.file.".config/opencode/AGENTS.md".text = ''
       # Global Coding Guidelines
 
-      These are global guidelines that you MUST always adhere to.
+      These are global guidelines that you MUST always adhere to:
 
       - You MUST ALWAYS adhere to the current project's AGENTS.md file if it exists.
       - You MUST ALWAYS ask before running consequential commands (e.g., commands that apply changes to the system).
@@ -37,6 +35,19 @@ in {
       - You MUST ALWAYS prefer a clean functional coding approach.
       - You MUST ALWAYS consider if there is a better approach to a solution compared to the one being asked by the user. Feel free to challenge the user and make suggestions.
       - You MUST ONLY add comments if the code you are creating is complex, or if it has non-obvious implications (e.g., for workarounds).
+
+      ## Helpful information
+
+      - You have many tools and MCP servers at your disposal. Try to use them to their full extent. These include:
+        - `context7` MCP server / tool to look up documentation and verify syntax and features.
+        - `fetch` MCP server / tool to retrieve information from the internet.
+        - `git` MCP server / tool to interact with git and search the git history.
+        - `memory` MCP server / tool to store and retrieve relevant information while working on a task.
+        - `nixos` MCP server / tool to look up NixOS-related information, as well as packages and options.
+        - `playwright` MCP server / tool to interact with web pages in a headless browser.
+        - `sequential-thinking` MCP server / tool to perform complex reasoning tasks step-by-step.
+        - `time` MCP server / tool to get the current date and time.
+      - You have access to the command line. Prefer allowed commands, such as `bat`, `cat`, `find`, `fzf`, `gh`, `git`, `grep`, `head`, `journalctl`, `jq`, `less`, `ls`, `lsd`, `man`, `nh`, `nil`, `pwd`, `rg`, `tail`, `tree`, and `z`.
     '';
 
     programs.opencode = {
@@ -54,39 +65,39 @@ in {
           # Deny webfetch in favor of the `fetch` MCP server.
           webfetch = "deny";
           bash = {
-            "alejandra" = "allow";
-            "cat" = "allow";
-            "cd" = "allow";
-            "bat" = "allow";
-            "find" = "allow";
-            "fzf" = "allow";
+            "alejandra *" = "allow";
+            "cat *" = "allow";
+            "cd *" = "allow";
+            "bat *" = "allow";
+            "find *" = "allow";
+            "fzf *" = "allow";
             "gh help" = "allow";
             "gh search *" = "allow";
             "gh *" = "ask";
-            "git diff" = "allow";
-            "git log" = "allow";
-            "git show" = "allow";
+            "git diff *" = "allow";
+            "git log *" = "allow";
+            "git show *" = "allow";
             "git stash list" = "allow";
             "git status" = "allow";
             "git *" = "ask";
-            "grep" = "allow";
-            "head" = "allow";
-            "journalctl" = "allow";
-            "jq" = "allow";
-            "less" = "allow";
-            "ls" = "allow";
-            "lsd" = "allow";
-            "man" = "allow";
+            "grep *" = "allow";
+            "head *" = "allow";
+            "journalctl *" = "allow";
+            "jq *" = "allow";
+            "less *" = "allow";
+            "ls *" = "allow";
+            "lsd *" = "allow";
+            "man *" = "allow";
             "nh os build" = "ask";
             "nh search *" = "allow";
             "nh *" = "deny";
-            "nil diagnostics" = "allow";
-            "nil parse" = "allow";
+            "nil diagnostics *" = "allow";
+            "nil parse *" = "allow";
             "nil *" = "ask";
             "nixos-rebuild" = "deny";
             "pwd" = "allow";
             "rg *" = "allow";
-            "tail" = "allow";
+            "tail *" = "allow";
             "tree" = "allow";
             "z *" = "allow";
             "*" = "ask";
@@ -107,19 +118,6 @@ in {
               webfetch = false;
             };
           };
-          "code-example-research" = {
-            description = "Finds relevant code examples from GitHub based on provided keywords and a brief description of what you're looking for.";
-            mode = "subagent";
-            model = "github-copilot/gpt-5-mini";
-            prompt = "{file:${codeExampleResearchPrompt}}";
-            tools = {
-              bash = true;
-              edit = false;
-              patch = false;
-              write = false;
-              webfetch = false;
-            };
-          };
           debug = {
             description = "Finds and fixes bugs in the codebase based on error messages, logs, or a description of the issue.";
             mode = "primary";
@@ -135,7 +133,7 @@ in {
           };
           plan = {
             description = "Creates a clear and actionable plan for implementing a feature or solving a problem based on a high-level description of the task.";
-            mode = "primary";
+            mode = "subagent";
             model = "github-copilot/gpt-5";
             prompt = "{file:${planPrompt}}";
             tools = {
@@ -158,15 +156,6 @@ in {
             type = "local";
             enabled = true;
             command = ["podman" "run" "-i" "--rm" "mcp/fetch"];
-          };
-          filesystem = {
-            type = "local";
-            enabled = true;
-            command = [
-              "${mcpPackages.mcp-server-filesystem}/bin/mcp-server-filesystem"
-              "${hmConfig.home.homeDirectory}/Code"
-              "${hmConfig.home.homeDirectory}/.config"
-            ];
           };
           git = {
             type = "local";

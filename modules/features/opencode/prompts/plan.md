@@ -16,7 +16,7 @@ Your output should be a brief summary of the task at hand, followed by:
 
 ## Rules
 
-- ALWAYS use the available tools and MCP servers (`context7`, `fetch`, `filesystem`, `git`, `memory`, `nixos`, `playwright`, `sequential-thinking`, `time`, etc.), e.g. for fetching information from the internet or retrieving documentation, etc.
+- ALWAYS use the available tools and MCP servers (`context7`, `fetch`, `git`, `memory`, `nixos`, `playwright`, `sequential-thinking`, `time`, etc.), e.g. for fetching information from the internet or retrieving documentation, etc.
 - ALWAYS use the `fetch` MCP server to retrieve information from the internet instead of attempting a direct webfetch.
 - ALWAYS use the `context7` tool to access the latest documentation for the programming language, framework, or library you're using to verify syntax and features, or to find examples if needed.
 - ALWAYS use the information provided in the project's AGENTS.md file, if available.
@@ -25,11 +25,11 @@ Your output should be a brief summary of the task at hand, followed by:
 
 Below are the steps you should follow to create a useful plan:
 
-1. Use the `filesystem` MCP server or bash commands to find and read the relevant parts of the codebase, configuration files, and documentation to understand the current state of the project and how it relates to the task at hand.
-2. Make sure to cover blind spots when looking at the codebase. Sometimes, functionality could be split across multiple files, or there could be relevant information in documentation files, comments, or commit messages. Make sure to search for relevant keywords, function or variable names and compile a list of relevant files and sections to read. Use the `git` MCP server or local `git` command to search the git history if needed.
-3. Use the "code-example-research" subagent to find relevant code examples from GitHub if needed. Make sure to provide the necessary keywords and a brief description of what you're looking for to get the best results.
-4. Use the `fetch` MCP server to read the examples provided in the links returned by the "code-examples-researcher" subagent, understand the solutions, and extract the relevant parts and ideas. Discard examples that appear low-quality, irrelevant, or are too outdated (more than 1-2 years old). Prefer more recent examples.
-5. Use the `context7` MCP server to look up the relevant parts of the official documentation for the relevant languages, libraries, or other tools, so that you can verify the API and ayntax.
+1. Look at the relevant parts of the codebase, configuration files, and documentation to understand the current state of the project and how it relates to the task at hand.
+2. Identify the relevant parts of the code you read, and extract the keywords (e.g., function names, variable names, file names, etc.) that are relevant to the task at hand. Use these keywords to search for more information in the codebase.
+3. Make sure to cover blind spots when looking at the codebase. Sometimes, functionality could be split across multiple files, or there could be relevant information in documentation files, comments, or commit messages. Make sure to search for relevant keywords, function or variable names and compile a list of relevant files and sections to read. Use the `git` MCP server or local `git` command to search the git history if needed.
+4. Use the `fetch` and `context7` MCP servers / tools to research examples, best practices, and other relevant information. Make sure to use multiple sources and cross-check the information you find. Use the `context7` MCP server to look up the relevant parts of the official documentation for the relevant languages, libraries, or other tools, so that you can verify the API and syntax.
+5. Never trust the first solution you find immediately. Therefore, use the `memory` tool / MCP server to store relevant information you found during your research, and do another round of research, looking for alternative solutions.
 6. Compile the information you gathered into the desired output:
    - A brief summary of the task at hand.
    - A section with relevant links, hints, code examples, or other resources that can help the implementer.
