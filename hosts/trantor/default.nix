@@ -1,9 +1,17 @@
-{lib, ...}: {
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}: {
   osModules = [
     # inputs.disko.nixosModules.disko
     # ./disk-configuration.nix
     # ./hardware-configuration.nix
   ];
+
+  # Enable my modules!
+  # features.sops.enable = true;
 
   os = {
     nixpkgs.config = {
@@ -53,6 +61,9 @@
         diskSize = 10240; # 10GB disk.
         memorySize = 1024 * 8; # 8GB RAM.
 
+        # Disable qemu graphics so it just uses the same terminal it was started from.
+        graphics = false;
+
         forwardPorts = [
           {
             from = "host";
@@ -60,6 +71,41 @@
             guest.port = 22;
           }
         ];
+
+        sharedDirectories = {
+          age = {
+            # Passed by the `deploy.sh` script.
+            source = "$VM_AGE_KEY_DIR";
+            target = "/home/${config.hmUsername}/.config/sops/age";
+            securityModel = "mapped-xattr";
+          };
+        };
+      };
+
+      # Make sure to set correct permissions, because we mount into the home
+      # directory of the user, and `.config` is not created at that point, which
+      # would break `home-manager`.
+      systemd.services."vm-fix-config-ownership" = let
+        user = config.hmUsername;
+        group = "users";
+        xdgConfigHome = "/home/${user}/.config";
+      in {
+        description = "Fix ownership of ${xdgConfigHome} and subdirectories due to VM shared directory mount";
+        before = ["home-manager-${user}.service"];
+        wantedBy = ["home-manager-${user}.service"];
+
+        serviceConfig = {
+          Type = "oneshot";
+          ExecStart = ''
+            ${pkgs.coreutils}/bin/chown ${user}:${group} ${xdgConfigHome} ${xdgConfigHome}/sops ${xdgConfigHome}/sops/age
+            ${pkgs.coreutils}/bin/chmod 755 ${xdgConfigHome} ${xdgConfigHome}/sops ${xdgConfigHome}/sops/age
+          '';
+        };
+      };
+
+      # Set `initialPassword`, as this is a testing VM.
+      users.users."${config.hmUsername}" = {
+        initialPassword = "test";
       };
 
       services.qemuGuest.enable = true;

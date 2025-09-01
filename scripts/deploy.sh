@@ -24,10 +24,6 @@ HOST_NAME=$(printf "%s\n" "$NIXOS_CONFIGURATIONS" | gum choose --header "Select 
 
 clear;
 
-# Offer various deployment options.
-OPTION_GENERATE_HARDWARE_CONFIG=$(gum choose "Yes" "No" --header "Generate hardware configuration? (Recommended for deploying to a new host)")
-OPTION_BUILD_ON_REMOTE=$(gum choose "Yes" "No" --header "Build on remote host?")
-
 # Find corresponding secret for the selected host configuration in 1Password.
 OP_ITEMS=$(
   gum spin --spinner dot --title "Fetching secrets from 1Password..." -- \
@@ -87,12 +83,95 @@ printf '# created: %s\n# public key: %s\n%s\n' "$AGE_CREATED" "$AGE_PUBLIC_KEY" 
 
 # Set the correct permissions on the `age` key file.
 chmod 600 "$TEMP/home/gian/.config/sops/age/keys.txt"
+# Chown to `1000:100`. Note: This is only useful for the local VM deployment, as
+# `nixos-anywhere` needs the `--chown` flag to set the correct owner after
+# copying.
+chown 1000:100 "$TEMP/home/gian/.config/sops/age/keys.txt"
 
-echo "Config: .#$HOST_NAME"
-echo "Matched 1Password ID: $OP_ITEM_ID"
-echo "Using temporary directory: $TEMP"
-echo "Generate hardware config: $OPTION_GENERATE_HARDWARE_CONFIG"
+# Display the selected options.
+echo "Host name: $HOST_NAME"
+echo "Host config: .#$HOST_NAME"
+echo "Secret ID: $OP_ITEM_ID"
+echo "Temporary directory: $TEMP"
+echo
 
-# TODO: Actually deploy using `nixos-anywhere`. Important: Make sure to use
-# `--chown` flag to set the correct owner (1000:100 for gian:users) after copying, see:
-# https://github.com/nix-community/nixos-anywhere/blob/ff87db6a952191648ffaea97ec5559784c7223c6/docs/howtos/extra-files.md#considerations.
+# Ask for confirmation.
+PROCEED=$(gum choose "Yes" "No" --header "Proceed with these settings?")
+if [ "$PROCEED" = "No" ]; then
+  gum log --structured --level info "Deployment cancelled."
+  exit 0
+fi
+
+clear;
+
+# Ask how to deploy.
+DEPLOY_METHOD=$(gum choose "Run in local VM" "Deploy to remote host" --header "Select deployment method:")
+
+clear;
+
+case "$DEPLOY_METHOD" in
+  "Run in local VM")
+    # Export `VM_AGE_KEY_DIR` which will be used during the Nix build to set the
+    # correct mount path for the VM to use.
+    export VM_AGE_KEY_DIR="$TEMP/home/gian/.config/sops/age"
+
+    # shellcheck disable=SC2016
+    VM_OUT_PATH=$(
+      gum spin --spinner dot --title "Building VM..." -- \
+      bash -c 'nix build ".#nixosConfigurations.$0.config.system.build.vm" --no-link --print-out-paths --quiet 2>/dev/null' "$HOST_NAME"
+    )
+
+    # Run the VM and trap Ctrl+C.
+    gum log --structured --level info "Starting VM" host "$HOST_NAME"
+    
+    # Start VM with output redirected to a temporary file for monitoring.
+    VM_LOG="$TEMP/vm.log"
+    "$VM_OUT_PATH/bin/run-$HOST_NAME-vm" > "$VM_LOG" 2>&1 &
+    VM_PID=$!
+
+    # shellcheck disable=SC2317 # False positive, as this is used in `trap`.
+    stop_vm() {
+      gum log --structured --level info "Stopping VM (pid $VM_PID)..."
+      kill -TERM "$VM_PID" 2>/dev/null || true
+      wait "$VM_PID" 2>/dev/null || true
+    }
+    trap 'stop_vm; exit 130' INT
+    trap 'stop_vm' TERM
+
+    # Show spinner while waiting for VM to boot.
+    # shellcheck disable=SC2016
+    gum spin --spinner dot --title "Waiting for VM to boot..." -- \
+    bash -c '
+      while [ ! -f "$1" ] || ! grep -q "login:" "$1" 2>/dev/null; do
+        sleep 1
+        # Check if VM process is still running.
+        if ! kill -0 "$2" 2>/dev/null; then
+          gum log --structured --level error "VM process died unexpectedly"
+          exit 1
+        fi
+      done
+    ' _ "$VM_LOG" "$VM_PID"
+
+    # VM is ready, show connection info.
+    gum log --structured --level info "VM is ready" host "$HOST_NAME"
+    gum log --structured --level info "Connect with: ssh root@vm -p 2222"
+    gum log --structured --level info "Press Ctrl+C to stop the VM"
+
+    wait "$VM_PID"
+    STATUS=$?
+    trap - INT TERM
+    gum log --structured --level info "VM exited with status $STATUS"
+    exit "$STATUS"
+    ;;
+  "Deploy to remote host")
+    # Offer various deployment options.
+    OPTION_GENERATE_HARDWARE_CONFIG=$(gum choose "Yes" "No" --header "Generate hardware configuration? (Recommended for deploying to a new host)")
+    OPTION_BUILD_ON_REMOTE=$(gum choose "Yes" "No" --header "Build on remote host?")
+    
+    # TODO: Actually deploy using `nixos-anywhere`. Important: Make sure to use
+    # `--chown` flag to set the correct owner (1000:100 for gian:users) after copying, see:
+    # https://github.com/nix-community/nixos-anywhere/blob/ff87db6a952191648ffaea97ec5559784c7223c6/docs/howtos/extra-files.md#considerations.
+    gum log --structured --level error "Remote deployment not yet implemented."
+    exit 1
+    ;;
+esac
