@@ -90,6 +90,16 @@ in {
           then "wallpaper = ${config.gui.monitors.secondary.id},${config.gui.wallpaper}"
           else ""
         }
+        ${
+          if (config.gui.monitors.tertiary.id != null)
+          then "wallpaper = ${config.gui.monitors.tertiary.id},${config.gui.wallpaper}"
+          else ""
+        }
+        ${
+          if (config.gui.monitors.quaternary.id != null)
+          then "wallpaper = ${config.gui.monitors.quaternary.id},${config.gui.wallpaper}"
+          else ""
+        }
       '';
     };
 
@@ -158,9 +168,11 @@ in {
 
         monitor =
           [
-            "${config.gui.monitors.main.id},${toString config.gui.monitors.main.width}x${toString config.gui.monitors.main.height}@${toString config.gui.monitors.main.refreshRate},auto-left,${toString config.gui.monitors.main.scale},transform,${toString config.gui.monitors.main.rotation}"
+            "${config.gui.monitors.main.id},${toString config.gui.monitors.main.width}x${toString config.gui.monitors.main.height}@${toString config.gui.monitors.main.refreshRate},${config.gui.monitors.main.position},${toString config.gui.monitors.main.scale},transform,${toString config.gui.monitors.main.rotation}"
           ]
-          ++ (lib.optionals (config.gui.monitors.secondary.id != null) ["${config.gui.monitors.secondary.id},${toString config.gui.monitors.secondary.width}x${toString config.gui.monitors.secondary.height}@${toString config.gui.monitors.secondary.refreshRate},auto-right,${toString config.gui.monitors.secondary.scale},transform,${toString config.gui.monitors.secondary.rotation}"]);
+          ++ (lib.optionals (config.gui.monitors.secondary.id != null) ["${config.gui.monitors.secondary.id},${toString config.gui.monitors.secondary.width}x${toString config.gui.monitors.secondary.height}@${toString config.gui.monitors.secondary.refreshRate},${config.gui.monitors.secondary.position},${toString config.gui.monitors.secondary.scale},transform,${toString config.gui.monitors.secondary.rotation}"])
+          ++ (lib.optionals (config.gui.monitors.tertiary.id != null) ["${config.gui.monitors.tertiary.id},${toString config.gui.monitors.tertiary.width}x${toString config.gui.monitors.tertiary.height}@${toString config.gui.monitors.tertiary.refreshRate},${config.gui.monitors.tertiary.position},${toString config.gui.monitors.tertiary.scale},transform,${toString config.gui.monitors.tertiary.rotation}"])
+          ++ (lib.optionals (config.gui.monitors.quaternary.id != null) ["${config.gui.monitors.quaternary.id},${toString config.gui.monitors.quaternary.width}x${toString config.gui.monitors.quaternary.height}@${toString config.gui.monitors.quaternary.refreshRate},${config.gui.monitors.quaternary.position},${toString config.gui.monitors.quaternary.scale},transform,${toString config.gui.monitors.quaternary.rotation}"]);
 
         general = {
           gaps_in = 3;

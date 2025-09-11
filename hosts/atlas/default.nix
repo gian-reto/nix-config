@@ -18,21 +18,40 @@
     wallpaper = ../../files/wallpaper.jpg;
     monitors = {
       main = {
-        id = "DP-1";
-        width = 1920;
-        height = 1080;
-        scale = 0.833333;
-        refreshRate = 60;
-        # Rotate 270 degrees.
-        rotation = 3;
+        id = "DP-3"; # Physical position: 1st (leftmost).
+        width = 3840;
+        height = 2160;
+        scale = 1.0;
+        refreshRate = 120;
+        rotation = 0;
+        position = "0x0"; # Leftmost position.
       };
       secondary = {
-        id = "HDMI-A-1";
-        width = 5120;
-        height = 1440;
+        id = "HDMI-A-1"; # Physical position: 2nd.
+        width = 3840;
+        height = 2160;
         scale = 1.0;
-        refreshRate = 59.98;
+        refreshRate = 120;
         rotation = 0;
+        position = "3840x0"; # To the right of main.
+      };
+      tertiary = {
+        id = "DP-2"; # Physical position: 3rd.
+        width = 3840;
+        height = 2160;
+        scale = 1.0;
+        refreshRate = 120;
+        rotation = 0;
+        position = "7680x0"; # To the right of secondary.
+      };
+      quaternary = {
+        id = "DP-1"; # Physical position: 4th (rightmost).
+        width = 3840;
+        height = 2160;
+        scale = 1.0;
+        refreshRate = 120;
+        rotation = 0;
+        position = "11520x0"; # Rightmost position.
       };
     };
   };

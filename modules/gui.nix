@@ -85,6 +85,15 @@
             default = 0;
             example = 1;
           };
+          position = lib.mkOption {
+            description = ''
+              The position of the main monitor in the virtual layout.
+              Can be "auto" or coordinates like "0x0", "1920x0", etc.
+            '';
+            type = lib.types.str;
+            default = "auto";
+            example = "0x0";
+          };
         };
         # Optional secondary monitor.
         secondary = {
@@ -134,11 +143,148 @@
           };
           rotation = lib.mkOption {
             description = ''
-              The rotation of the main monitor.
+              The rotation of the secondary monitor.
             '';
             type = lib.types.int;
             default = 0;
             example = 1;
+          };
+          position = lib.mkOption {
+            description = ''
+              The position of the secondary monitor in the virtual layout.
+              Can be "auto" or coordinates like "0x0", "1920x0", etc.
+            '';
+            type = lib.types.str;
+            default = "auto";
+            example = "1920x0";
+          };
+        };
+        # Optional tertiary monitor.
+        tertiary = {
+          id = lib.mkOption {
+            description = ''
+              The id of the tertiary monitor.
+            '';
+            type = lib.types.nullOr lib.types.str;
+            default = null;
+            example = "HDMI-1";
+          };
+          width = lib.mkOption {
+            description = ''
+              The width of the tertiary monitor.
+            '';
+            type = lib.types.nullOr lib.types.int;
+            default = null;
+            example = 1920;
+          };
+          height = lib.mkOption {
+            description = ''
+              The height of the tertiary monitor.
+            '';
+            type = lib.types.nullOr lib.types.int;
+            default = null;
+            example = 1200;
+          };
+          scale = lib.mkOption {
+            description = ''
+              The scale of the tertiary monitor.
+            '';
+            type = lib.types.float;
+            default = 1.0;
+            example = 1.0;
+          };
+          refreshRate = lib.mkOption {
+            description = ''
+              The refresh rate of the tertiary monitor.
+            '';
+            type = lib.types.oneOf [
+              lib.types.float
+              lib.types.int
+              lib.types.str
+            ];
+            default = 60;
+            example = 60;
+          };
+          rotation = lib.mkOption {
+            description = ''
+              The rotation of the tertiary monitor.
+            '';
+            type = lib.types.int;
+            default = 0;
+            example = 1;
+          };
+          position = lib.mkOption {
+            description = ''
+              The position of the tertiary monitor in the virtual layout.
+              Can be "auto" or coordinates like "0x0", "1920x0", etc.
+            '';
+            type = lib.types.str;
+            default = "auto";
+            example = "3840x0";
+          };
+        };
+        # Optional quaternary monitor.
+        quaternary = {
+          id = lib.mkOption {
+            description = ''
+              The id of the quaternary monitor.
+            '';
+            type = lib.types.nullOr lib.types.str;
+            default = null;
+            example = "HDMI-1";
+          };
+          width = lib.mkOption {
+            description = ''
+              The width of the quaternary monitor.
+            '';
+            type = lib.types.nullOr lib.types.int;
+            default = null;
+            example = 1920;
+          };
+          height = lib.mkOption {
+            description = ''
+              The height of the quaternary monitor.
+            '';
+            type = lib.types.nullOr lib.types.int;
+            default = null;
+            example = 1200;
+          };
+          scale = lib.mkOption {
+            description = ''
+              The scale of the quaternary monitor.
+            '';
+            type = lib.types.float;
+            default = 1.0;
+            example = 1.0;
+          };
+          refreshRate = lib.mkOption {
+            description = ''
+              The refresh rate of the quaternary monitor.
+            '';
+            type = lib.types.oneOf [
+              lib.types.float
+              lib.types.int
+              lib.types.str
+            ];
+            default = 60;
+            example = 60;
+          };
+          rotation = lib.mkOption {
+            description = ''
+              The rotation of the quaternary monitor.
+            '';
+            type = lib.types.int;
+            default = 0;
+            example = 1;
+          };
+          position = lib.mkOption {
+            description = ''
+              The position of the quaternary monitor in the virtual layout.
+              Can be "auto" or coordinates like "0x0", "1920x0", etc.
+            '';
+            type = lib.types.str;
+            default = "auto";
+            example = "5760x0";
           };
         };
       };
