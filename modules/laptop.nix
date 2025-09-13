@@ -13,6 +13,6 @@
   };
 
   config = lib.mkIf config.laptop.enable {
-    # Currently empty.
+    features.hypridle.enable = true;
   };
 }
