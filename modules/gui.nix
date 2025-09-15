@@ -297,8 +297,10 @@
     features.audio.enable = true;
     features.bluetooth.enable = true;
     features.chromium.enable = true;
+    features.containers.enable = true;
     features.cursor.enable = true;
-    features.dev-local.enable = true;
+    # TODO: Re-enable.
+    # features.dev-local.enable = true;
     features.firefox.enable = true;
     features.fonts.enable = true;
     features.ghostty.enable = true;

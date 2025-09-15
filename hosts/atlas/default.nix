@@ -86,6 +86,13 @@
       hostName = "atlas";
     };
 
+    # TODO: Remove this redirect.
+    systemd.sockets."https-loop-proxy" = {
+      wantedBy = ["sockets.target"];
+      listenStreams = ["127.0.0.1:443" "[::1]:443"];
+    };
+    systemd.services."https-loop-proxy".serviceConfig.ExecStart = "${pkgs.systemd}/lib/systemd/systemd-socket-proxyd 127.0.0.1:8443";
+
     # System wide packages.
     environment.systemPackages = with pkgs; [
       # Some additional tools.

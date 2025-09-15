@@ -76,17 +76,13 @@ if [ -z "${AGE_CREATED:-}" ] || [ -z "${AGE_PUBLIC_KEY:--}" ] || [ -z "${AGE_SEC
 fi
 
 # Create the directory where `sops` expects to find the `age` key file.
-install -d -m755 "$TEMP/home/gian/.config/sops/age"
+install -d -m755 "$TEMP/var/lib/sops-nix"
 
 # Write the `age` key file.
-printf '# created: %s\n# public key: %s\n%s\n' "$AGE_CREATED" "$AGE_PUBLIC_KEY" "$AGE_SECRET_KEY" > "$TEMP/home/gian/.config/sops/age/keys.txt"
+printf '# created: %s\n# public key: %s\n%s\n' "$AGE_CREATED" "$AGE_PUBLIC_KEY" "$AGE_SECRET_KEY" > "$TEMP/var/lib/sops-nix/key.txt"
 
 # Set the correct permissions on the `age` key file.
-chmod 600 "$TEMP/home/gian/.config/sops/age/keys.txt"
-# Chown to `1000:100`. Note: This is only useful for the local VM deployment, as
-# `nixos-anywhere` needs the `--chown` flag to set the correct owner after
-# copying.
-chown 1000:100 "$TEMP/home/gian/.config/sops/age/keys.txt"
+chmod 600 "$TEMP/var/lib/sops-nix/key.txt"
 
 # Display the selected options.
 echo "Host name: $HOST_NAME"
@@ -113,7 +109,7 @@ case "$DEPLOY_METHOD" in
   "Run in local VM")
     # Export `VM_AGE_KEY_DIR` which will be used during the Nix build to set the
     # correct mount path for the VM to use.
-    export VM_AGE_KEY_DIR="$TEMP/home/gian/.config/sops/age"
+    export VM_AGE_KEY_DIR="$TEMP/var/lib/sops-nix"
 
     # shellcheck disable=SC2016
     VM_OUT_PATH=$(

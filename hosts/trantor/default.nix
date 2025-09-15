@@ -1,22 +1,25 @@
 {
   config,
+  inputs,
   lib,
-  pkgs,
   ...
 }: {
   osModules = [
+    inputs.nix-services.nixosModules.default
     # inputs.disko.nixosModules.disko
     # ./disk-configuration.nix
     # ./hardware-configuration.nix
   ];
 
-  # Enable my modules!
-  # features.sops.enable = true;
-
   os = {
     nixpkgs.config = {
       allowUnfree = true;
       allowUnfreePredicate = _: true;
+    };
+
+    # Enable services from `nix-services`.
+    homelabServices = {
+      enable = true;
     };
 
     boot = {
@@ -49,7 +52,10 @@
 
     networking.firewall = {
       enable = true;
-      allowedTCPPorts = [22]; # SSH access.
+      allowedTCPPorts = [
+        22 # SSH access.
+        443 # HTTPS.
+      ];
     };
 
     # VM configuration for testing and development.
@@ -70,38 +76,29 @@
             host.port = 2222;
             guest.port = 22;
           }
+          {
+            from = "host";
+            host.port = 8443;
+            guest.port = 443;
+          }
         ];
 
         sharedDirectories = {
           age = {
             # Passed by the `deploy.sh` script.
             source = "$VM_AGE_KEY_DIR";
-            target = "/home/${config.hmUsername}/.config/sops/age";
-            securityModel = "mapped-xattr";
+            target = "/var/lib/sops-nix";
           };
         };
       };
 
-      # Make sure to set correct permissions, because we mount into the home
-      # directory of the user, and `.config` is not created at that point, which
-      # would break `home-manager`.
-      systemd.services."vm-fix-config-ownership" = let
-        user = config.hmUsername;
-        group = "users";
-        xdgConfigHome = "/home/${user}/.config";
-      in {
-        description = "Fix ownership of ${xdgConfigHome} and subdirectories due to VM shared directory mount";
-        before = ["home-manager-${user}.service"];
-        wantedBy = ["home-manager-${user}.service"];
+      # Enable VM-specific overrides in `homelabServices`.
+      homelabServices.isVM = true;
 
-        serviceConfig = {
-          Type = "oneshot";
-          ExecStart = ''
-            ${pkgs.coreutils}/bin/chown ${user}:${group} ${xdgConfigHome} ${xdgConfigHome}/sops ${xdgConfigHome}/sops/age
-            ${pkgs.coreutils}/bin/chmod 755 ${xdgConfigHome} ${xdgConfigHome}/sops ${xdgConfigHome}/sops/age
-          '';
-        };
-      };
+      # Ensure correct permissions on the `age` key file.
+      systemd.tmpfiles.rules = [
+        "z /var/lib/sops-nix/key.txt 0600 root root -"
+      ];
 
       # Set `initialPassword`, as this is a testing VM.
       users.users."${config.hmUsername}" = {

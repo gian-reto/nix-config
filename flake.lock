@@ -993,21 +993,25 @@
         "type": "github"
       }
     },
-    "nix-secrets": {
+    "nix-services": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ],
+        "sops-nix": "sops-nix"
+      },
       "locked": {
-        "lastModified": 1756430948,
-        "narHash": "sha256-M2LGHERmFJi0KBe+uGULTTRQETFT0rSm7FlUobm+icM=",
-        "ref": "main",
-        "rev": "aa34ab2282101e84aff5cd11a41c7cd64e19b01c",
-        "shallow": true,
+        "lastModified": 1758128385,
+        "narHash": "sha256-tHIJ2zKS0SagVk5UOVCe6IeQDCMawv1N2qzgkektSkc=",
+        "ref": "refs/heads/main",
+        "rev": "db811560a3f0e81fabcc386b459c177647a0d290",
+        "revCount": 1,
         "type": "git",
-        "url": "ssh://git@github.com/gian-reto/nix-secrets.git"
+        "url": "file:///home/gian/Code/gian-reto/nix-services"
       },
       "original": {
-        "ref": "main",
-        "shallow": true,
         "type": "git",
-        "url": "ssh://git@github.com/gian-reto/nix-secrets.git"
+        "url": "file:///home/gian/Code/gian-reto/nix-services"
       }
     },
     "nix-vscode-extensions": {
@@ -1230,12 +1234,11 @@
         "mcp-servers-nix": "mcp-servers-nix",
         "nix": "nix",
         "nix-index-database": "nix-index-database",
-        "nix-secrets": "nix-secrets",
+        "nix-services": "nix-services",
         "nix-vscode-extensions": "nix-vscode-extensions",
         "nixos-x13s": "nixos-x13s",
         "nixpkgs": "nixpkgs_4",
         "nixpkgs-stable": "nixpkgs-stable",
-        "sops-nix": "sops-nix",
         "systems": "systems_4",
         "vscode-insiders": "vscode-insiders"
       }
@@ -1243,15 +1246,16 @@
     "sops-nix": {
       "inputs": {
         "nixpkgs": [
+          "nix-services",
           "nixpkgs"
         ]
       },
       "locked": {
-        "lastModified": 1754988908,
-        "narHash": "sha256-t+voe2961vCgrzPFtZxha0/kmFSHFobzF00sT8p9h0U=",
+        "lastModified": 1758007585,
+        "narHash": "sha256-HYnwlbY6RE5xVd5rh0bYw77pnD8lOgbT4mlrfjgNZ0c=",
         "owner": "Mic92",
         "repo": "sops-nix",
-        "rev": "3223c7a92724b5d804e9988c6b447a0d09017d48",
+        "rev": "f77d4cfa075c3de66fc9976b80e0c4fc69e2c139",
         "type": "github"
       },
       "original": {

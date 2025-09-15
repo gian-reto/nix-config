@@ -30,7 +30,6 @@
     ./features/network.nix
     ./features/opencode
     ./features/security.nix
-    ./features/sops.nix
     ./features/ssh.nix
     ./features/valent.nix
     ./features/virtualization.nix
