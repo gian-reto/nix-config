@@ -108,12 +108,12 @@
   inputs = {
     # Nix ecosystem.
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-    nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-24.11";
+    nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-25.05";
     hardware.url = "github:nixos/nixos-hardware";
     systems.url = "github:nix-systems/default-linux";
 
     nix = {
-      url = "github:nixos/nix/2.22-maintenance";
+      url = "github:nixos/nix/latest-release";
       inputs.nixpkgs.follows = "nixpkgs-stable";
     };
 
