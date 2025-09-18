@@ -17,6 +17,7 @@
     ./features/distributed-builds.nix
     ./features/fastfetch.nix
     ./features/firefox.nix
+    ./features/flatpak.nix
     ./features/fonts.nix
     ./features/ghostty.nix
     ./features/git.nix

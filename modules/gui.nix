@@ -302,6 +302,7 @@
     # TODO: Re-enable.
     # features.dev-local.enable = true;
     features.firefox.enable = true;
+    features.flatpak.enable = true;
     features.fonts.enable = true;
     features.ghostty.enable = true;
     features.git.enable = true;
