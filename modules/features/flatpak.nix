@@ -1,5 +1,6 @@
 {
   config,
+  hmConfig,
   lib,
   pkgs,
   ...
@@ -22,5 +23,12 @@
         flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
       '';
     };
+  };
+
+  config.hm = lib.mkIf config.features.flatpak.enable {
+    xdg.systemDirs.data = [
+      "/var/lib/flatpak/exports/share"
+      "${hmConfig.home.homeDirectory}/.local/share/flatpak/exports/share"
+    ];
   };
 }
