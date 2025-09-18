@@ -58,6 +58,7 @@
 
   # Enable individual features.
   features.android.enable = true;
+  features.ollama.enable = true;
   features.virtualization.enable = true;
 
   # Machine-specific configuration.

@@ -29,6 +29,7 @@
     ./features/hypridle.nix
     ./features/i18n.nix
     ./features/network.nix
+    ./features/ollama.nix
     ./features/opencode
     ./features/security.nix
     ./features/ssh.nix
