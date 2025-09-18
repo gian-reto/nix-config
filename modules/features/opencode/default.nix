@@ -1,8 +1,9 @@
 {
   config,
+  hmConfig,
+  inputs,
   lib,
   pkgs,
-  inputs,
   ...
 }: let
   mcpPackages = inputs.mcp-servers-nix.packages.${pkgs.system};
@@ -49,6 +50,12 @@ in {
         - `time` MCP server / tool to get the current date and time.
       - You have access to the command line. Prefer allowed commands, such as `bat`, `cat`, `find`, `fzf`, `gh`, `git`, `grep`, `head`, `journalctl`, `jq`, `less`, `ls`, `lsd`, `man`, `nh`, `nil`, `pwd`, `rg`, `tail`, `tree`, and `z`.
     '';
+
+    # Create some directories and files needed by the opencode config below.
+    systemd.user.tmpfiles.rules = [
+      "d /home/gian/.cache/opencode/memory 0755 ${hmConfig.home.username} users - -"
+      "f /home/gian/.cache/opencode/memory/memory.json 0644 ${hmConfig.home.username} users - -"
+    ];
 
     programs.opencode = {
       enable = true;
@@ -162,10 +169,57 @@ in {
             enabled = true;
             command = ["${mcpPackages.mcp-server-git}/bin/mcp-server-git"];
           };
+          github = {
+            type = "local";
+            enabled = true;
+            command = [
+              "op"
+              "run"
+              "--"
+              "podman"
+              "run"
+              "-i"
+              "--rm"
+              "-e"
+              "GITHUB_PERSONAL_ACCESS_TOKEN"
+              "-e"
+              "GITHUB_READ_ONLY"
+              "-e"
+              "GITHUB_TOOLSETS"
+              "ghcr.io/github/github-mcp-server"
+            ];
+            environment = {
+              "GITHUB_PERSONAL_ACCESS_TOKEN" = "op://Personal/mttiacgfb5emvfmgxia6b4hvza/personal-access-token-mcp";
+              "GITHUB_READ_ONLY" = "1";
+              "GITHUB_TOOLSETS" = "context,discussions,issues,pull_requests,repos,security_advisories,users";
+            };
+          };
+          kagisearch = {
+            type = "local";
+            enabled = true;
+            command = [
+              "op"
+              "run"
+              "--"
+              "podman"
+              "run"
+              "-i"
+              "--rm"
+              "-e"
+              "KAGI_API_KEY"
+              "mcp/kagisearch"
+            ];
+            environment = {
+              "KAGI_API_KEY" = "op://Personal/s47avhmxjyaqgpvexzolwcirba/api-token";
+            };
+          };
           memory = {
             type = "local";
             enabled = true;
             command = ["${mcpPackages.mcp-server-memory}/bin/mcp-server-memory"];
+            environment = {
+              "MEMORY_FILE_PATH" = "/home/gian/.cache/opencode/memory/memory.json";
+            };
           };
           nixos = {
             type = "local";
