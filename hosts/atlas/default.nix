@@ -94,21 +94,50 @@
     systemd.services."https-loop-proxy".serviceConfig.ExecStart = "${pkgs.systemd}/lib/systemd/systemd-socket-proxyd 127.0.0.1:8443";
 
     # System wide packages.
-    environment.systemPackages = with pkgs; [
-      # Some additional tools.
-      glxinfo
-      pciutils
-      vulkan-tools
-    ];
+    environment = {
+      systemPackages = with pkgs; [
+        # Some additional tools.
+        glxinfo
+        pciutils
+        vulkan-tools
+        rocmPackages.rocminfo
+      ];
+    };
 
     networking.networkmanager = {
       enable = true;
     };
 
-    # Enable GPU acceleration.
-    hardware.graphics = {
-      enable = true;
+    # Enable GPU stuff.
+    boot.initrd.kernelModules = ["amdgpu"];
+    hardware = {
+      graphics = {
+        enable = true;
+        enable32Bit = true;
+
+        extraPackages = with pkgs; [
+          amdvlk
+        ];
+        extraPackages32 = with pkgs.driversi686Linux; [
+          amdvlk
+        ];
+      };
+
+      amdgpu = {
+        amdvlk = {
+          enable = false;
+          support32Bit.enable = false;
+        };
+        opencl.enable = true;
+      };
     };
+    environment.variables = {
+      HSA_OVERRIDE_GFX_VERSION = "10.3.0"; # `gfx1030` for RX 6900 XT.
+      AMD_VULKAN_ICD = "RADV"; # Force RADV over AMDVLK.
+    };
+    systemd.tmpfiles.rules = [
+      "L+    /opt/rocm/hip   -    -    -     -    ${pkgs.rocmPackages.clr}"
+    ];
 
     services.openssh.enable = true;
     users.users.root = {

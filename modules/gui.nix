@@ -2,6 +2,7 @@
 {
   config,
   lib,
+  osConfig,
   pkgs,
   ...
 }: {
@@ -359,6 +360,11 @@
         warp # Magic Wormhole client.
         wildcard # Regex testing tool.
         zed-editor # Code editor.
+        (
+          if osConfig.networking.hostName == "atlas"
+          then (alpaca.override {ollama = ollama-rocm;}) # Ollama GUI client.
+          else null
+        )
       ];
     };
   };

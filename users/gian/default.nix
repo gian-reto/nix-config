@@ -25,6 +25,7 @@ in {
             "lp"
             "networkmanager"
             "podman"
+            "render"
             "video"
             "wheel"
           ]
