@@ -51,6 +51,11 @@ in {
           IdentityAgent ${gpgAgentPath}
           User root
 
+        Host trantor
+          HostName 192.168.20.20
+          IdentityAgent ${gpgAgentPath}
+          User root
+
         Host tycho
           HostName 192.168.10.12
           IdentityAgent ${gpgAgentPath}

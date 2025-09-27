@@ -6,9 +6,9 @@
 }: {
   osModules = [
     inputs.nix-services.nixosModules.default
-    # inputs.disko.nixosModules.disko
-    # ./disk-configuration.nix
-    # ./hardware-configuration.nix
+    inputs.disko.nixosModules.disko
+    ./disk-configuration.nix
+    ./hardware-configuration.nix
   ];
 
   os = {
@@ -31,6 +31,8 @@
         };
         efi.canTouchEfiVariables = true;
       };
+      # Enable `swraid` to use `mdadm`.
+      swraid.enable = true;
     };
 
     networking = {
@@ -64,7 +66,7 @@
 
       virtualisation = {
         cores = 4;
-        diskSize = 10240; # 10GB disk.
+        diskSize = 1024 * 80; # 80GB disk.
         memorySize = 1024 * 8; # 8GB RAM.
 
         # Disable qemu graphics so it just uses the same terminal it was started from.
@@ -108,8 +110,8 @@
       services.qemuGuest.enable = true;
     };
 
-    system.stateVersion = "25.11";
+    system.stateVersion = "25.05";
   };
 
-  hm.home.stateVersion = "25.11";
+  hm.home.stateVersion = "25.05";
 }

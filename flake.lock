@@ -997,17 +997,19 @@
         "sops-nix": "sops-nix"
       },
       "locked": {
-        "lastModified": 1758128385,
-        "narHash": "sha256-tHIJ2zKS0SagVk5UOVCe6IeQDCMawv1N2qzgkektSkc=",
-        "ref": "refs/heads/main",
-        "rev": "db811560a3f0e81fabcc386b459c177647a0d290",
-        "revCount": 1,
+        "lastModified": 1759008234,
+        "narHash": "sha256-yquh/qlgi71S8g+DWZzZnkSq9q1blLDn5A5tn/c5ei8=",
+        "ref": "main",
+        "rev": "73c4cfcb97bca22e099e0389e0bfa68a46594828",
+        "revCount": 15,
         "type": "git",
-        "url": "file:///home/gian/Code/gian-reto/nix-services"
+        "url": "ssh://git@github.com/gian-reto/nix-services"
       },
       "original": {
+        "ref": "main",
+        "rev": "73c4cfcb97bca22e099e0389e0bfa68a46594828",
         "type": "git",
-        "url": "file:///home/gian/Code/gian-reto/nix-services"
+        "url": "ssh://git@github.com/gian-reto/nix-services"
       }
     },
     "nix-vscode-extensions": {
