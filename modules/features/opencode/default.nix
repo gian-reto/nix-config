@@ -14,6 +14,10 @@
   debugPrompt = pkgs.writeText "debug-prompt.md" (builtins.readFile ./prompts/debug.md);
   planPrompt = pkgs.writeText "plan-prompt.md" (builtins.readFile ./prompts/plan.md);
 in {
+  imports = [
+    ./permission.nix
+  ];
+
   options.features.opencode.enable = lib.mkOption {
     description = ''
       Whether to enable opencode (https://github.com/sst/opencode).
@@ -64,92 +68,159 @@ in {
       settings = {
         autoshare = false;
         autoupdate = false;
-        model = "github-copilot/claude-sonnet-4";
+        model = "github-copilot/gpt-5-codex";
         small_model = "github-copilot/gpt-5-mini";
         theme = "system";
-        permission = {
-          edit = "allow";
-          # Deny webfetch in favor of the `fetch` MCP server.
-          webfetch = "deny";
-          bash = {
-            "alejandra *" = "allow";
-            "cat *" = "allow";
-            "cd *" = "allow";
-            "bat *" = "allow";
-            "find *" = "allow";
-            "fzf *" = "allow";
-            "gh help" = "allow";
-            "gh search *" = "allow";
-            "gh *" = "ask";
-            "git diff *" = "allow";
-            "git log *" = "allow";
-            "git show *" = "allow";
-            "git stash list" = "allow";
-            "git status" = "allow";
-            "git *" = "ask";
-            "grep *" = "allow";
-            "head *" = "allow";
-            "journalctl *" = "allow";
-            "jq *" = "allow";
-            "less *" = "allow";
-            "ls *" = "allow";
-            "lsd *" = "allow";
-            "man *" = "allow";
-            "nh os build" = "ask";
-            "nh search *" = "allow";
-            "nh *" = "deny";
-            "nil diagnostics *" = "allow";
-            "nil parse *" = "allow";
-            "nil *" = "ask";
-            "nixos-rebuild" = "deny";
-            "pwd" = "allow";
-            "rg *" = "allow";
-            "tail *" = "allow";
-            "tree" = "allow";
-            "z *" = "allow";
-            "*" = "ask";
-          };
-        };
 
-        agent = {
+        agent = let
+          # Enable or disable various tools provided by MCP servers. Keep mostly read-only.
+          mcpTools = {
+            # Context7
+            "context7*" = false;
+            "context7_get_library_docs" = true;
+            "context7_resolve_library_id" = true;
+
+            # Fetch
+            "fetch*" = false;
+            "fetch_fetch" = true;
+
+            # Git
+            "git*" = false;
+            "git_git_branch" = true;
+            "git_git_diff*" = true;
+            "git_git_log" = true;
+            "git_git_show" = true;
+            "git_git_status" = true;
+
+            # GitHub
+            "github*" = false;
+            # GitHub: Context
+            "github_get_me" = true;
+            # GitHub: Discussions
+            "github_get_discussion" = true;
+            "github_get_discussion_comments" = true;
+            "github_list_discussion_categories" = true;
+            "github_list_discussions" = true;
+            # GitHub: Issues
+            "github_get_issue" = true;
+            "github_get_issue_comments" = true;
+            "github_list_issues" = true;
+            "github_list_sub_issues" = true;
+            "github_search_issues" = true;
+            # GitHub: Pull Requests
+            "github_get_pull_request" = true;
+            "github_get_pull_request_diff" = true;
+            "github_get_pull_request_files" = true;
+            "github_get_pull_request_review_comments" = true;
+            "github_get_pull_request_reviews" = true;
+            "github_get_pull_request_status" = true;
+            "github_list_pull_requests" = true;
+            "github_request_copilot_review" = true;
+            "github_search_pull_requests" = true;
+            # GitHub: Repositories
+            "github_get_commit" = true;
+            "github_get_file_contents" = true;
+            "github_get_latest_release" = true;
+            "github_get_release_by_tag" = true;
+            "github_get_tag" = true;
+            "github_list_branches" = true;
+            "github_list_commits" = true;
+            "github_list_releases" = true;
+            "github_list_starred_repositories" = true;
+            "github_list_tags" = true;
+            "github_search_code" = true;
+            "github_search_repositories" = true;
+            # GitHub: Security Advisories
+            "github_get_global_security_advisory" = true;
+            "github_list_global_security_advisories" = true;
+            "github_list_org_repository_security_advisories" = true;
+            "github_list_repository_security_advisories" = true;
+            # GitHub: Users
+            "github_search_users" = true;
+
+            # Kagi Search
+            "kagisearch*" = false;
+            "kagisearch_kagi_search_fetch" = true;
+            "kagisearch_kagi_summarizer" = true;
+
+            # Memory
+            "memory*" = true;
+
+            # NixOS
+            "nixos*" = true;
+
+            # Sequential Thinking
+            "sequential-thinking*" = true;
+
+            # Time
+            "time*" = true;
+          };
+        in {
           build = {
             description = "Builds new features or entire applications based on a high-level description of what needs to be done.";
             mode = "primary";
-            model = "github-copilot/claude-sonnet-4";
+            model = "github-copilot/gpt-5-codex";
             prompt = "{file:${buildPrompt}}";
-            tools = {
-              bash = true;
-              edit = true;
-              patch = true;
-              write = true;
-              webfetch = false;
-            };
+            tools =
+              {
+                bash = true;
+                edit = true;
+                glob = true;
+                grep = true;
+                list = true;
+                patch = true;
+                read = true;
+                todoread = true;
+                todowrite = true;
+                # Disabled in favor of the `fetch` MCP server.
+                webfetch = false;
+                write = true;
+              }
+              // mcpTools;
           };
           debug = {
             description = "Finds and fixes bugs in the codebase based on error messages, logs, or a description of the issue.";
             mode = "primary";
-            model = "github-copilot/claude-sonnet-4";
+            model = "github-copilot/gpt-5-codex";
             prompt = "{file:${debugPrompt}}";
-            tools = {
-              bash = true;
-              edit = true;
-              patch = true;
-              write = true;
-              webfetch = false;
-            };
+            tools =
+              {
+                bash = true;
+                edit = true;
+                glob = true;
+                grep = true;
+                list = true;
+                patch = false;
+                read = true;
+                todoread = true;
+                todowrite = true;
+                # Disabled in favor of the `fetch` MCP server.
+                webfetch = false;
+                write = true;
+              }
+              // mcpTools;
           };
           plan = {
             description = "Creates a clear and actionable plan for implementing a feature or solving a problem based on a high-level description of the task.";
             mode = "subagent";
             model = "github-copilot/gpt-5";
             prompt = "{file:${planPrompt}}";
-            tools = {
-              bash = true;
-              edit = false;
-              patch = false;
-              write = false;
-              webfetch = false;
-            };
+            tools =
+              {
+                bash = true;
+                edit = false;
+                glob = true;
+                grep = true;
+                list = true;
+                patch = false;
+                read = true;
+                todoread = true;
+                todowrite = true;
+                # Disabled in favor of the `fetch` MCP server.
+                webfetch = false;
+                write = false;
+              }
+              // mcpTools;
           };
         };
 
@@ -226,15 +297,17 @@ in {
             enabled = true;
             command = ["${mcpNixosPackage}/bin/mcp-nixos"];
           };
-          playwright = {
-            type = "local";
-            enabled = true;
-            command = [
-              "${mcpPackages.playwright-mcp}/bin/mcp-server-playwright"
-              "--executable-path"
-              "${pkgs.chromium}/bin/chromium"
-            ];
-          };
+          # Works, but is overkill at the moment.
+          #
+          # playwright = {
+          #   type = "local";
+          #   enabled = true;
+          #   command = [
+          #     "${mcpPackages.playwright-mcp}/bin/mcp-server-playwright"
+          #     "--executable-path"
+          #     "${pkgs.chromium}/bin/chromium"
+          #   ];
+          # };
           "sequential-thinking" = {
             type = "local";
             enabled = true;
