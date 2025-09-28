@@ -153,6 +153,9 @@ in {
             "terminal.integrated.smoothScrolling" = true;
             "terminal.integrated.mouseWheelScrollSensitivity" = 1.2;
             "terminal.integrated.fastScrollSensitivity" = 3;
+            # Error `GCVM_L2_PROTECTION_FAULT_STATUS` in `amdgpu` caused by VSCode.
+            # See: https://github.com/microsoft/vscode/issues/238088.
+            "terminal.integrated.gpuAcceleration" = "off";
             "security.workspace.trust.enabled" = false;
             "security.workspace.trust.untrustedFiles" = "open";
             "security.workspace.trust.banner" = "never";
