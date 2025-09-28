@@ -111,6 +111,23 @@
 
     # Enable GPU stuff.
     boot.initrd.kernelModules = ["amdgpu"];
+    boot.kernelParams = [
+      # Disable pcie active state power management.
+      "amdgpu.aspm=0"
+      # Disable bidirectional application CPU/GPU TDP power management.
+      "amdgpu.bapm=0"
+      # Disable runtime power management.
+      "amdgpu.runpm=0"
+      # Disable active state power management.
+      "pcie_aspm=off"
+      # DC_DISABLE_PSR: Panel Self-Refresh, causes display hangs.
+      # See:
+      # - https://gitlab.freedesktop.org/drm/amd/-/issues/4141
+      # - https://www.kernel.org/doc/html/latest/gpu/amdgpu/driver-core.html#c.DC_DEBUG_MASK
+      "amdgpu.dcdebugmask=0x10"
+      # Disable PP_GFXOFF_MASK: Dynamic graphics engine power control.
+      "amdgpu.ppfeaturemask=0xf7fff"
+    ];
     hardware = {
       graphics = {
         enable = true;
