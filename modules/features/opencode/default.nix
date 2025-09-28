@@ -68,7 +68,7 @@ in {
       settings = {
         autoshare = false;
         autoupdate = false;
-        model = "github-copilot/gpt-5-codex";
+        model = "github-copilot/gpt-5";
         small_model = "github-copilot/gpt-5-mini";
         theme = "system";
 
@@ -159,7 +159,7 @@ in {
           build = {
             description = "Builds new features or entire applications based on a high-level description of what needs to be done.";
             mode = "primary";
-            model = "github-copilot/gpt-5-codex";
+            model = "github-copilot/gpt-5";
             prompt = "{file:${buildPrompt}}";
             tools =
               {
@@ -181,7 +181,7 @@ in {
           debug = {
             description = "Finds and fixes bugs in the codebase based on error messages, logs, or a description of the issue.";
             mode = "primary";
-            model = "github-copilot/gpt-5-codex";
+            model = "github-copilot/gpt-5";
             prompt = "{file:${debugPrompt}}";
             tools =
               {
