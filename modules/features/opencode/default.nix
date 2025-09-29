@@ -68,8 +68,13 @@ in {
       settings = {
         autoshare = false;
         autoupdate = false;
-        model = "github-copilot/gpt-5";
-        small_model = "github-copilot/gpt-5-mini";
+        model = "openrouter/openai/gpt-5-codex";
+        provider = {
+          openrouter.models = {
+            "openai/gpt-5-codex".name = "GPT-5 Codex";
+          };
+        };
+        small_model = "github-copilot/gpt-5";
         theme = "system";
 
         agent = let
@@ -159,7 +164,7 @@ in {
           build = {
             description = "Builds new features or entire applications based on a high-level description of what needs to be done.";
             mode = "primary";
-            model = "github-copilot/gpt-5";
+            model = "openrouter/openai/gpt-5-codex";
             prompt = "{file:${buildPrompt}}";
             tools =
               {
@@ -181,7 +186,7 @@ in {
           debug = {
             description = "Finds and fixes bugs in the codebase based on error messages, logs, or a description of the issue.";
             mode = "primary";
-            model = "github-copilot/gpt-5";
+            model = "openrouter/openai/gpt-5-codex";
             prompt = "{file:${debugPrompt}}";
             tools =
               {
@@ -203,7 +208,7 @@ in {
           plan = {
             description = "Creates a clear and actionable plan for implementing a feature or solving a problem based on a high-level description of the task.";
             mode = "subagent";
-            model = "github-copilot/gpt-5";
+            model = "openrouter/openai/gpt-5-codex";
             prompt = "{file:${planPrompt}}";
             tools =
               {
