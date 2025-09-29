@@ -161,13 +161,53 @@ case "$DEPLOY_METHOD" in
     ;;
   "Deploy to remote host")
     # Offer various deployment options.
-    OPTION_GENERATE_HARDWARE_CONFIG=$(gum choose "Yes" "No" --header "Generate hardware configuration? (Recommended for deploying to a new host)")
     OPTION_BUILD_ON_REMOTE=$(gum choose "Yes" "No" --header "Build on remote host?")
-    
-    # TODO: Actually deploy using `nixos-anywhere`. Important: Make sure to use
-    # `--chown` flag to set the correct owner (1000:100 for gian:users) after copying, see:
-    # https://github.com/nix-community/nixos-anywhere/blob/ff87db6a952191648ffaea97ec5559784c7223c6/docs/howtos/extra-files.md#considerations.
-    gum log --structured --level error "Remote deployment not yet implemented."
-    exit 1
+    OPTION_DISK_ENCRYPT=$(gum choose "Yes" "No" --header "Copy disk encryption keys (LUKS)?")
+
+    TARGET_HOST="root@$HOST_NAME"
+
+    # Build up nixos-anywhere command dynamically.
+    CMD=(nixos-anywhere)
+
+    # Add disk encryption keys for copying if requested.
+    if [ "$OPTION_DISK_ENCRYPT" = "Yes" ]; then
+      CMD+=(--disk-encryption-keys /tmp/secret.key <(op read op://Development/3x3x7fbtnr74l65fjtakpznuui/password))
+    fi
+
+    # Generate hardware config if the `hardware-configuration.nix` file does not exist yet.
+    HARDWARE_CONFIG_FILE="./hosts/$HOST_NAME/hardware-configuration.nix"
+    if [ ! -f "$HARDWARE_CONFIG_FILE" ]; then
+      # Instruct nixos-anywhere to generate hardware config into the repository path.
+      CMD+=(--generate-hardware-config nixos-generate-config "$HARDWARE_CONFIG_FILE")
+    fi
+
+    if [ "$OPTION_BUILD_ON_REMOTE" = "Yes" ]; then
+      CMD+=(--build-on-remote)
+    fi
+
+    # Copy age key directory so sops-nix can decrypt secrets on first boot.
+    CMD+=(--extra-files "$TEMP")
+
+    # Base flake and target host flags.
+    CMD+=(--flake ".#$HOST_NAME" --target-host "$TARGET_HOST")
+
+    echo "Command to be executed:"
+    printf '%q ' "${CMD[@]}"
+    echo
+
+    CONFIRM_DEPLOYMENT=$(gum choose "Yes" "No" --header "Proceed with remote deployment?")
+    if [ "$CONFIRM_DEPLOYMENT" = "No" ]; then
+      gum log --structured --level info "Remote deployment cancelled."
+      exit 0
+    fi
+
+    gum log --structured --level info "Starting remote deployment..." host "$HOST_NAME" target "$TARGET_HOST"
+    if ! "${CMD[@]}"; then
+      STATUS=$?
+      gum log --structured --level error "Remote deployment failed." code "$STATUS"
+      exit "$STATUS"
+    fi
+
+    gum log --structured --level info "Remote deployment completed successfully." host "$HOST_NAME"
     ;;
 esac
