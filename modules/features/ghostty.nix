@@ -51,9 +51,6 @@
         # Color settings.
         theme = "Adwaita Dark";
         background-opacity = 0.75;
-
-        # GTK settings.
-        gtk-adwaita = true;
       };
     };
   };
