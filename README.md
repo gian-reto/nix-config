@@ -67,6 +67,9 @@ nix run github:nix-community/nixos-anywhere -- \
     --flake .#atlas \
     --target-host root@atlas \
     --build-on-remote
+
+# Switch configuration of a remote host if it was already deployed:
+nixos-rebuild switch --flake .#trantor --target-host root@trantor --build-host root@trantor --verbose
 ```
 
 ## Thanks
