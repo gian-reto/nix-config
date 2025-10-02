@@ -60,6 +60,48 @@
       ];
     };
 
+    # Logging & crash handling.
+    boot.kernelModules = ["iTCO_wdt" "iTCO_vendor_support"]; # Intel watchdog drivers.
+    # Allow clean shutdowns to disable the watchdog.
+    boot.extraModprobeConfig = ''
+      options iTCO_wdt nowayout=0
+    '';
+    boot.kernel.sysctl = {
+      "kernel.watchdog" = 1;
+      "kernel.softlockup_panic" = 1;
+      "kernel.hardlockup_panic" = 1;
+    };
+    services.watchdogd = {
+      enable = true;
+
+      settings = {
+        "device /dev/watchdog" = {
+          timeout = 30; # Hardware watchdog timeout in seconds.
+          interval = 10; # Ping interval in seconds.
+          safe-exit = true; # Disable watchdog on clean exit.
+        };
+        loadavg = {
+          enabled = true;
+
+          interval = 60;
+          warning = 20.0; # ~ 1.0 × 20 threads (i5-13600K).
+          critical = 40.0; # ~ 2.0 × 20 threads (i5-13600K), will trigger reboot.
+        };
+        meminfo = {
+          enabled = true;
+
+          interval = 60;
+          warning = 0.85; # Warning at 85% memory usage.
+          critical = 0.95; # Critical at 95% memory usage (will trigger reboot).
+        };
+        filenr = {
+          enabled = true;
+
+          logmark = true; # Log file descriptor usage.
+        };
+      };
+    };
+
     # VM configuration for testing and development.
     virtualisation.vmVariant = {modulesPath, ...}: {
       imports = [(modulesPath + "/profiles/qemu-guest.nix")]; # Optimize for QEMU VMs.
