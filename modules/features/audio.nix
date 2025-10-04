@@ -19,45 +19,37 @@
     # Disable `pulseaudio`.
     services.pulseaudio.enable = lib.mkForce false;
 
-    # Probably needed for AirPlay support.
+    # Enable Avahi for mDNS/zeroconf service discovery (required for AirPlay).
     services.avahi.enable = true;
 
     # Enable `pipewire` stack.
     services.pipewire = {
       enable = true;
-      package = pkgs.pipewire.override {
-        raopSupport = true;
-      };
 
       alsa.enable = true;
       alsa.support32Bit = true;
-      # jack.enable = true;
       pulse.enable = true;
-      wireplumber = {
-        enable = true;
-        package = pkgs.wireplumber;
-      };
+      wireplumber.enable = true;
 
-      # AirPlay support.
+      # Open firewall for AirPlay (RAOP) connections (UDP ports 6001-6002).
       raopOpenFirewall = true;
-      configPackages = [
-        (pkgs.writeTextFile {
-          name = "pipewire-airplay";
-          text = builtins.toJSON {
-            "context.modules" = [
-              {
-                name = "libpipewire-module-zeroconf-discover";
-                args = {};
-              }
-              {
-                name = "libpipewire-module-raop-discover";
-                args = {};
-              }
-            ];
-          };
-          destination = "/share/pipewire/pipewire.conf.d/airplay.conf";
-        })
-      ];
+
+      # AirPlay (RAOP) support.
+      extraConfig.pipewire."10-airplay" = {
+        "context.modules" = [
+          {
+            name = "libpipewire-module-zeroconf-discover";
+            args = {};
+          }
+          {
+            name = "libpipewire-module-raop-discover";
+            args = {
+              # Auto-reconnect to AirPlay devices if connection drops.
+              "raop.autoreconnect" = true;
+            };
+          }
+        ];
+      };
     };
 
     security.pam.loginLimits = [
