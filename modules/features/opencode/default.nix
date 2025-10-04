@@ -14,7 +14,6 @@
   consultPrompt = pkgs.writeText "consult-prompt.md" (builtins.readFile ./prompts/consult.md);
   debugPrompt = pkgs.writeText "debug-prompt.md" (builtins.readFile ./prompts/debug.md);
   githubResearchPrompt = pkgs.writeText "github-research-prompt.md" (builtins.readFile ./prompts/github-research.md);
-  researchOperatorPrompt = pkgs.writeText "research-operator-prompt.md" (builtins.readFile ./prompts/research-operator.md);
   webResearchPrompt = pkgs.writeText "web-research-prompt.md" (builtins.readFile ./prompts/web-research.md);
 in {
   imports = [
@@ -250,29 +249,6 @@ in {
           plan = {
             # Disable built-in `plan` agent.
             disable = true;
-          };
-          "research-operator" = {
-            description = "Coordinates research tasks by delegating to specialized subagents and compiling their findings into a comprehensive report.";
-            mode = "subagent";
-            model = "github-copilot/claude-sonnet-4.5";
-            prompt = "{file:${researchOperatorPrompt}}";
-            tools =
-              {
-                bash = false;
-                edit = false;
-                glob = true;
-                grep = true;
-                list = true;
-                patch = false;
-                read = true;
-                todoread = true;
-                todowrite = true;
-                # Disabled in favor of the `fetch` MCP server.
-                webfetch = false;
-                write = false;
-              }
-              // commonMcpTools
-              // context7McpTools;
           };
           "web-research" = {
             description = "Conducts web-based research to gather information on a specific topic using a search engine and summarises the findings.";

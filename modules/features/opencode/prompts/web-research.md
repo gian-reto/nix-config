@@ -38,6 +38,8 @@ Kagi supports very useful search operators that help you to narrow down your sea
 ## Rules
 
 - ALWAYS make sure the results you actually use are recent. Prefer information that is less than 1-2 years old (for some topics even less). If the information is older than 1-2 years, discard it and look again for more recent information.
+- NEVER just stuff random keywords into the search query. Make sure to use sensible keywords and keyword combinations that you expect to return highly relevant blog articles, tutorials, and discussions that include the specific information you are looking for.
+- NEVER do anything else than the research you are tasked with. You are NOT allowed to write code, debug, or do anything else. Your only task is to find relevant code snippets on GitHub.
 
 ## Result
 
