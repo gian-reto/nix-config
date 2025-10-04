@@ -35,21 +35,38 @@
       raopOpenFirewall = true;
 
       # AirPlay (RAOP) support.
-      extraConfig.pipewire."10-airplay" = {
-        "context.modules" = [
-          {
-            name = "libpipewire-module-zeroconf-discover";
-            args = {};
+      configPackages = [
+        (pkgs.writeTextDir "share/pipewire/pipewire.conf.d/10-raop-discover.conf" ''
+          context.modules = [{
+            name = libpipewire-module-zeroconf-discover
+            args = {}
           }
           {
-            name = "libpipewire-module-raop-discover";
+            name = libpipewire-module-raop-discover
             args = {
-              # Auto-reconnect to AirPlay devices if connection drops.
-              "raop.autoreconnect" = true;
-            };
-          }
-        ];
-      };
+              roap.discover-local = false
+              raop.latency.ms = 248.16
+              stream.rules = [
+                {
+                  matches = [
+                    {
+                    raop.ip = "~.*"
+                    }
+                  ]
+                  actions = {
+                    create-stream = {
+                      stream.props = {
+                        media.class = "Audio/Sink"
+                        sess.latency.msec = 248.16
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          }]
+        '')
+      ];
     };
 
     security.pam.loginLimits = [
