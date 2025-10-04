@@ -11,8 +11,11 @@
 
   # Create prompt files in the nix store.
   buildPrompt = pkgs.writeText "build-prompt.md" (builtins.readFile ./prompts/build.md);
+  consultPrompt = pkgs.writeText "consult-prompt.md" (builtins.readFile ./prompts/consult.md);
   debugPrompt = pkgs.writeText "debug-prompt.md" (builtins.readFile ./prompts/debug.md);
-  planPrompt = pkgs.writeText "plan-prompt.md" (builtins.readFile ./prompts/plan.md);
+  githubResearchPrompt = pkgs.writeText "github-research-prompt.md" (builtins.readFile ./prompts/github-research.md);
+  researchOperatorPrompt = pkgs.writeText "research-operator-prompt.md" (builtins.readFile ./prompts/research-operator.md);
+  webResearchPrompt = pkgs.writeText "web-research-prompt.md" (builtins.readFile ./prompts/web-research.md);
 in {
   imports = [
     ./permission.nix
@@ -28,33 +31,6 @@ in {
   };
 
   config.hm = lib.mkIf config.features.opencode.enable {
-    home.file.".config/opencode/AGENTS.md".text = ''
-      # Global Coding Guidelines
-
-      These are global guidelines that you MUST always adhere to:
-
-      - You MUST ALWAYS adhere to the current project's AGENTS.md file if it exists.
-      - You MUST ALWAYS ask before running consequential commands (e.g., commands that apply changes to the system).
-      - You MUST ALWAYS perform a deeper research to find existing patterns or integrations in the existing code.
-      - You MUST ALWAYS mimic the existing code style and structure.
-      - You MUST ALWAYS prefer a clean functional coding approach.
-      - You MUST ALWAYS consider if there is a better approach to a solution compared to the one being asked by the user. Feel free to challenge the user and make suggestions.
-      - You MUST ONLY add comments if the code you are creating is complex, or if it has non-obvious implications (e.g., for workarounds).
-
-      ## Helpful information
-
-      - You have many tools and MCP servers at your disposal. Try to use them to their full extent. These include:
-        - `context7` MCP server / tool to look up documentation and verify syntax and features.
-        - `fetch` MCP server / tool to retrieve information from the internet.
-        - `git` MCP server / tool to interact with git and search the git history.
-        - `memory` MCP server / tool to store and retrieve relevant information while working on a task.
-        - `nixos` MCP server / tool to look up NixOS-related information, as well as packages and options.
-        - `playwright` MCP server / tool to interact with web pages in a headless browser.
-        - `sequential-thinking` MCP server / tool to perform complex reasoning tasks step-by-step.
-        - `time` MCP server / tool to get the current date and time.
-      - You have access to the command line. Prefer allowed commands, such as `bat`, `cat`, `find`, `fzf`, `gh`, `git`, `grep`, `head`, `journalctl`, `jq`, `less`, `ls`, `lsd`, `man`, `nh`, `nil`, `pwd`, `rg`, `tail`, `tree`, and `z`.
-    '';
-
     # Create some directories and files needed by the opencode config below.
     systemd.user.tmpfiles.rules = [
       "d /home/gian/.cache/opencode/memory 0755 ${hmConfig.home.username} users - -"
@@ -68,22 +44,30 @@ in {
       settings = {
         autoshare = false;
         autoupdate = false;
-        model = "openrouter/openai/gpt-5-codex";
         provider = {
           openrouter.models = {
             "openai/gpt-5-codex".name = "GPT-5 Codex";
+            "z-ai/glm-4.6" = {
+              name = "GLM 4.6";
+              options = {
+                provider = {
+                  only = ["novita"];
+                };
+                reasoningEffort = "high";
+                reasoningSummary = "auto";
+                textVerbosity = "low";
+              };
+            };
           };
         };
-        small_model = "github-copilot/gpt-5";
+        small_model = "github-copilot/gpt-5-mini";
         theme = "system";
 
         agent = let
           # Enable or disable various tools provided by MCP servers. Keep mostly read-only.
-          mcpTools = {
+          commonMcpTools = {
             # Context7
             "context7*" = false;
-            "context7_get_library_docs" = true;
-            "context7_resolve_library_id" = true;
 
             # Fetch
             "fetch*" = false;
@@ -99,6 +83,27 @@ in {
 
             # GitHub
             "github*" = false;
+
+            # Kagi Search
+            "kagisearch*" = false;
+
+            # Memory
+            "memory*" = true;
+
+            # NixOS
+            "nixos*" = true;
+
+            # Sequential Thinking
+            "sequential-thinking*" = true;
+
+            # Time
+            "time*" = true;
+          };
+          context7McpTools = {
+            "context7_get_library_docs" = true;
+            "context7_resolve_library_id" = true;
+          };
+          githubMcpTools = {
             # GitHub: Context
             "github_get_me" = true;
             # GitHub: Discussions
@@ -142,29 +147,16 @@ in {
             "github_list_repository_security_advisories" = true;
             # GitHub: Users
             "github_search_users" = true;
-
-            # Kagi Search
-            "kagisearch*" = false;
+          };
+          kagiMcpTools = {
             "kagisearch_kagi_search_fetch" = true;
             "kagisearch_kagi_summarizer" = true;
-
-            # Memory
-            "memory*" = true;
-
-            # NixOS
-            "nixos*" = true;
-
-            # Sequential Thinking
-            "sequential-thinking*" = true;
-
-            # Time
-            "time*" = true;
           };
         in {
           build = {
             description = "Builds new features or entire applications based on a high-level description of what needs to be done.";
             mode = "primary";
-            model = "openrouter/openai/gpt-5-codex";
+            model = "github-copilot/claude-sonnet-4.5";
             prompt = "{file:${buildPrompt}}";
             tools =
               {
@@ -181,12 +173,36 @@ in {
                 webfetch = false;
                 write = true;
               }
-              // mcpTools;
+              // commonMcpTools
+              // context7McpTools;
+          };
+          consult = {
+            description = "Provides expert advice and recommendations based on a deep understanding of the user's needs and the project context.";
+            mode = "primary";
+            model = "github-copilot/claude-sonnet-4.5";
+            prompt = "{file:${consultPrompt}}";
+            tools =
+              {
+                bash = true;
+                edit = false;
+                glob = true;
+                grep = true;
+                list = true;
+                patch = false;
+                read = true;
+                todoread = true;
+                todowrite = true;
+                # Disabled in favor of the `fetch` MCP server.
+                webfetch = false;
+                write = false;
+              }
+              // commonMcpTools
+              // context7McpTools;
           };
           debug = {
             description = "Finds and fixes bugs in the codebase based on error messages, logs, or a description of the issue.";
             mode = "primary";
-            model = "openrouter/openai/gpt-5-codex";
+            model = "github-copilot/claude-sonnet-4.5";
             prompt = "{file:${debugPrompt}}";
             tools =
               {
@@ -203,16 +219,17 @@ in {
                 webfetch = false;
                 write = true;
               }
-              // mcpTools;
+              // commonMcpTools
+              // context7McpTools;
           };
-          plan = {
-            description = "Creates a clear and actionable plan for implementing a feature or solving a problem based on a high-level description of the task.";
+          "github-research" = {
+            description = "Finds relevant code examples on GitHub based on the given task description, technologies, and other constraints.";
             mode = "subagent";
-            model = "openrouter/openai/gpt-5-codex";
-            prompt = "{file:${planPrompt}}";
+            model = "openrouter/z-ai/glm-4.6";
+            prompt = "{file:${githubResearchPrompt}}";
             tools =
               {
-                bash = true;
+                bash = false;
                 edit = false;
                 glob = true;
                 grep = true;
@@ -225,7 +242,61 @@ in {
                 webfetch = false;
                 write = false;
               }
-              // mcpTools;
+              // commonMcpTools
+              // context7McpTools
+              // githubMcpTools
+              // kagiMcpTools;
+          };
+          plan = {
+            # Disable built-in `plan` agent.
+            disable = true;
+          };
+          "research-operator" = {
+            description = "Coordinates research tasks by delegating to specialized subagents and compiling their findings into a comprehensive report.";
+            mode = "subagent";
+            model = "github-copilot/claude-sonnet-4.5";
+            prompt = "{file:${researchOperatorPrompt}}";
+            tools =
+              {
+                bash = false;
+                edit = false;
+                glob = true;
+                grep = true;
+                list = true;
+                patch = false;
+                read = true;
+                todoread = true;
+                todowrite = true;
+                # Disabled in favor of the `fetch` MCP server.
+                webfetch = false;
+                write = false;
+              }
+              // commonMcpTools
+              // context7McpTools;
+          };
+          "web-research" = {
+            description = "Conducts web-based research to gather information on a specific topic using a search engine and summarises the findings.";
+            mode = "subagent";
+            model = "openrouter/z-ai/glm-4.6";
+            prompt = "{file:${webResearchPrompt}}";
+            tools =
+              {
+                bash = false;
+                edit = false;
+                glob = true;
+                grep = true;
+                list = true;
+                patch = false;
+                read = true;
+                todoread = true;
+                todowrite = true;
+                # Disabled in favor of the `fetch` MCP server.
+                webfetch = false;
+                write = false;
+              }
+              // commonMcpTools
+              // context7McpTools
+              // kagiMcpTools;
           };
         };
 
