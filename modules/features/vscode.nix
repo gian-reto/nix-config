@@ -75,11 +75,9 @@ in {
                   heybourn.headwind
                   mikestead.dotenv
                   mrmlnc.vscode-json5
-                  piousdeer.adwaita-theme
                   redhat.vscode-yaml
                   s-nlf-fh.glassit
                   solomonkinard.git-blame
-                  sst-dev.opencode
                   stkb.rewrap
                   svelte.svelte-vscode
                   tamasfe.even-better-toml
@@ -90,7 +88,11 @@ in {
                 ];
               in
                 map gaslight marketplaceExtensions
-            );
+            )
+            ++ (with extensions.open-vsx; [
+              piousdeer.adwaita-theme
+              sst-dev.opencode
+            ]);
 
           userSettings = {
             "telemetry.telemetryLevel" = "off";
@@ -172,7 +174,6 @@ in {
               "typescript" = true;
               "asciidoc" = true;
             };
-            "github.copilot.editor.enableAutoCompletions" = true;
             "javascript.updateImportsOnFileMove.enabled" = "always";
             "typescript.updateImportsOnFileMove.enabled" = "always";
             "redhat.telemetry.enabled" = false;

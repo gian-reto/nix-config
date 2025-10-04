@@ -132,20 +132,9 @@
       graphics = {
         enable = true;
         enable32Bit = true;
-
-        extraPackages = with pkgs; [
-          amdvlk
-        ];
-        extraPackages32 = with pkgs.driversi686Linux; [
-          amdvlk
-        ];
       };
 
       amdgpu = {
-        amdvlk = {
-          enable = false;
-          support32Bit.enable = false;
-        };
         opencl.enable = true;
       };
     };
