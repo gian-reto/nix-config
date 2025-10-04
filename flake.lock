@@ -8,17 +8,17 @@
         ]
       },
       "locked": {
-        "lastModified": 1755725927,
-        "narHash": "sha256-mCmmsMn8TWadJ/1vKipbQRKHW44Omxpuf1ykkLQVUJ8=",
+        "lastModified": 1759615658,
+        "narHash": "sha256-Fj3imBclx+orQVUi6iUVGqxRDWPXtxApIB1xQG/X3/c=",
         "owner": "gian-reto",
         "repo": "adw-shell",
-        "rev": "0b5b3f2df807ba1a575528640174fed1f2f8e039",
+        "rev": "263075d9cbed0ea03a821b4bd0ca5bccfd175ad0",
         "type": "github"
       },
       "original": {
         "owner": "gian-reto",
         "repo": "adw-shell",
-        "rev": "0b5b3f2df807ba1a575528640174fed1f2f8e039",
+        "rev": "263075d9cbed0ea03a821b4bd0ca5bccfd175ad0",
         "type": "github"
       }
     },
@@ -31,17 +31,17 @@
         ]
       },
       "locked": {
-        "lastModified": 1754932414,
-        "narHash": "sha256-V8c+68Axn5AGDCaG9Zv+EqNU4D6xWPHNXLIapq6AGiM=",
+        "lastModified": 1759227262,
+        "narHash": "sha256-ibKJckw+KWH6n+pscOA7DWImanr988zKB7R2Z6ZEMLM=",
         "owner": "aylur",
         "repo": "ags",
-        "rev": "9e6912b51d7bc58f35d10b11be1a126b926b56d3",
+        "rev": "f68a0d03fbb94f4beacedd922ffaa0bf0f10397a",
         "type": "github"
       },
       "original": {
         "owner": "aylur",
         "repo": "ags",
-        "rev": "9e6912b51d7bc58f35d10b11be1a126b926b56d3",
+        "rev": "f68a0d03fbb94f4beacedd922ffaa0bf0f10397a",
         "type": "github"
       }
     },
