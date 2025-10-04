@@ -128,6 +128,19 @@
       "d /var/lib/misc 0755 root root -"
     ];
 
+    # Disable hardware offload features on Intel I219-V (e1000e) to fix hangs.
+    systemd.services.disable-e1000e-offload = {
+      description = "Disable hardware offload features on enp0s31f6 (e1000e workaround)";
+      wantedBy = ["multi-user.target"];
+      after = ["network-pre.target"];
+      before = ["network.target"];
+      serviceConfig = {
+        Type = "oneshot";
+        RemainAfterExit = true;
+        ExecStart = "${pkgs.ethtool}/bin/ethtool -K enp0s31f6 gso off gro off tso off tx off rx off rxvlan off txvlan off sg off";
+      };
+    };
+
     # VM configuration for testing and development.
     virtualisation.vmVariant = {modulesPath, ...}: {
       imports = [(modulesPath + "/profiles/qemu-guest.nix")]; # Optimize for QEMU VMs.
