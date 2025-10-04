@@ -2,6 +2,7 @@
   config,
   inputs,
   lib,
+  pkgs,
   ...
 }: {
   osModules = [
@@ -68,9 +69,19 @@
     '';
     boot.kernel.sysctl = {
       "kernel.watchdog" = 1;
-      "kernel.softlockup_panic" = 1;
       "kernel.hardlockup_panic" = 1;
+      "kernel.panic" = 10; # Reboot 10 seconds after a panic.
+      "kernel.panic_on_oops" = 1; # Panic on kernel oops.
+      "kernel.softlockup_panic" = 1;
     };
+
+    # Network connectivity check script for watchdogd.
+    environment.systemPackages = [
+      (pkgs.writeShellScriptBin "watchdog-check-network" ''
+        /run/current-system/sw/bin/ping -c 3 -W 5 192.168.20.1
+      '')
+    ];
+
     services.watchdogd = {
       enable = true;
 
@@ -79,6 +90,13 @@
           timeout = 30; # Hardware watchdog timeout in seconds.
           interval = 10; # Ping interval in seconds.
           safe-exit = true; # Disable watchdog on clean exit.
+        };
+        # Network connectivity monitor.
+        "generic /run/current-system/sw/bin/watchdog-check-network" = {
+          enabled = true;
+          interval = 900; # Check every 15 minutes.
+          timeout = 60; # Allow up to 60 seconds for the check to complete.
+          critical = 1; # Trigger reboot on failure.
         };
         loadavg = {
           enabled = true;
@@ -99,8 +117,16 @@
 
           logmark = true; # Log file descriptor usage.
         };
+
+        # Track watchdog reset reasons.
+        reset-reason.file = "/var/lib/misc/watchdogd.state";
       };
     };
+
+    # Create directory for watchdog state file.
+    systemd.tmpfiles.rules = [
+      "d /var/lib/misc 0755 root root -"
+    ];
 
     # VM configuration for testing and development.
     virtualisation.vmVariant = {modulesPath, ...}: {
