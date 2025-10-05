@@ -66,7 +66,9 @@
     # Allow clean shutdowns to disable the watchdog.
     boot.extraModprobeConfig = ''
       options iTCO_wdt nowayout=0
+      options e1000e SmartPowerDownEnable=0
     '';
+    boot.kernelParams = ["pcie_aspm=off"];
     boot.kernel.sysctl = {
       "kernel.watchdog" = 1;
       "kernel.hardlockup_panic" = 1;
