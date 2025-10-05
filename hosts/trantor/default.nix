@@ -76,9 +76,23 @@
     };
 
     # Network connectivity check script for watchdogd.
-    environment.systemPackages = [
+    environment.systemPackages = let
+      logInfo = message: "echo \"${message}\" | /run/current-system/sw/bin/systemd-cat -t watchdog-check-network -p info";
+      logError = message: "echo \"${message}\" | /run/current-system/sw/bin/systemd-cat -t watchdog-check-network -p err";
+    in [
       (pkgs.writeShellScriptBin "watchdog-check-network" ''
-        /run/current-system/sw/bin/ping -c 3 -W 5 192.168.20.1
+        #!/usr/bin/env bash
+        set -euo pipefail
+
+        ${logInfo "Checking network connectivity..."}
+
+        if /run/current-system/sw/bin/ping -c 3 -W 5 192.168.20.1; then
+          ${logInfo "Network connectivity is OK."}
+          exit 0
+        else
+          ${logError "Network connectivity check failed!"}
+          exit 1
+        fi
       '')
     ];
 
@@ -104,6 +118,7 @@
           interval = 60;
           warning = 20.0; # ~ 1.0 × 20 threads (i5-13600K).
           critical = 40.0; # ~ 2.0 × 20 threads (i5-13600K), will trigger reboot.
+          logmark = true;
         };
         meminfo = {
           enabled = true;
@@ -111,6 +126,7 @@
           interval = 60;
           warning = 0.85; # Warning at 85% memory usage.
           critical = 0.95; # Critical at 95% memory usage (will trigger reboot).
+          logmark = true;
         };
         filenr = {
           enabled = true;
