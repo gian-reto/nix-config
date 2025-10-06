@@ -65,16 +65,23 @@
     boot.kernelModules = ["iTCO_wdt" "iTCO_vendor_support"]; # Intel watchdog drivers.
     # Allow clean shutdowns to disable the watchdog.
     boot.extraModprobeConfig = ''
-      options iTCO_wdt nowayout=0
+      options iTCO_wdt nowayout=1
       options e1000e SmartPowerDownEnable=0
     '';
-    boot.kernelParams = ["pcie_aspm=off"];
+    boot.kernelParams = [
+      "pcie_aspm=off"
+      "pcie_aspm.policy=performance" # Probably useless with `pcie_aspm=off`, but whatever.
+      "pcie_port_pm=off" # Disable PCIe port power management.
+      "pci=noaer"
+      "nmi_watchdog=1"
+      "panic=10" # Reboot 10 seconds after a panic.
+      "softlockup_panic=1"
+      "hardlockup_panic=1"
+      "hung_task_panic=1"
+    ];
     boot.kernel.sysctl = {
+      "kernel.panic_on_oops" = 1;
       "kernel.watchdog" = 1;
-      "kernel.hardlockup_panic" = 1;
-      "kernel.panic" = 10; # Reboot 10 seconds after a panic.
-      "kernel.panic_on_oops" = 1; # Panic on kernel oops.
-      "kernel.softlockup_panic" = 1;
     };
 
     # Network connectivity check script for watchdogd.
@@ -157,16 +164,25 @@
       "d /var/lib/misc 0755 root root -"
     ];
 
-    # Disable hardware offload features on Intel I219-V (e1000e) to fix hangs.
-    systemd.services.disable-e1000e-offload = {
-      description = "Disable hardware offload features on enp0s31f6 (e1000e workaround)";
+    # Disable hardware offload features and increase ring buffers on Intel I219-V (e1000e) to fix hangs.
+    systemd.services.disable-e1000e-offload = let
+      script = pkgs.writeShellScript "disable-e1000e-offload" ''
+        set -euo pipefail
+
+        # Increase RX/TX ring buffers to maximum to prevent buffer overruns.
+        ${pkgs.ethtool}/bin/ethtool -G enp0s31f6 rx 4096 tx 4096
+        # Disable hardware offload features that trigger I219-V hardware bugs.
+        ${pkgs.ethtool}/bin/ethtool -K enp0s31f6 gso off gro off tso off tx off rx off rxvlan off txvlan off sg off
+      '';
+    in {
+      description = "Apply Intel I219-V workarounds (disable offloads, increase ring buffers)";
       wantedBy = ["multi-user.target"];
       after = ["network-pre.target"];
       before = ["network.target"];
       serviceConfig = {
         Type = "oneshot";
         RemainAfterExit = true;
-        ExecStart = "${pkgs.ethtool}/bin/ethtool -K enp0s31f6 gso off gro off tso off tx off rx off rxvlan off txvlan off sg off";
+        ExecStart = script;
       };
     };
 
