@@ -101,6 +101,17 @@
     services.watchdogd = {
       enable = true;
 
+      package = pkgs.watchdogd.overrideAttrs (oldAttrs: {
+        configureFlags =
+          (oldAttrs.configureFlags or [])
+          ++ [
+            "--with-generic"
+            "--with-loadavg"
+            "--with-meminfo"
+            "--with-filenr"
+          ];
+      });
+
       settings = {
         "device /dev/watchdog" = {
           timeout = 30; # Hardware watchdog timeout in seconds.
