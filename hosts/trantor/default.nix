@@ -63,10 +63,9 @@
 
     # Logging & crash handling.
     boot.kernelModules = ["iTCO_wdt" "iTCO_vendor_support"]; # Intel watchdog drivers.
-    # Allow clean shutdowns to disable the watchdog.
     boot.extraModprobeConfig = ''
       options iTCO_wdt nowayout=1
-      options e1000e SmartPowerDownEnable=0
+      options e1000e SmartPowerDownEnable=0 RxIntDelay=0 TxIntDelay=0 InterruptThrottleRate=0 IntMode=1
     '';
     boot.kernelParams = [
       "pcie_aspm=off"
@@ -74,6 +73,8 @@
       "pcie_port_pm=off" # Disable PCIe port power management.
       "pci=noaer"
       "nmi_watchdog=1"
+      "intel_idle.max_cstate=1" # Prevent deep C-states that can cause I219-V issues.
+      "processor.max_cstate=1"
       "panic=10" # Reboot 10 seconds after a panic.
       "softlockup_panic=1"
       "hardlockup_panic=1"
@@ -183,6 +184,18 @@
         Type = "oneshot";
         RemainAfterExit = true;
         ExecStart = script;
+      };
+    };
+
+    # Force PCIe power control to "on" for MEI device to prevent I219-V hangs.
+    systemd.services.fix-i219-power-control = {
+      description = "Force MEI PCIe power control to 'on' for I219-V stability";
+      wantedBy = ["multi-user.target"];
+      after = ["multi-user.target"];
+      serviceConfig = {
+        Type = "oneshot";
+        RemainAfterExit = true;
+        ExecStart = "${pkgs.bash}/bin/bash -c 'echo on > /sys/bus/pci/devices/0000:00:16.0/power/control'";
       };
     };
 
