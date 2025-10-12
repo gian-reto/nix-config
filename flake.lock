@@ -1001,17 +1001,17 @@
         "sops-nix": "sops-nix"
       },
       "locked": {
-        "lastModified": 1760038914,
-        "narHash": "sha256-el5QdLOOvVCHoNt2/MiudeRhAeWBbmTcW+mRJlXqXB4=",
+        "lastModified": 1760152438,
+        "narHash": "sha256-pivoGhXGpMU5ocYoaYpzU8HXZxOHKRbewy6XLymW+iw=",
         "ref": "main",
-        "rev": "5957025dbf4c6a1d8facedfc0b637c94db78750d",
-        "revCount": 24,
+        "rev": "7da213d0d033b5460b241aff33c5b8e3fbf3f672",
+        "revCount": 26,
         "type": "git",
         "url": "ssh://git@github.com/gian-reto/nix-services"
       },
       "original": {
         "ref": "main",
-        "rev": "5957025dbf4c6a1d8facedfc0b637c94db78750d",
+        "rev": "7da213d0d033b5460b241aff33c5b8e3fbf3f672",
         "type": "git",
         "url": "ssh://git@github.com/gian-reto/nix-services"
       }
