@@ -36,6 +36,12 @@ in {
       "f /home/gian/.cache/opencode/memory/memory.json 0644 ${hmConfig.home.username} users - -"
     ];
 
+    xdg.configFile = {
+      "opencode/plugin/env-protection.js" = {
+        source = ./plugins/env-protection.js;
+      };
+    };
+
     programs.opencode = {
       enable = true;
       package = pkgs.opencode;
