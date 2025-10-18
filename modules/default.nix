@@ -12,7 +12,6 @@
     ./features/chromium.nix
     ./features/containers.nix
     ./features/cursor.nix
-    ./features/dev-local.nix
     ./features/direnv.nix
     ./features/distributed-builds.nix
     ./features/fastfetch.nix

@@ -299,8 +299,6 @@
     features.chromium.enable = true;
     features.containers.enable = true;
     features.cursor.enable = true;
-    # TODO: Re-enable.
-    # features.dev-local.enable = true;
     features.firefox.enable = true;
     features.flatpak.enable = true;
     features.fonts.enable = true;
