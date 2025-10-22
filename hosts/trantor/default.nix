@@ -87,8 +87,8 @@
 
     # Network connectivity check script for watchdogd.
     environment.systemPackages = let
-      logInfo = message: "echo \"${message}\" | /run/current-system/sw/bin/systemd-cat -t watchdog-check-network -p info";
-      logError = message: "echo \"${message}\" | /run/current-system/sw/bin/systemd-cat -t watchdog-check-network -p err";
+      logInfo = message: "echo \"${message}\" | /run/current-system/sw/bin/systemd-cat -t watchdog-check-network -p info || true";
+      logError = message: "echo \"${message}\" | /run/current-system/sw/bin/systemd-cat -t watchdog-check-network -p err || true";
     in [
       (pkgs.writeShellScriptBin "watchdog-check-network" ''
         #!/usr/bin/env bash
