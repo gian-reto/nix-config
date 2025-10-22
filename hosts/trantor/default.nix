@@ -128,7 +128,8 @@
         };
         # Network connectivity monitor.
         "generic /run/current-system/sw/bin/watchdog-check-network" = {
-          enabled = true;
+          # Disabled for now; Causes reboot loop issues.
+          enabled = false;
           interval = 900; # Check every 15 minutes.
           timeout = 60; # Allow up to 60 seconds for the check to complete.
           critical = 1; # Trigger reboot on failure.
