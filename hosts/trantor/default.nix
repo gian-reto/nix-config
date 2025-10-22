@@ -150,9 +150,7 @@
           logmark = true;
         };
         filenr = {
-          enabled = true;
-
-          logmark = true; # Log file descriptor usage.
+          enabled = false;
         };
 
         # Track watchdog reset reasons.
