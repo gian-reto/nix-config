@@ -27,18 +27,27 @@ in {
       git-fix
     ];
 
+    programs.delta = {
+      enable = true;
+
+      enableGitIntegration = true;
+    };
+
     programs.git = {
       enable = true;
 
       package = pkgs.gitAndTools.gitFull;
-      aliases = {
-        graph = "log --decorate --oneline --graph";
-      };
-      userName = "Gian-Reto Tarnutzer";
-      userEmail = "hi@giantarnutzer.com";
-
-      delta.enable = true;
       lfs.enable = true;
+
+      settings = {
+        aliases = {
+          graph = "log --decorate --oneline --graph";
+        };
+        user = {
+          name = "Gian-Reto Tarnutzer";
+          email = "hi@giantarnutzer.com";
+        };
+      };
 
       extraConfig = {
         branch.sort = "committerdate";
