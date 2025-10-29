@@ -43,13 +43,6 @@ in {
         alias = {
           graph = "log --decorate --oneline --graph";
         };
-        user = {
-          name = "Gian-Reto Tarnutzer";
-          email = "hi@giantarnutzer.com";
-        };
-      };
-
-      extraConfig = {
         branch.sort = "committerdate";
         commit.gpgSign = true;
         core = {
@@ -60,7 +53,11 @@ in {
         log.date = "iso";
         # Automatically track remote branch.
         push.autoSetupRemote = true;
-        user.signing.key = "2EFB1A9CA2CE1333B22F84C8EF2E3A235297D053";
+        user = {
+          email = "hi@giantarnutzer.com";
+          name = "Gian-Reto Tarnutzer";
+          signingKey = "2EFB1A9CA2CE1333B22F84C8EF2E3A235297D053";
+        };
       };
     };
 
