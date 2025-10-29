@@ -40,7 +40,7 @@ in {
       lfs.enable = true;
 
       settings = {
-        aliases = {
+        alias = {
           graph = "log --decorate --oneline --graph";
         };
         user = {
