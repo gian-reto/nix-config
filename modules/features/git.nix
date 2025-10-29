@@ -84,7 +84,9 @@ in {
         git = {
           autoFetch = false;
           autoRefresh = false;
-          allBranchesLogCmd = "git log --graph --all --abbrev-commit --color=always --decorate  --pretty=full --show-signature";
+          allBranchesLogCmds = [
+            "git log --graph --all --abbrev-commit --color=always --decorate  --pretty=full --show-signature"
+          ];
           branchLogCmd = "git log --graph --abbrev-commit --color=always --decorate --pretty=full --show-signature {{branchName}} --";
           commit = {
             signOff = true;
