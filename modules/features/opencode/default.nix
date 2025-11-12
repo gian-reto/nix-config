@@ -56,7 +56,7 @@ in {
               name = "GLM 4.6";
               options = {
                 provider = {
-                  only = ["novita"];
+                  only = ["cerebras"];
                 };
                 reasoningEffort = "high";
                 reasoningSummary = "auto";
