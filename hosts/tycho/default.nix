@@ -43,7 +43,7 @@
     boot = {
       initrd.systemd.enable = true;
       # Use 6.16 kernel for better hardware support (especially Wifi suspend issue).
-      kernelPackages = pkgs.linuxPackages_6_16;
+      kernelPackages = pkgs.linuxPackages_6_17;
       loader = {
         systemd-boot = {
           enable = true;
