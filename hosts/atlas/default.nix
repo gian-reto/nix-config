@@ -60,6 +60,12 @@
   features.android.enable = true;
   features.ollama.enable = true;
   features.virtualization.enable = true;
+  features.distributed-builds = {
+    enable = true;
+
+    # Only use nixbuild.net on-demand.
+    enableNixIntegration = false;
+  };
 
   # Machine-specific configuration.
   os = {

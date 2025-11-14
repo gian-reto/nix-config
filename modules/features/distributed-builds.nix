@@ -7,16 +7,28 @@
 }: let
   _1passwordAgentPath = "${hmConfig.home.homeDirectory}/.1password/agent.sock";
 in {
-  options.features.distributed-builds.enable = lib.mkOption {
-    description = ''
-      Whether to enable distributed builds for `nix`.
-    '';
-    type = lib.types.bool;
-    default = false;
-    example = true;
+  options.features.distributed-builds = {
+    enable = lib.mkOption {
+      description = ''
+        Whether to enable distributed builds for `nix`.
+      '';
+      type = lib.types.bool;
+      default = false;
+      example = true;
+    };
+
+    enableNixIntegration = lib.mkOption {
+      description = ''
+        Whether to use distributed builds as the default build machine and substituter for `nix`.
+      '';
+      type = lib.types.bool;
+      default = true;
+      example = true;
+    };
   };
 
   config.os = lib.mkIf config.features.distributed-builds.enable {
+    # Configure SSH in every case.
     programs = {
       ssh = {
         extraConfig = ''
@@ -36,7 +48,8 @@ in {
       };
     };
 
-    nix = {
+    # Only enable Nix integration if specified. If disabled, users can use remote builders on-demand.
+    nix = lib.mkIf config.features.distributed-builds.enableNixIntegration {
       # Build remotely on `nixbuild.net`.
       distributedBuilds = true;
       buildMachines = [
