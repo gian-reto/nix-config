@@ -58,6 +58,11 @@
     # Disable documentation (hides desktop icon).
     documentation.nixos.enable = false;
 
+    environment.sessionVariables = {
+      # Electron apps should use Wayland.
+      NIXOS_OZONE_WL = "1";
+    };
+
     # Core GNOME apps are set by the `gnome-mobile` module. The additional packages
     # listed here can be seen as an example of other useful apps for mobile use.
     environment.systemPackages = with pkgs; [
@@ -69,6 +74,7 @@
       firefox-mobile
       gnome-decoder # QR code scanner & generator.
       gnome-software
+      newsflash # RSS reader.
       resources # System resource monitor.
       warp # Magic wormhole file transfer.
 
