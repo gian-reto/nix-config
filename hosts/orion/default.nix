@@ -53,6 +53,12 @@
       allowedTCPPorts = [
         22 # SSH access.
       ];
+
+      # Disable logging since mobile kernel lacks xt_LOG module.
+      logRefusedConnections = false;
+      logRefusedPackets = false;
+      logReversePathDrops = false;
+      logRefusedUnicastsOnly = false;
     };
 
     # Disable documentation (hides desktop icon).

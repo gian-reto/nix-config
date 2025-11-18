@@ -28,6 +28,7 @@
     ./features/hypridle.nix
     ./features/i18n.nix
     ./features/network.nix
+    ./features/nfs.nix
     ./features/ollama.nix
     ./features/opencode
     ./features/op.nix
@@ -46,5 +47,6 @@
     ./gui.nix
     ./laptop.nix
     ./phone.nix
+    ./server.nix
   ];
 }

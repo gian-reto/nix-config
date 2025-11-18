@@ -14,10 +14,6 @@
   config.os = {
     hardware.enableRedistributableFirmware = true;
 
-    # Enable mounting of `nfs` shares.
-    boot.supportedFilesystems = ["nfs"];
-    environment.systemPackages = with pkgs; [nfs-utils];
-
     programs = {
       dconf.enable = true;
       nix-ld.enable = true;

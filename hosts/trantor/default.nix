@@ -12,6 +12,9 @@
     ./hardware-configuration.nix
   ];
 
+  # Enable my modules!
+  server.enable = true;
+
   os = {
     nixpkgs.config = {
       allowUnfree = true;

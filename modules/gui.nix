@@ -309,6 +309,7 @@
     features.gtk.enable = true;
     features.hyprland.enable = true;
     features.hyprlock.enable = true;
+    features.nfs.enable = true;
     features.opencode.enable = true;
     features.op.enable = true;
     features.security.enable = true;
