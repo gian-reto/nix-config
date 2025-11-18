@@ -30,6 +30,7 @@
     ./features/network.nix
     ./features/ollama.nix
     ./features/opencode
+    ./features/op.nix
     ./features/security.nix
     ./features/ssh.nix
     ./features/valent.nix
@@ -44,5 +45,6 @@
     ./common.nix
     ./gui.nix
     ./laptop.nix
+    ./phone.nix
   ];
 }

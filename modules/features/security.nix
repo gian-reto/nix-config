@@ -2,7 +2,6 @@
   lib,
   config,
   pkgs,
-  hmConfig,
   ...
 }: {
   options.features.security.enable = lib.mkOption {
@@ -19,17 +18,6 @@
 
     programs = {
       seahorse.enable = true;
-      _1password = {
-        enable = true;
-
-        package = pkgs._1password-cli;
-      };
-      _1password-gui = {
-        enable = true;
-
-        package = pkgs._1password-gui-beta;
-        polkitPolicyOwners = [hmConfig.home.username];
-      };
     };
 
     services.gnome.gnome-keyring.enable = true;
@@ -59,26 +47,6 @@
           TimeoutStopSec = 10;
         };
       };
-    };
-
-    environment.etc."1password/custom_allowed_browsers" = {
-      mode = "0755";
-      text = lib.concatLines ([]
-        ++ lib.optionals config.features.firefox.enable [
-          "firefox"
-          "firefox-devedition"
-        ]);
-    };
-  };
-
-  config.hm = lib.mkIf config.features.security.enable {
-    # See: https://developer.1password.com/docs/ssh/agent/config.
-    xdg.configFile."1Password/ssh/agent.toml".source = pkgs.writers.writeTOML "agent.toml" {
-      ssh-keys = [
-        {
-          vault = "Development";
-        }
-      ];
     };
   };
 }

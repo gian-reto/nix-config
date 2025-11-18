@@ -16,12 +16,22 @@
 
   config.os = lib.mkIf config.features.flatpak.enable {
     services.flatpak.enable = true;
-    systemd.services.flatpak-repo = {
+    systemd.services.flatpak-remote-add-flathub = {
+      description = "Add Flathub repository for Flatpak";
       wantedBy = ["multi-user.target"];
-      path = [pkgs.flatpak];
-      script = ''
-        flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
-      '';
+      after = ["network-online.target"];
+      wants = ["network-online.target"];
+
+      serviceConfig = {
+        Type = "oneshot";
+        RemainAfterExit = true;
+        ExecStart = "${pkgs.flatpak}/bin/flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo";
+        # Restart on failure (e.g., network not actually connected yet).
+        Restart = "on-failure";
+        RestartSec = "30s";
+        # Give up after 20 attempts to avoid infinite retries.
+        StartLimitBurst = 20;
+      };
     };
   };
 

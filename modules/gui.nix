@@ -310,6 +310,7 @@
     features.hyprland.enable = true;
     features.hyprlock.enable = true;
     features.opencode.enable = true;
+    features.op.enable = true;
     features.security.enable = true;
     features.ssh.enable = true;
     features.valent.enable = true;

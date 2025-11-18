@@ -51,6 +51,11 @@ in {
           IdentityAgent ${gpgAgentPath}
           User root
 
+        Host orion
+          HostName 192.168.10.13
+          IdentityAgent ${gpgAgentPath}
+          User root
+
         Host trantor
           HostName 192.168.20.20
           IdentityAgent ${gpgAgentPath}

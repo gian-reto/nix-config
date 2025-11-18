@@ -21,14 +21,18 @@ in {
             "audio"
             "dialout" # Serial port access.
             "git"
-            "kvm"
             "lp"
             "networkmanager"
-            "podman"
             "render"
             "video"
             "wheel"
           ]
+          ++ (lib.optionals config.features.virtualization.enable [
+            "kvm"
+          ])
+          ++ (lib.optionals config.features.containers.enable [
+            "podman"
+          ])
           ++ (lib.optionals config.features.android.enable [
             "adbusers"
           ]);

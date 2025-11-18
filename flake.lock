@@ -265,6 +265,24 @@
         "type": "github"
       }
     },
+    "flake-utils_2": {
+      "inputs": {
+        "systems": "systems_3"
+      },
+      "locked": {
+        "lastModified": 1731533236,
+        "narHash": "sha256-l0KFg5HjrsfsO/JpG+r7fRrqm12kzFHyUHqHCVpMMbI=",
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "rev": "11707dc2f618dd54ca8739b309ec4fc024de578b",
+        "type": "github"
+      },
+      "original": {
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "type": "github"
+      }
+    },
     "git-hooks-nix": {
       "inputs": {
         "flake-compat": [
@@ -1019,6 +1037,29 @@
         "type": "github"
       }
     },
+    "nixos-fairphone-fp5": {
+      "inputs": {
+        "flake-utils": "flake-utils_2",
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1763427144,
+        "narHash": "sha256-97KPQYH36BOcKV3EtuqkG5C7MCpsK1XuaViYLQyGdYE=",
+        "ref": "251116-improve-modularity",
+        "rev": "6d8e3145aecc5f4cdc38f9ab66f918150b7d61dd",
+        "revCount": 20,
+        "type": "git",
+        "url": "https://github.com/gian-reto/nixos-fairphone-fp5"
+      },
+      "original": {
+        "ref": "251116-improve-modularity",
+        "rev": "6d8e3145aecc5f4cdc38f9ab66f918150b7d61dd",
+        "type": "git",
+        "url": "https://github.com/gian-reto/nixos-fairphone-fp5"
+      }
+    },
     "nixos-x13s": {
       "inputs": {
         "flake-parts": "flake-parts_2",
@@ -1204,10 +1245,11 @@
         "nix-index-database": "nix-index-database",
         "nix-services": "nix-services",
         "nix-vscode-extensions": "nix-vscode-extensions",
+        "nixos-fairphone-fp5": "nixos-fairphone-fp5",
         "nixos-x13s": "nixos-x13s",
         "nixpkgs": "nixpkgs_4",
         "nixpkgs-stable": "nixpkgs-stable",
-        "systems": "systems_3",
+        "systems": "systems_4",
         "vscode-insiders": "vscode-insiders"
       }
     },
@@ -1263,6 +1305,21 @@
       }
     },
     "systems_3": {
+      "locked": {
+        "lastModified": 1681028828,
+        "narHash": "sha256-Vy1rq5AaRuLzOxct8nz4T6wlgyUR7zLU309k9mBC768=",
+        "owner": "nix-systems",
+        "repo": "default",
+        "rev": "da67096a3b9bf56a91d16901293e51ba5b49a27e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-systems",
+        "repo": "default",
+        "type": "github"
+      }
+    },
+    "systems_4": {
       "locked": {
         "lastModified": 1689347949,
         "narHash": "sha256-12tWmuL2zgBgZkdoB6qXZsgJEH9LR3oUgpaQq2RbI80=",

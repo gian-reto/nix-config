@@ -16,6 +16,16 @@
         pkgs = nixpkgs.legacyPackages.${system};
       in
         import ./pkgs {inherit pkgs;}
+        // (
+          if system == "aarch64-linux"
+          then {
+            # Fairphone 5 boot image (for flashing to `boot` partition).
+            orion-boot-image = inputs.nixos-fairphone-fp5.lib.mkBootImage inputs.self.nixosConfigurations.orion pkgs;
+            # Fairphone 5 rootfs image (for flashing to `userdata` partition).
+            orion-rootfs-image = inputs.nixos-fairphone-fp5.lib.mkRootfsImageWithHomeManager inputs.self.nixosConfigurations.orion pkgs;
+          }
+          else {}
+        )
     );
 
     formatter = forAllSystems (
@@ -59,6 +69,25 @@
             # Host configurations.
             ./hosts/common.nix
             ./hosts/cassandra
+            # User configurations.
+            ./users/gian
+          ];
+        };
+      };
+
+      # Fairphone 5.
+      orion = combinedManager.nixosSystem {
+        inherit inputs;
+
+        configuration = {
+          system = "aarch64-linux";
+
+          modules = [
+            # Modules.
+            ./modules
+            # Host configurations.
+            ./hosts/common.nix
+            ./hosts/orion
             # User configurations.
             ./users/gian
           ];
@@ -140,6 +169,12 @@
 
     # ThinkPad X13s hardware support.
     nixos-x13s.url = "github:gian-reto/x13s-nixos";
+
+    # Fairphone 5 hardware support.
+    nixos-fairphone-fp5 = {
+      url = "git+https://github.com/gian-reto/nixos-fairphone-fp5?ref=251116-improve-modularity&rev=6d8e3145aecc5f4cdc38f9ab66f918150b7d61dd";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     # Hyprland ecosystem.
     hyprland.url = "git+https://github.com/hyprwm/Hyprland?submodules=1";
