@@ -1045,19 +1045,18 @@
         ]
       },
       "locked": {
-        "lastModified": 1763427144,
+        "lastModified": 1763497726,
         "narHash": "sha256-97KPQYH36BOcKV3EtuqkG5C7MCpsK1XuaViYLQyGdYE=",
-        "ref": "251116-improve-modularity",
-        "rev": "6d8e3145aecc5f4cdc38f9ab66f918150b7d61dd",
-        "revCount": 20,
-        "type": "git",
-        "url": "https://github.com/gian-reto/nixos-fairphone-fp5"
+        "owner": "gian-reto",
+        "repo": "nixos-fairphone-fp5",
+        "rev": "d07d3f7094cf7da2783a72f5112cb41af090a1eb",
+        "type": "github"
       },
       "original": {
-        "ref": "251116-improve-modularity",
-        "rev": "6d8e3145aecc5f4cdc38f9ab66f918150b7d61dd",
-        "type": "git",
-        "url": "https://github.com/gian-reto/nixos-fairphone-fp5"
+        "owner": "gian-reto",
+        "repo": "nixos-fairphone-fp5",
+        "rev": "d07d3f7094cf7da2783a72f5112cb41af090a1eb",
+        "type": "github"
       }
     },
     "nixos-x13s": {

@@ -172,7 +172,7 @@
 
     # Fairphone 5 hardware support.
     nixos-fairphone-fp5 = {
-      url = "git+https://github.com/gian-reto/nixos-fairphone-fp5?ref=251116-improve-modularity&rev=6d8e3145aecc5f4cdc38f9ab66f918150b7d61dd";
+      url = "github:gian-reto/nixos-fairphone-fp5/d07d3f7094cf7da2783a72f5112cb41af090a1eb";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
