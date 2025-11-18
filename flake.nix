@@ -172,7 +172,7 @@
 
     # Fairphone 5 hardware support.
     nixos-fairphone-fp5 = {
-      url = "github:gian-reto/nixos-fairphone-fp5/d07d3f7094cf7da2783a72f5112cb41af090a1eb";
+      url = "git+https://github.com/gian-reto/nixos-fairphone-fp5?ref=251119-add-nftables-support&rev=f490b3266eb9f99c1a5f2073e4e8a5053dfadc36";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
