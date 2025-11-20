@@ -1045,17 +1045,17 @@
         ]
       },
       "locked": {
-        "lastModified": 1763508816,
-        "narHash": "sha256-8PQ3CWBU1RyBvttS+Yum9vKWm+Ogs1i0wIGYqDo7EiE=",
-        "ref": "251119-add-nftables-support",
-        "rev": "f490b3266eb9f99c1a5f2073e4e8a5053dfadc36",
-        "revCount": 21,
+        "lastModified": 1763759149,
+        "narHash": "sha256-qa4LYGkT/LZjuiePLzXExZIjrFivRsCVYUsgAAGEoJU=",
+        "ref": "251120-add-bootmac",
+        "rev": "d427a10bf05d49ec99af8172be7482d69075f549",
+        "revCount": 24,
         "type": "git",
         "url": "https://github.com/gian-reto/nixos-fairphone-fp5"
       },
       "original": {
-        "ref": "251119-add-nftables-support",
-        "rev": "f490b3266eb9f99c1a5f2073e4e8a5053dfadc36",
+        "ref": "251120-add-bootmac",
+        "rev": "d427a10bf05d49ec99af8172be7482d69075f549",
         "type": "git",
         "url": "https://github.com/gian-reto/nixos-fairphone-fp5"
       }
