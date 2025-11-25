@@ -63,8 +63,8 @@ in {
     home.packages = with pkgs; [
       clipse
       hyprpicker
-      inputs.hyprland-contrib.packages.${pkgs.system}.grimblast
-      inputs.hyprland-hyprpaper.packages.${pkgs.system}.hyprpaper
+      inputs.hyprland-contrib.packages.${pkgs.stdenv.hostPlatform.system}.grimblast
+      inputs.hyprland-hyprpaper.packages.${pkgs.stdenv.hostPlatform.system}.hyprpaper
       libnotify
       wf-recorder
       wl-clipboard
@@ -263,7 +263,7 @@ in {
 
         bind = let
           _1password = lib.getExe' pkgs._1password-gui-beta "1password";
-          grimblast = lib.getExe inputs.hyprland-contrib.packages.${pkgs.system}.grimblast;
+          grimblast = lib.getExe inputs.hyprland-contrib.packages.${pkgs.stdenv.hostPlatform.system}.grimblast;
           tesseract = lib.getExe pkgs.tesseract;
           pactl = lib.getExe' pkgs.pulseaudio "pactl";
           notify-send = lib.getExe' pkgs.libnotify "notify-send";

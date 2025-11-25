@@ -189,7 +189,7 @@
               # https://github.com/pluiedev/flake/blob/main/users/leah/programs/firefox/default.nix.
               gaslight = pkgs: pkgs.overrideAttrs {meta.license.free = true;};
             in
-              with inputs.firefox-addons.packages.${pkgs.system};
+              with inputs.firefox-addons.packages.${pkgs.stdenv.hostPlatform.system};
                 map gaslight [
                   decentraleyes
                   don-t-fuck-with-paste

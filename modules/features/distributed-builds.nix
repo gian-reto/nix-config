@@ -55,7 +55,7 @@ in {
       buildMachines = [
         {
           hostName = "eu.nixbuild.net";
-          system = pkgs.system;
+          system = pkgs.stdenv.hostPlatform.system;
           maxJobs = 100;
           supportedFeatures = ["benchmark" "big-parallel"];
         }

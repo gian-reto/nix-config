@@ -104,7 +104,7 @@
     environment = {
       systemPackages = with pkgs; [
         # Some additional tools.
-        glxinfo
+        mesa-demos
         pciutils
         vulkan-tools
         rocmPackages.rocminfo

@@ -6,7 +6,7 @@
   osConfig,
   ...
 }: let
-  extensions = inputs.nix-vscode-extensions.extensions.${pkgs.system};
+  extensions = inputs.nix-vscode-extensions.extensions.${pkgs.stdenv.hostPlatform.system};
 in {
   options.features.vscode.enable = lib.mkOption {
     description = ''

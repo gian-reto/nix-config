@@ -73,7 +73,7 @@
       libqmi
 
       # Some additional tools.
-      glxinfo
+      mesa-demos
       pciutils
       modemmanager
       vulkan-tools

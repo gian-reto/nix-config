@@ -17,8 +17,8 @@
 
   config.hm = lib.mkIf config.features.ags.enable {
     home.packages = [
-      inputs.adw-shell.packages.${pkgs.system}.default
-      inputs.adw-shell.packages.${pkgs.system}.ags
+      inputs.adw-shell.packages.${pkgs.stdenv.hostPlatform.system}.default
+      inputs.adw-shell.packages.${pkgs.stdenv.hostPlatform.system}.ags
     ];
 
     systemd.user.services.adw-shell = {
@@ -30,7 +30,7 @@
       };
 
       Service = {
-        ExecStart = "${inputs.adw-shell.packages.${pkgs.system}.default}/bin/adw-shell";
+        ExecStart = "${inputs.adw-shell.packages.${pkgs.stdenv.hostPlatform.system}.default}/bin/adw-shell";
         Restart = "on-failure";
         RestartSec = 5;
         KillMode = "mixed";

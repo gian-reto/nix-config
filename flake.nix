@@ -172,7 +172,7 @@
 
     # Fairphone 5 hardware support.
     nixos-fairphone-fp5 = {
-      url = "git+https://github.com/gian-reto/nixos-fairphone-fp5?ref=251120-add-bootmac&rev=d427a10bf05d49ec99af8172be7482d69075f549";
+      url = "git+https://github.com/gian-reto/nixos-fairphone-fp5?ref=251120-add-bootmac&rev=2bf9f54c19675b68f21b5341e1fb74abc50cd5bb";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -215,7 +215,7 @@
 
     # Other stuff.
     adw-shell = {
-      url = "github:gian-reto/adw-shell/263075d9cbed0ea03a821b4bd0ca5bccfd175ad0";
+      url = "github:gian-reto/adw-shell/35b5a4387a9a736fb7187147e3321e47fd785cd3";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 

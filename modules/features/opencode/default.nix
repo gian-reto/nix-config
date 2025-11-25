@@ -6,8 +6,8 @@
   pkgs,
   ...
 }: let
-  mcpPackages = inputs.mcp-servers-nix.packages.${pkgs.system};
-  mcpNixosPackage = inputs.mcp-nixos.packages.${pkgs.system}.default;
+  mcpPackages = inputs.mcp-servers-nix.packages.${pkgs.stdenv.hostPlatform.system};
+  mcpNixosPackage = inputs.mcp-nixos.packages.${pkgs.stdenv.hostPlatform.system}.default;
 
   # Create prompt files in the nix store.
   buildPrompt = pkgs.writeText "build-prompt.md" (builtins.readFile ./prompts/build.md);
