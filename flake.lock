@@ -1075,17 +1075,17 @@
         ]
       },
       "locked": {
-        "lastModified": 1764106735,
-        "narHash": "sha256-ZZKHnX5ODY91qvrJTL//gloBK0JDzq5obRk12yArU1k=",
-        "ref": "251120-add-bootmac",
-        "rev": "2bf9f54c19675b68f21b5341e1fb74abc50cd5bb",
-        "revCount": 25,
+        "lastModified": 1765138797,
+        "narHash": "sha256-7kVhVdx1XDXOPG5ApwQl1q+vaGfzrR5JpubaJbuem+g=",
+        "ref": "251207-displayport",
+        "rev": "68b18a89d7e66a5a35e630abc490d4fa90b9d8b6",
+        "revCount": 30,
         "type": "git",
         "url": "https://github.com/gian-reto/nixos-fairphone-fp5"
       },
       "original": {
-        "ref": "251120-add-bootmac",
-        "rev": "2bf9f54c19675b68f21b5341e1fb74abc50cd5bb",
+        "ref": "251207-displayport",
+        "rev": "68b18a89d7e66a5a35e630abc490d4fa90b9d8b6",
         "type": "git",
         "url": "https://github.com/gian-reto/nixos-fairphone-fp5"
       }
