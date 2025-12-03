@@ -172,7 +172,7 @@
 
     # Fairphone 5 hardware support.
     nixos-fairphone-fp5 = {
-      url = "git+https://github.com/gian-reto/nixos-fairphone-fp5?ref=251120-add-bootmac&rev=2bf9f54c19675b68f21b5341e1fb74abc50cd5bb";
+      url = "git+https://github.com/gian-reto/nixos-fairphone-fp5?ref=251120-add-bootmac&rev=765063bfd580c5bf89e66b8db77c87375dcba633";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 

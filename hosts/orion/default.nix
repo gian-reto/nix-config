@@ -18,6 +18,8 @@
 
   # Machine-specific configuration.
   os = {
+    nixos-fairphone-fp5.hardware.serial.enable = true;
+
     networking.hostName = "orion";
 
     nixpkgs.config = {
