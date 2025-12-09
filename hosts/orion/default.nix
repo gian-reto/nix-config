@@ -7,7 +7,7 @@
 }: {
   # Import hardware-specific configuration for Fairphone 5 and GNOME Mobile.
   osModules = [
-    inputs.nixos-fairphone-fp5.nixosModules.gnome-mobile
+    inputs.nixos-fairphone-fp5.nixosModules.phosh
   ];
 
   # Enable my modules!
@@ -19,6 +19,9 @@
   # Machine-specific configuration.
   os = {
     nixos-fairphone-fp5.hardware.serial.enable = true;
+
+    # Set the user for Phosh (required).
+    services.xserver.desktopManager.phosh.user = config.hmUsername;
 
     networking.hostName = "orion";
 

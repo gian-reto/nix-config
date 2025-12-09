@@ -172,7 +172,7 @@
 
     # Fairphone 5 hardware support.
     nixos-fairphone-fp5 = {
-      url = "git+https://github.com/gian-reto/nixos-fairphone-fp5?ref=251207-displayport&rev=68b18a89d7e66a5a35e630abc490d4fa90b9d8b6";
+      url = "git+https://github.com/gian-reto/nixos-fairphone-fp5?ref=251208-phosh&rev=cd91d23b4935bcf55db4925ea17e2d9d2ad9b012";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
