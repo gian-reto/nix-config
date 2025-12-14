@@ -51,12 +51,12 @@ in {
         autoupdate = false;
         provider = {
           openrouter.models = {
-            "openai/gpt-5-codex".name = "GPT-5 Codex";
+            "x-ai/grok-4.1-fast".name = "Grok 4.1 Fast";
             "z-ai/glm-4.6" = {
               name = "GLM 4.6";
               options = {
                 provider = {
-                  only = ["cerebras"];
+                  only = ["novita" "parasail"];
                 };
                 reasoningEffort = "high";
                 reasoningSummary = "auto";
@@ -65,7 +65,7 @@ in {
             };
           };
         };
-        small_model = "github-copilot/gpt-5-mini";
+        small_model = "github-copilot/gpt-5.1-codex-mini";
         theme = "system";
 
         agent = let
@@ -157,11 +157,9 @@ in {
             "kagisearch_kagi_search_fetch" = true;
             "kagisearch_kagi_summarizer" = true;
           };
-        in {
+
+          # Reusable agent definitions.
           build = {
-            description = "Builds new features or entire applications based on a high-level description of what needs to be done.";
-            mode = "primary";
-            model = "github-copilot/claude-sonnet-4.5";
             prompt = "{file:${buildPrompt}}";
             tools =
               {
@@ -181,10 +179,25 @@ in {
               // commonMcpTools
               // context7McpTools;
           };
+        in {
+          build =
+            {
+              description = "Builds new features or entire applications based on a high-level description of what needs to be done.";
+              mode = "primary";
+              model = "github-copilot/claude-sonnet-4.5";
+            }
+            // build;
+          "build-expert" =
+            {
+              description = "Builds complex new features or entire applications based on a high-level description of what needs to be done.";
+              mode = "primary";
+              model = "github-copilot/claude-opus-4.5";
+            }
+            // build;
           consult = {
             description = "Provides expert advice and recommendations based on a deep understanding of the user's needs and the project context.";
             mode = "primary";
-            model = "github-copilot/claude-sonnet-4.5";
+            model = "github-copilot/gpt-5.2";
             prompt = "{file:${consultPrompt}}";
             tools =
               {
@@ -207,7 +220,7 @@ in {
           debug = {
             description = "Finds and fixes bugs in the codebase based on error messages, logs, or a description of the issue.";
             mode = "primary";
-            model = "github-copilot/claude-sonnet-4.5";
+            model = "github-copilot/gpt-5.2";
             prompt = "{file:${debugPrompt}}";
             tools =
               {
@@ -230,7 +243,7 @@ in {
           "github-research" = {
             description = "Finds relevant code examples on GitHub based on the given task description, technologies, and other constraints.";
             mode = "subagent";
-            model = "openrouter/z-ai/glm-4.6";
+            model = "openrouter/x-ai/grok-4.1-fast";
             prompt = "{file:${githubResearchPrompt}}";
             tools =
               {
