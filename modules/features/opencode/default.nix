@@ -197,7 +197,7 @@ in {
           consult = {
             description = "Provides expert advice and recommendations based on a deep understanding of the user's needs and the project context.";
             mode = "primary";
-            model = "github-copilot/gpt-5.2";
+            model = "github-copilot/claude-opus-4.5";
             prompt = "{file:${consultPrompt}}";
             tools =
               {
@@ -220,7 +220,7 @@ in {
           debug = {
             description = "Finds and fixes bugs in the codebase based on error messages, logs, or a description of the issue.";
             mode = "primary";
-            model = "github-copilot/gpt-5.2";
+            model = "github-copilot/claude-sonnet-4.5";
             prompt = "{file:${debugPrompt}}";
             tools =
               {
