@@ -82,22 +82,38 @@ in {
       mimeApps.enable = true;
 
       configFile."hypr/hyprpaper.conf".text = ''
-        preload=${config.gui.wallpaper}
-
-        wallpaper = ${config.gui.monitors.main.id},${config.gui.wallpaper}
+        wallpaper {
+          monitor = ${config.gui.monitors.main.id}
+          path = ${config.gui.wallpaper}
+        }
         ${
           if (config.gui.monitors.secondary.id != null)
-          then "wallpaper = ${config.gui.monitors.secondary.id},${config.gui.wallpaper}"
+          then ''
+            wallpaper {
+              monitor = ${config.gui.monitors.secondary.id}
+              path = ${config.gui.wallpaper}
+            }
+          ''
           else ""
         }
         ${
           if (config.gui.monitors.tertiary.id != null)
-          then "wallpaper = ${config.gui.monitors.tertiary.id},${config.gui.wallpaper}"
+          then ''
+            wallpaper {
+              monitor = ${config.gui.monitors.tertiary.id}
+              path = ${config.gui.wallpaper}
+            }
+          ''
           else ""
         }
         ${
           if (config.gui.monitors.quaternary.id != null)
-          then "wallpaper = ${config.gui.monitors.quaternary.id},${config.gui.wallpaper}"
+          then ''
+            wallpaper {
+              monitor = ${config.gui.monitors.quaternary.id}
+              path = ${config.gui.wallpaper}
+            }
+          ''
           else ""
         }
       '';
