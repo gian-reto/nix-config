@@ -2,6 +2,7 @@
   config,
   lib,
   osConfig,
+  pkgs,
   ...
 }: {
   options.features.ollama.enable = lib.mkOption {
@@ -17,7 +18,7 @@
     services.ollama = {
       enable = true;
 
-      acceleration = lib.mkIf (osConfig.networking.hostName == "atlas") "rocm";
+      package = lib.mkIf (osConfig.networking.hostName == "atlas") pkgs.ollama-rocm;
       port = 11434; # Default port.
       rocmOverrideGfx = lib.mkIf (osConfig.networking.hostName == "atlas") "10.3.0";
     };
