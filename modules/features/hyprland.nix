@@ -82,9 +82,12 @@ in {
       mimeApps.enable = true;
 
       configFile."hypr/hyprpaper.conf".text = ''
+        splash = false
+
         wallpaper {
           monitor = ${config.gui.monitors.main.id}
           path = ${config.gui.wallpaper}
+          fit_mode = cover
         }
         ${
           if (config.gui.monitors.secondary.id != null)
@@ -92,6 +95,7 @@ in {
             wallpaper {
               monitor = ${config.gui.monitors.secondary.id}
               path = ${config.gui.wallpaper}
+              fit_mode = cover
             }
           ''
           else ""
@@ -102,6 +106,7 @@ in {
             wallpaper {
               monitor = ${config.gui.monitors.tertiary.id}
               path = ${config.gui.wallpaper}
+              fit_mode = cover
             }
           ''
           else ""
@@ -112,6 +117,7 @@ in {
             wallpaper {
               monitor = ${config.gui.monitors.quaternary.id}
               path = ${config.gui.wallpaper}
+              fit_mode = cover
             }
           ''
           else ""
