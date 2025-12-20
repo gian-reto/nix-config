@@ -34,6 +34,7 @@
     ./features/op.nix
     ./features/security.nix
     ./features/ssh.nix
+    ./features/steam.nix
     ./features/valent.nix
     ./features/virtualization.nix
     ./features/vpn.nix

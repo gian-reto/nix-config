@@ -59,6 +59,7 @@
   # Enable individual features.
   features.android.enable = true;
   features.ollama.enable = true;
+  features.steam.enable = true;
   features.virtualization.enable = true;
   features.distributed-builds = {
     enable = true;
