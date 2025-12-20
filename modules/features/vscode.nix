@@ -52,6 +52,7 @@ in {
               esbenp.prettier-vscode
               jnoortheen.nix-ide
               kamadorueda.alejandra
+              mkhl.direnv
               ms-azuretools.vscode-docker
               ms-vsliveshare.vsliveshare
               rust-lang.rust-analyzer
