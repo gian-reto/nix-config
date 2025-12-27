@@ -85,42 +85,9 @@ in {
         splash = false
 
         wallpaper {
-          monitor = ${config.gui.monitors.main.id}
+          monitor =
           path = ${config.gui.wallpaper}
           fit_mode = cover
-        }
-        ${
-          if (config.gui.monitors.secondary.id != null)
-          then ''
-            wallpaper {
-              monitor = ${config.gui.monitors.secondary.id}
-              path = ${config.gui.wallpaper}
-              fit_mode = cover
-            }
-          ''
-          else ""
-        }
-        ${
-          if (config.gui.monitors.tertiary.id != null)
-          then ''
-            wallpaper {
-              monitor = ${config.gui.monitors.tertiary.id}
-              path = ${config.gui.wallpaper}
-              fit_mode = cover
-            }
-          ''
-          else ""
-        }
-        ${
-          if (config.gui.monitors.quaternary.id != null)
-          then ''
-            wallpaper {
-              monitor = ${config.gui.monitors.quaternary.id}
-              path = ${config.gui.wallpaper}
-              fit_mode = cover
-            }
-          ''
-          else ""
         }
       '';
     };
