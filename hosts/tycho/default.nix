@@ -12,12 +12,12 @@
   ];
 
   # Enable my modules!
-  gui = {
-    enable = true;
+  gui.enable = true;
+  laptop.enable = true;
 
-    environment.flavor = "hyprland";
-    wallpaper = ../../files/wallpaper.jpg;
-    monitors = {
+  # Enable & configure individual features.
+  features = {
+    desktop.monitors = {
       main = {
         id = "eDP-1";
         width = 1920;
@@ -27,7 +27,6 @@
       };
     };
   };
-  laptop.enable = true;
 
   # Machine-specific configuration.
   os = {

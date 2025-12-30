@@ -3,17 +3,10 @@
   lib,
   osConfig,
   ...
-}: {
-  options.features.hyprlock.enable = lib.mkOption {
-    description = ''
-      Whether to enable `hyprlock`.
-    '';
-    type = lib.types.bool;
-    default = false;
-    example = true;
-  };
-
-  config.hm = lib.mkIf config.features.hyprlock.enable {
+}: let
+  cfg = config.features.desktop;
+in {
+  config.hm = lib.mkIf (cfg.enable && cfg.compositor == "hyprland") {
     programs.hyprlock = {
       enable = true;
 
@@ -27,13 +20,13 @@
         background = [
           {
             monitor = "";
-            path = "${config.gui.wallpaper}";
+            path = "${cfg.wallpaper}";
           }
         ];
 
         input-field = [
           {
-            monitor = config.gui.monitors.main.id;
+            monitor = cfg.monitors.main.id;
 
             size = "300, 50";
 

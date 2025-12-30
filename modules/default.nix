@@ -1,7 +1,6 @@
 {
   imports = [
     # Features.
-    ./features/ags.nix
     ./features/alacritty.nix
     ./features/android.nix
     ./features/audio.nix
@@ -11,28 +10,22 @@
     ./features/btop.nix
     ./features/chromium.nix
     ./features/containers.nix
-    ./features/cursor.nix
+    ./features/desktop
     ./features/direnv.nix
     ./features/distributed-builds.nix
     ./features/fastfetch.nix
     ./features/firefox.nix
     ./features/flatpak.nix
-    ./features/fonts.nix
     ./features/ghostty.nix
     ./features/git.nix
     ./features/gpg.nix
-    ./features/greeter.nix
     ./features/gtk.nix
-    ./features/hyprland.nix
-    ./features/hyprlock.nix
-    ./features/hypridle.nix
     ./features/i18n.nix
     ./features/network.nix
     ./features/nfs.nix
     ./features/ollama.nix
     ./features/opencode
     ./features/op.nix
-    ./features/security.nix
     ./features/ssh.nix
     ./features/steam.nix
     ./features/valent.nix

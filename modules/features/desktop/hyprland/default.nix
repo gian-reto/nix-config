@@ -7,18 +7,16 @@
   pkgs,
   ...
 }: let
+  cfg = config.features.desktop;
   mod = "SUPER";
 in {
-  options.features.hyprland.enable = lib.mkOption {
-    description = ''
-      Whether to enable the Hyprland compositor.
-    '';
-    type = lib.types.bool;
-    default = false;
-    example = true;
-  };
+  imports = [
+    ./hyprpaper.nix
+    ./hypridle.nix
+    ./hyprlock.nix
+  ];
 
-  config.os = lib.mkIf config.features.hyprland.enable {
+  config.os = lib.mkIf (cfg.enable && cfg.compositor == "hyprland") {
     environment.sessionVariables = {
       # Electron apps should use Wayland.
       NIXOS_OZONE_WL = "1";
@@ -26,7 +24,11 @@ in {
     };
 
     programs = {
-      hyprland.enable = true;
+      hyprland = {
+        enable = true;
+
+        withUWSM = true;
+      };
       xwayland.enable = true;
     };
 
@@ -59,7 +61,7 @@ in {
     };
   };
 
-  config.hm = lib.mkIf config.features.hyprland.enable {
+  config.hm = lib.mkIf (cfg.enable && cfg.compositor == "hyprland") {
     home.packages = with pkgs; [
       clipse
       hyprpicker
@@ -74,23 +76,12 @@ in {
 
     home.sessionVariables = {
       QT_QPA_PLATFORM = "wayland";
+      QT_WAYLAND_DISABLE_WINDOWDECORATION = "1";
       SDL_VIDEODRIVER = "wayland";
       XDG_SESSION_TYPE = "wayland";
     };
 
-    xdg = {
-      mimeApps.enable = true;
-
-      configFile."hypr/hyprpaper.conf".text = ''
-        splash = false
-
-        wallpaper {
-          monitor =
-          path = ${config.gui.wallpaper}
-          fit_mode = cover
-        }
-      '';
-    };
+    xdg.mimeApps.enable = true;
 
     wayland.windowManager.hyprland = {
       enable = true;
@@ -98,16 +89,14 @@ in {
       package = null;
       portalPackage = null;
 
-      systemd = {
-        enable = true;
-
-        enableXdgAutostart = true;
-        variables = ["--all"];
-      };
+      # Disable home-manager's systemd integration since UWSM handles this.
+      systemd.enable = false;
 
       settings = let
         active = "0x66585E6A";
         inactive = "0x66434852";
+        # Helper to wrap app launches with uwsm.
+        uwsmApp = cmd: "uwsm app -- ${cmd}";
         # Binds ${mod} + [shift +] {1..10} to [move to] workspace {1..10}.
         workspaces = builtins.concatLists (builtins.genList (
             x: let
@@ -122,46 +111,21 @@ in {
           )
           10);
       in {
-        env = [
-          "QT_WAYLAND_DISABLE_WINDOWDECORATION,1"
-        ];
-
         exec-once =
           [
-            "hyprpaper"
+            "hyprctl setcursor ${hmConfig.home.pointerCursor.name} ${toString hmConfig.home.pointerCursor.size}"
+            "uwsm app -- hyprpaper"
+            "uwsm app -- hypridle"
+            "uwsm app -- hyprlock"
+            "uswm app -- ${lib.getExe' pkgs.caffeine-ng "caffeine"}"
+            "uwsm app -- clipse -listen"
           ]
-          ++ (
-            lib.optionals config.features.hypridle.enable [
-              "hypridle"
-            ]
-          )
-          ++ (
-            lib.optionals config.features.hyprlock.enable [
-              "hyprlock"
-            ]
-          )
-          ++ (
-            lib.optionals config.features.cursor.enable [
-              "hyprctl setcursor ${hmConfig.home.pointerCursor.name} ${toString hmConfig.home.pointerCursor.size}"
-            ]
-          )
-          ++ [
-            "sleep 5 && clipse -listen"
-          ]
-          ++ (lib.optionals config.features.bluetooth.enable [
-            "sleep 5 && ${lib.getExe' pkgs.blueman "blueman-applet"}"
+          ++ (lib.optionals config.features.op.enable [
+            "uwsm app -- ${lib.getExe' pkgs._1password-gui-beta "1password"} --silent"
           ])
-          ++ (lib.optionals config.features.security.enable [
-            "sleep 5 && ${lib.getExe' pkgs._1password-gui-beta "1password"} --silent --ozone-platform-hint=x11"
+          ++ (lib.optionals config.features.bluetooth.enable [
+            "uwsm app -- ${lib.getExe' pkgs.blueman "blueman-applet"}"
           ]);
-
-        monitor =
-          [
-            "${config.gui.monitors.main.id},${toString config.gui.monitors.main.width}x${toString config.gui.monitors.main.height}@${toString config.gui.monitors.main.refreshRate},${config.gui.monitors.main.position},${toString config.gui.monitors.main.scale},transform,${toString config.gui.monitors.main.rotation}"
-          ]
-          ++ (lib.optionals (config.gui.monitors.secondary.id != null) ["${config.gui.monitors.secondary.id},${toString config.gui.monitors.secondary.width}x${toString config.gui.monitors.secondary.height}@${toString config.gui.monitors.secondary.refreshRate},${config.gui.monitors.secondary.position},${toString config.gui.monitors.secondary.scale},transform,${toString config.gui.monitors.secondary.rotation}"])
-          ++ (lib.optionals (config.gui.monitors.tertiary.id != null) ["${config.gui.monitors.tertiary.id},${toString config.gui.monitors.tertiary.width}x${toString config.gui.monitors.tertiary.height}@${toString config.gui.monitors.tertiary.refreshRate},${config.gui.monitors.tertiary.position},${toString config.gui.monitors.tertiary.scale},transform,${toString config.gui.monitors.tertiary.rotation}"])
-          ++ (lib.optionals (config.gui.monitors.quaternary.id != null) ["${config.gui.monitors.quaternary.id},${toString config.gui.monitors.quaternary.width}x${toString config.gui.monitors.quaternary.height}@${toString config.gui.monitors.quaternary.refreshRate},${config.gui.monitors.quaternary.position},${toString config.gui.monitors.quaternary.scale},transform,${toString config.gui.monitors.quaternary.rotation}"]);
 
         general = {
           gaps_in = 3;
@@ -178,6 +142,14 @@ in {
           disable_hyprland_guiutils_check = true;
           disable_splash_rendering = true;
         };
+
+        monitor =
+          [
+            "${cfg.monitors.main.id},${toString cfg.monitors.main.width}x${toString cfg.monitors.main.height}@${toString cfg.monitors.main.refreshRate},${cfg.monitors.main.position},${toString cfg.monitors.main.scale},transform,${toString cfg.monitors.main.rotation}"
+          ]
+          ++ (lib.optionals (cfg.monitors.secondary.id != null) ["${cfg.monitors.secondary.id},${toString cfg.monitors.secondary.width}x${toString cfg.monitors.secondary.height}@${toString cfg.monitors.secondary.refreshRate},${cfg.monitors.secondary.position},${toString cfg.monitors.secondary.scale},transform,${toString cfg.monitors.secondary.rotation}"])
+          ++ (lib.optionals (cfg.monitors.tertiary.id != null) ["${cfg.monitors.tertiary.id},${toString cfg.monitors.tertiary.width}x${toString cfg.monitors.tertiary.height}@${toString cfg.monitors.tertiary.refreshRate},${cfg.monitors.tertiary.position},${toString cfg.monitors.tertiary.scale},transform,${toString cfg.monitors.tertiary.rotation}"])
+          ++ (lib.optionals (cfg.monitors.quaternary.id != null) ["${cfg.monitors.quaternary.id},${toString cfg.monitors.quaternary.width}x${toString cfg.monitors.quaternary.height}@${toString cfg.monitors.quaternary.refreshRate},${cfg.monitors.quaternary.position},${toString cfg.monitors.quaternary.scale},transform,${toString cfg.monitors.quaternary.rotation}"]);
 
         input = {
           kb_layout = "us";
@@ -212,7 +184,7 @@ in {
           "float,${fileChooser}"
           "center,${fileChooser}"
           "float,${nautilusPreviewer}"
-          "maxsize 600 720,${nautilusPreviewer}"
+          "size 600 720,${nautilusPreviewer}"
           "center,${nautilusPreviewer}"
           "center,${op}"
           "noblur,${pavucontrol}"
@@ -260,14 +232,15 @@ in {
         in
           [
             # General binds.
-            "${mod} SHIFT,R,exec,hyprctl reload; systemctl --user restart adw-shell" # Reload Hyprland and shell.
+            "${mod} SHIFT,R,exec,hyprctl reload; systemctl --user restart adw-shell"
             # Default applications.
             "${mod},Return,exec,${defaultAppFor "x-scheme-handler/terminal"}"
             "${mod},e,exec,${defaultAppFor "text/plain"}"
             "${mod},b,exec,${defaultAppFor "x-scheme-handler/https"}"
             # Applications.
-            "CTRL SHIFT,SPACE,exec,${_1password} --quick-access"
-            "${mod} SHIFT,V,exec,alacritty --class clipse -e 'clipse'"
+            "CTRL SHIFT,SPACE,exec,${uwsmApp "${_1password} --quick-access"}"
+            "${mod} SHIFT,V,exec,${uwsmApp "alacritty --class clipse -e 'clipse'"}"
+            # Shell commands.
             "${mod},space,exec,ags request toggle-launcher --instance 'adw-shell'"
             # Window management.
             "${mod},Tab,cyclenext"
@@ -287,10 +260,12 @@ in {
             ",XF86AudioLowerVolume,exec,${pactl} set-sink-volume @DEFAULT_SINK@ -5%"
             ",XF86AudioMute,exec,${pactl} set-sink-mute @DEFAULT_SINK@ toggle"
             ",XF86AudioMicMute,exec,${pactl} set-source-mute @DEFAULT_SOURCE@ toggle"
+            # Screen lock.
+            "${mod},l,exec,${lib.getExe hmConfig.programs.hyprlock.package}"
             # Screenshotting.
             "${mod} SHIFT,3,exec,${grimblast} --notify --freeze copy output"
             "${mod} SHIFT,4,exec,${grimblast} --notify --freeze copy area"
-            # To OCR.
+            # OCR.
             "${mod} SHIFT,5,exec,${grimblast} --freeze save area - | ${tesseract} - - | wl-copy && ${notify-send} -t 3000 'OCR result copied to buffer'"
           ]
           ++ workspaces
@@ -307,11 +282,7 @@ in {
                 ",XF86AudioPrev,exec,${playerctl} previous"
                 ",XF86AudioStop,exec,${playerctl} stop"
               ]
-          )
-          # Screen lock.
-          ++ (lib.optionals config.features.hyprlock.enable [
-            "${mod},l,exec, ${lib.getExe hmConfig.programs.hyprlock.package}"
-          ]);
+          );
       };
     };
   };

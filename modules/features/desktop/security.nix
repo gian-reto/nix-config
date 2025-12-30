@@ -1,19 +1,11 @@
 {
-  lib,
   config,
+  lib,
   pkgs,
   ...
-}: {
-  options.features.security.enable = lib.mkOption {
-    description = ''
-      Whether to enable secret management and access control features.
-    '';
-    type = lib.types.bool;
-    default = false;
-    example = true;
-  };
-
-  config.os = lib.mkIf config.features.security.enable {
+}:
+lib.mkIf config.features.desktop.enable {
+  os = {
     environment.variables.XDG_RUNTIME_DIR = "/run/user/$UID";
 
     programs = {

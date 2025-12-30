@@ -11,12 +11,12 @@
   ];
 
   # Enable my modules!
-  gui = {
-    enable = true;
+  gui.enable = true;
 
-    environment.flavor = "hyprland";
-    wallpaper = ../../files/wallpaper.jpg;
-    monitors = {
+  # Enable & configure individual features.
+  features = {
+    android.enable = true;
+    desktop.monitors = {
       main = {
         id = "DP-3"; # Physical position: 1st (leftmost).
         width = 3840;
@@ -54,18 +54,15 @@
         position = "11520x0"; # Rightmost position.
       };
     };
-  };
+    distributed-builds = {
+      enable = true;
 
-  # Enable individual features.
-  features.android.enable = true;
-  features.ollama.enable = true;
-  features.steam.enable = true;
-  features.virtualization.enable = true;
-  features.distributed-builds = {
-    enable = true;
-
-    # Only use nixbuild.net on-demand.
-    enableNixIntegration = false;
+      # Only use nixbuild.net on-demand.
+      enableNixIntegration = false;
+    };
+    ollama.enable = true;
+    steam.enable = true;
+    virtualization.enable = true;
   };
 
   # Machine-specific configuration.

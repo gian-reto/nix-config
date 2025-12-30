@@ -111,4 +111,4 @@ getExe' pkgs.hello "hello" # "/nix/store/g124820p9hlv4lj8qplzxw1c44dxaw1k-hello-
 getExe' pkgs.imagemagick "convert" # "/nix/store/5rs48jamq7k6sal98ymj9l4k2bnwq515-imagemagick-7.1.1-15/bin/convert"
 ```
 
-- Sometimes, parts of the configuration in a feature should only be enabled if another feature is enabled. This can be done using the usual Nix helpers like `lib.mkIf` or `lib.optionals`. For example, the `hyprland` feature only applies the custom cursor theme if `config.features.cursor.enable` (the option exposed by the `cursor` feature) is set to `true`.
+- Sometimes, parts of the configuration in a feature should only be enabled if another feature or module is enabled. This can be done using the usual Nix helpers like `lib.mkIf` or `lib.optionals`. For example, the `vpn` feature only uses the `mullvad-vpn` GUI package if `config.gui.enable` (the option exposed by the `gui` module) is set to `true`.

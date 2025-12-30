@@ -5,362 +5,82 @@
   pkgs,
   ...
 }: {
-  options = {
-    gui = {
-      enable = lib.mkOption {
-        description = ''
-          Whether to enable a desktop environment and some GUI applications.
-        '';
-        type = lib.types.bool;
-        default = false;
-        example = true;
-      };
-      environment = {
-        flavor = lib.mkOption {
-          description = ''
-            The base desktop environment or compositor to use.
-          '';
-          type = lib.types.enum ["hyprland"];
-          default = "hyprland";
-          example = "hyprland";
-        };
-      };
-      wallpaper = lib.mkOption {
-        description = ''
-          Location of the wallpaper to use throughout the system.
-        '';
-        type = lib.types.path;
-        example = lib.literalExpression ''
-          ./wallpaper.jpg
-        '';
-      };
-      monitors = {
-        main = {
-          id = lib.mkOption {
-            description = ''
-              The id of the main monitor.
-            '';
-            type = lib.types.str;
-            example = "eDP-1";
-          };
-          width = lib.mkOption {
-            description = ''
-              The width of the main monitor.
-            '';
-            type = lib.types.int;
-            example = 1920;
-          };
-          height = lib.mkOption {
-            description = ''
-              The height of the main monitor.
-            '';
-            type = lib.types.int;
-            example = 1200;
-          };
-          scale = lib.mkOption {
-            description = ''
-              The scale of the main monitor.
-            '';
-            type = lib.types.float;
-            default = 1.0;
-            example = 1.0;
-          };
-          refreshRate = lib.mkOption {
-            description = ''
-              The refresh rate of the main monitor.
-            '';
-            type = lib.types.oneOf [
-              lib.types.float
-              lib.types.int
-              lib.types.str
-            ];
-            default = 60;
-            example = 60;
-          };
-          rotation = lib.mkOption {
-            description = ''
-              The rotation of the main monitor.
-            '';
-            type = lib.types.int;
-            default = 0;
-            example = 1;
-          };
-          position = lib.mkOption {
-            description = ''
-              The position of the main monitor in the virtual layout.
-              Can be "auto" or coordinates like "0x0", "1920x0", etc.
-            '';
-            type = lib.types.str;
-            default = "auto";
-            example = "0x0";
-          };
-        };
-        # Optional secondary monitor.
-        secondary = {
-          id = lib.mkOption {
-            description = ''
-              The id of the secondary monitor.
-            '';
-            type = lib.types.nullOr lib.types.str;
-            default = null;
-            example = "HDMI-1";
-          };
-          width = lib.mkOption {
-            description = ''
-              The width of the secondary monitor.
-            '';
-            type = lib.types.nullOr lib.types.int;
-            default = null;
-            example = 1920;
-          };
-          height = lib.mkOption {
-            description = ''
-              The height of the secondary monitor.
-            '';
-            type = lib.types.nullOr lib.types.int;
-            default = null;
-            example = 1200;
-          };
-          scale = lib.mkOption {
-            description = ''
-              The scale of the secondary monitor.
-            '';
-            type = lib.types.float;
-            default = 1.0;
-            example = 1.0;
-          };
-          refreshRate = lib.mkOption {
-            description = ''
-              The refresh rate of the secondary monitor.
-            '';
-            type = lib.types.oneOf [
-              lib.types.float
-              lib.types.int
-              lib.types.str
-            ];
-            default = 60;
-            example = 60;
-          };
-          rotation = lib.mkOption {
-            description = ''
-              The rotation of the secondary monitor.
-            '';
-            type = lib.types.int;
-            default = 0;
-            example = 1;
-          };
-          position = lib.mkOption {
-            description = ''
-              The position of the secondary monitor in the virtual layout.
-              Can be "auto" or coordinates like "0x0", "1920x0", etc.
-            '';
-            type = lib.types.str;
-            default = "auto";
-            example = "1920x0";
-          };
-        };
-        # Optional tertiary monitor.
-        tertiary = {
-          id = lib.mkOption {
-            description = ''
-              The id of the tertiary monitor.
-            '';
-            type = lib.types.nullOr lib.types.str;
-            default = null;
-            example = "HDMI-1";
-          };
-          width = lib.mkOption {
-            description = ''
-              The width of the tertiary monitor.
-            '';
-            type = lib.types.nullOr lib.types.int;
-            default = null;
-            example = 1920;
-          };
-          height = lib.mkOption {
-            description = ''
-              The height of the tertiary monitor.
-            '';
-            type = lib.types.nullOr lib.types.int;
-            default = null;
-            example = 1200;
-          };
-          scale = lib.mkOption {
-            description = ''
-              The scale of the tertiary monitor.
-            '';
-            type = lib.types.float;
-            default = 1.0;
-            example = 1.0;
-          };
-          refreshRate = lib.mkOption {
-            description = ''
-              The refresh rate of the tertiary monitor.
-            '';
-            type = lib.types.oneOf [
-              lib.types.float
-              lib.types.int
-              lib.types.str
-            ];
-            default = 60;
-            example = 60;
-          };
-          rotation = lib.mkOption {
-            description = ''
-              The rotation of the tertiary monitor.
-            '';
-            type = lib.types.int;
-            default = 0;
-            example = 1;
-          };
-          position = lib.mkOption {
-            description = ''
-              The position of the tertiary monitor in the virtual layout.
-              Can be "auto" or coordinates like "0x0", "1920x0", etc.
-            '';
-            type = lib.types.str;
-            default = "auto";
-            example = "3840x0";
-          };
-        };
-        # Optional quaternary monitor.
-        quaternary = {
-          id = lib.mkOption {
-            description = ''
-              The id of the quaternary monitor.
-            '';
-            type = lib.types.nullOr lib.types.str;
-            default = null;
-            example = "HDMI-1";
-          };
-          width = lib.mkOption {
-            description = ''
-              The width of the quaternary monitor.
-            '';
-            type = lib.types.nullOr lib.types.int;
-            default = null;
-            example = 1920;
-          };
-          height = lib.mkOption {
-            description = ''
-              The height of the quaternary monitor.
-            '';
-            type = lib.types.nullOr lib.types.int;
-            default = null;
-            example = 1200;
-          };
-          scale = lib.mkOption {
-            description = ''
-              The scale of the quaternary monitor.
-            '';
-            type = lib.types.float;
-            default = 1.0;
-            example = 1.0;
-          };
-          refreshRate = lib.mkOption {
-            description = ''
-              The refresh rate of the quaternary monitor.
-            '';
-            type = lib.types.oneOf [
-              lib.types.float
-              lib.types.int
-              lib.types.str
-            ];
-            default = 60;
-            example = 60;
-          };
-          rotation = lib.mkOption {
-            description = ''
-              The rotation of the quaternary monitor.
-            '';
-            type = lib.types.int;
-            default = 0;
-            example = 1;
-          };
-          position = lib.mkOption {
-            description = ''
-              The position of the quaternary monitor in the virtual layout.
-              Can be "auto" or coordinates like "0x0", "1920x0", etc.
-            '';
-            type = lib.types.str;
-            default = "auto";
-            example = "5760x0";
-          };
-        };
-      };
-    };
+  options.gui.enable = lib.mkOption {
+    description = ''
+      Whether to enable a desktop environment and some GUI applications.
+    '';
+    type = lib.types.bool;
+    default = false;
+    example = true;
   };
 
-  config = lib.mkIf (config.gui.enable && config.gui.environment.flavor == "hyprland") {
-    features.ags.enable = true;
+  config = lib.mkIf config.gui.enable {
+    # Enable the desktop feature.
+    features.desktop.enable = true;
+
+    # Enable related features.
     features.alacritty.enable = true;
     features.audio.enable = true;
     features.bluetooth.enable = true;
     features.chromium.enable = true;
     features.containers.enable = true;
-    features.cursor.enable = true;
     features.firefox.enable = true;
     features.flatpak.enable = true;
-    features.fonts.enable = true;
     features.ghostty.enable = true;
+    # Only enabled for graphical environments because it uses (interactive)
+    # smartcard prompts.
     features.git.enable = true;
     features.gpg.enable = true;
-    features.greeter.enable = true;
     features.gtk.enable = true;
-    features.hyprland.enable = true;
-    features.hyprlock.enable = true;
     features.nfs.enable = true;
     features.opencode.enable = true;
     features.op.enable = true;
-    features.security.enable = true;
     features.ssh.enable = true;
     features.valent.enable = true;
     features.vpn.enable = true;
     features.vscode.enable = true;
     features.yubikey.enable = true;
 
-    hm = lib.mkIf config.gui.enable {
-      # GUI applications.
-      home.packages = with pkgs; [
-        baobab # Disk usage analyzer.
-        evince # Document viewer.
-        file-roller # Archive manager.
-        geary # Email client.
-        gnome-calculator
-        gnome-characters # Character map.
-        gnome-disk-utility # Disk utility.
-        gnome-font-viewer # Font viewer.
-        gnome-logs # Log viewer.
-        gnome-maps # Maps.
-        gnome-text-editor
-        nautilus # File manager.
-        totem # Video player.
-        loupe # Image viewer.
+    hm.home.packages = with pkgs; [
+      # GNOME core applications.
+      baobab # Disk usage analyzer.
+      evince # Document viewer.
+      file-roller # Archive manager.
+      geary # Email client.
+      gnome-calculator
+      gnome-characters # Character map.
+      gnome-disk-utility # Disk utility.
+      gnome-font-viewer # Font viewer.
+      gnome-logs # Log viewer.
+      gnome-maps # Maps.
+      gnome-text-editor
+      loupe # Image viewer.
+      nautilus # File manager.
+      totem # Video player.
 
-        apostrophe # Minimal markdown editor.
-        binary # Number base converter.
-        collision # File hash verifier.
-        curtail # Image compressor.
-        d-spy # D-Bus exploration tool.
-        decibels # Audio player.
-        fractal # Matrix client.
-        geekbench # Benchmarking tool.
-        github-desktop # GitHub desktop client.
-        gnome-obfuscate # Image obfuscator.
-        impression # Bootable drive writer.
-        metadata-cleaner # Metadata cleaner.
-        muzika # YouTube Music player.
-        obsidian # Note-taking app.
-        parabolic # Video & audio downloader.
-        pods # Podman desktop client.
-        resources # System monitor.
-        seabird # Kubernetes desktop client.
-        showtime # Video player.
-        snapshot # Camera app.
-        warp # Magic Wormhole client.
-        wildcard # Regex testing tool.
-        zed-editor # Code editor.
-      ];
-    };
+      # Additional applications.
+      apostrophe # Minimal markdown editor.
+      binary # Number base converter.
+      collision # File hash verifier.
+      curtail # Image compressor.
+      d-spy # D-Bus exploration tool.
+      decibels # Audio player.
+      fractal # Matrix client.
+      geekbench # Benchmarking tool.
+      github-desktop # GitHub desktop client.
+      gnome-obfuscate # Image obfuscator.
+      impression # Bootable drive writer.
+      metadata-cleaner # Metadata cleaner.
+      obsidian # Note-taking app.
+      parabolic # Video & audio downloader.
+      pods # Podman desktop client.
+      resources # System monitor.
+      seabird # Kubernetes desktop client.
+      showtime # Video player.
+      snapshot # Camera app.
+      warp # Magic Wormhole client.
+      wildcard # Regex testing tool.
+      zed-editor # Code editor.
+    ];
   };
 }

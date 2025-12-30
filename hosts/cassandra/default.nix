@@ -12,12 +12,12 @@
   ];
 
   # Enable my modules!
-  gui = {
-    enable = true;
+  gui.enable = true;
+  laptop.enable = true;
 
-    environment.flavor = "hyprland";
-    wallpaper = ../../files/wallpaper.jpg;
-    monitors = {
+  # Enable & configure individual features.
+  features = {
+    desktop.monitors = {
       main = {
         id = "eDP-1";
         width = 1920;
@@ -26,11 +26,8 @@
         refreshRate = 60;
       };
     };
+    distributed-builds.enable = true;
   };
-  laptop.enable = true;
-
-  # Enable individual features.
-  features.distributed-builds.enable = true;
 
   # Machine-specific configuration.
   os = rec {

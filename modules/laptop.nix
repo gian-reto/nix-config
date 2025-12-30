@@ -13,6 +13,6 @@
   };
 
   config = lib.mkIf config.laptop.enable {
-    features.hypridle.enable = true;
+    # No laptop-specific settings yet.
   };
 }

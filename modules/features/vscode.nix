@@ -26,7 +26,7 @@ in {
       };
     };
 
-    home.file.".vscode-insiders/argv.json" = lib.mkIf config.features.security.enable {
+    home.file.".vscode-insiders/argv.json" = lib.mkIf config.features.desktop.enable {
       text = builtins.toJSON {
         disable-hardware-acceleration = false;
         enable-crash-reporter = false;

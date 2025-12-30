@@ -3,17 +3,10 @@
   lib,
   pkgs,
   ...
-}: {
-  options.features.hypridle.enable = lib.mkOption {
-    description = ''
-      Whether to enable `hypridle`.
-    '';
-    type = lib.types.bool;
-    default = false;
-    example = true;
-  };
-
-  config.hm = lib.mkIf config.features.hypridle.enable {
+}: let
+  cfg = config.features.desktop;
+in {
+  config.hm = lib.mkIf (cfg.enable && cfg.compositor == "hyprland") {
     services.hypridle = {
       enable = true;
 
