@@ -144,6 +144,15 @@ in {
           ++ (lib.optionals (cfg.monitors.tertiary.id != null) ["${cfg.monitors.tertiary.id},${toString cfg.monitors.tertiary.width}x${toString cfg.monitors.tertiary.height}@${toString cfg.monitors.tertiary.refreshRate},${cfg.monitors.tertiary.position},${toString cfg.monitors.tertiary.scale},transform,${toString cfg.monitors.tertiary.rotation}"])
           ++ (lib.optionals (cfg.monitors.quaternary.id != null) ["${cfg.monitors.quaternary.id},${toString cfg.monitors.quaternary.width}x${toString cfg.monitors.quaternary.height}@${toString cfg.monitors.quaternary.refreshRate},${cfg.monitors.quaternary.position},${toString cfg.monitors.quaternary.scale},transform,${toString cfg.monitors.quaternary.rotation}"]);
 
+        # Bind workspaces to monitors.
+        workspace =
+          [
+            "1,monitor:${cfg.monitors.main.id},default:true"
+          ]
+          ++ (lib.optionals (cfg.monitors.secondary.id != null) ["2,monitor:${cfg.monitors.secondary.id},default:true"])
+          ++ (lib.optionals (cfg.monitors.tertiary.id != null) ["3,monitor:${cfg.monitors.tertiary.id},default:true"])
+          ++ (lib.optionals (cfg.monitors.quaternary.id != null) ["4,monitor:${cfg.monitors.quaternary.id},default:true"]);
+
         input = {
           kb_layout = "us";
           kb_options = "compose:ralt";
