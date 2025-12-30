@@ -1,8 +1,9 @@
 {
   lib,
   config,
-  pkgs,
   hmConfig,
+  osConfig,
+  pkgs,
   ...
 }: {
   options.features.op.enable = lib.mkOption {
@@ -47,6 +48,29 @@
           vault = "Development";
         }
       ];
+    };
+
+    # Autostart 1Password in desktop environments.
+    systemd.user.services."autostart-onepassword" = lib.mkIf config.features.desktop.enable {
+      Unit = {
+        Description = "1Password GUI";
+        PartOf = ["graphical-session.target"];
+        After = ["graphical-session.target" "adw-shell.service"];
+        Wants = ["graphical-session.target" "adw-shell.service"];
+      };
+
+      Service = {
+        Type = "simple";
+        # Wait for StatusNotifierWatcher to be available on D-Bus before starting.
+        ExecStartPre = "${lib.getExe pkgs.bash} -c 'until ${lib.getExe' pkgs.systemd "busctl"} --user list | ${lib.getExe pkgs.gnugrep} -q org.kde.StatusNotifierWatcher; do sleep 1; done'";
+        ExecStart = "${lib.getExe osConfig.programs.uwsm.package} app -- ${lib.getExe' pkgs._1password-gui-beta "1password"} --silent --ozone-platform-hint=auto";
+        Restart = "on-failure";
+        RestartSec = 5;
+      };
+
+      Install = {
+        WantedBy = ["graphical-session.target"];
+      };
     };
   };
 }

@@ -1,5 +1,6 @@
 {
   config,
+  osConfig,
   lib,
   pkgs,
   ...
@@ -7,6 +8,10 @@
   cfg = config.features.desktop;
 in {
   config.hm = lib.mkIf (cfg.enable && cfg.compositor == "hyprland") {
+    home.packages = with pkgs; [
+      caffeine-ng
+    ];
+
     services.hypridle = {
       enable = true;
 
@@ -36,6 +41,29 @@ in {
             on-timeout = "systemctl suspend-then-hibernate";
           }
         ];
+      };
+    };
+
+    # Autostart caffeine for idle inhibition control.
+    systemd.user.services."autostart-caffeine" = {
+      Unit = {
+        Description = "Caffeine Idle Inhibitor";
+        PartOf = ["graphical-session.target"];
+        After = ["graphical-session.target" "adw-shell.service"];
+        Wants = ["graphical-session.target" "adw-shell.service"];
+      };
+
+      Service = {
+        Type = "simple";
+        # Wait for StatusNotifierWatcher to be available on D-Bus before starting.
+        ExecStartPre = "${lib.getExe pkgs.bash} -c 'until ${lib.getExe' pkgs.systemd "busctl"} --user list | ${lib.getExe pkgs.gnugrep} -q org.kde.StatusNotifierWatcher; do sleep 1; done'";
+        ExecStart = "${lib.getExe osConfig.programs.uwsm.package} app -- ${lib.getExe' pkgs.caffeine-ng "caffeine"}";
+        Restart = "on-failure";
+        RestartSec = 5;
+      };
+
+      Install = {
+        WantedBy = ["graphical-session.target"];
       };
     };
   };

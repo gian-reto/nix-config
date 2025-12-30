@@ -95,8 +95,9 @@ in {
       settings = let
         active = "0x66585E6A";
         inactive = "0x66434852";
+        uwsmExe = lib.getExe osConfig.programs.uwsm.package;
         # Helper to wrap app launches with uwsm.
-        uwsmApp = cmd: "uwsm app -- ${cmd}";
+        uwsmApp = cmd: "${uwsmExe} app -- ${cmd}";
         # Binds ${mod} + [shift +] {1..10} to [move to] workspace {1..10}.
         workspaces = builtins.concatLists (builtins.genList (
             x: let
@@ -111,21 +112,13 @@ in {
           )
           10);
       in {
-        exec-once =
-          [
-            "hyprctl setcursor ${hmConfig.home.pointerCursor.name} ${toString hmConfig.home.pointerCursor.size}"
-            "uwsm app -- hyprpaper"
-            "uwsm app -- hypridle"
-            "uwsm app -- hyprlock"
-            "uswm app -- ${lib.getExe' pkgs.caffeine-ng "caffeine"}"
-            "uwsm app -- clipse -listen"
-          ]
-          ++ (lib.optionals config.features.op.enable [
-            "uwsm app -- ${lib.getExe' pkgs._1password-gui-beta "1password"} --silent"
-          ])
-          ++ (lib.optionals config.features.bluetooth.enable [
-            "uwsm app -- ${lib.getExe' pkgs.blueman "blueman-applet"}"
-          ]);
+        exec-once = [
+          "hyprctl setcursor ${hmConfig.home.pointerCursor.name} ${toString hmConfig.home.pointerCursor.size}"
+          "${uwsmExe} app -- hyprpaper"
+          "${uwsmExe} app -- hypridle"
+          "${uwsmExe} app -- hyprlock"
+          "${uwsmExe} app -- clipse -listen"
+        ];
 
         general = {
           gaps_in = 3;
