@@ -90,7 +90,7 @@
       warp # Magic wormhole file transfer.
 
       # GNOME extensions.
-      gnomeExtensions.app-hider # Hide desktop icons.
+      # gnomeExtensions.app-hider # Hide desktop icons.
     ];
 
     # Enable Waydroid.
