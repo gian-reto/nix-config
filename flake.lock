@@ -8,17 +8,17 @@
         ]
       },
       "locked": {
-        "lastModified": 1767656675,
-        "narHash": "sha256-6M5bb8CF3h/zzVlWmkwFRbtzNuwaB6fBibbdJK9RrjY=",
+        "lastModified": 1767663529,
+        "narHash": "sha256-eVD1gsqOKWFzRIJdy6/mXu2syJGgcP64mD5o4qjYZBo=",
         "owner": "gian-reto",
         "repo": "adw-shell",
-        "rev": "8a2f50646bf6d6f270c064c2b1c505ad5c060787",
+        "rev": "8d4a240e8140b931ccc15c86cb0fd734525c7334",
         "type": "github"
       },
       "original": {
         "owner": "gian-reto",
         "repo": "adw-shell",
-        "rev": "8a2f50646bf6d6f270c064c2b1c505ad5c060787",
+        "rev": "8d4a240e8140b931ccc15c86cb0fd734525c7334",
         "type": "github"
       }
     },
