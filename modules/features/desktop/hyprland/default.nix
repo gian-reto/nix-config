@@ -193,8 +193,9 @@ in {
         ];
 
         layerrule = [
-          "blur,gtk4-layer-shell"
-          "ignorealpha 0.75,gtk4-layer-shell"
+          "match:namespace gtk4-layer-shell, blur on"
+          "match:namespace gtk4-layer-shell, ignore_alpha 0.75"
+          "match:namespace gtk4-layer-shell, xray 0"
         ];
 
         decoration = {
