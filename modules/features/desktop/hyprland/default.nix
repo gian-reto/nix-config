@@ -173,23 +173,18 @@ in {
           "3, horizontal, workspace"
         ];
 
-        windowrulev2 = let
-          clipse = "class:^(clipse)$";
-          fileChooser = "class:^(xdg-desktop-portal-gtk)$,title:^(Open Folder|Open File|Open Files|File Operation Progress)$";
-          nautilusPreviewer = "class:^(org.gnome.NautilusPreviewer)$";
-          op = "class:^(1Password),floating:1$";
-          pavucontrol = "class:^(org.pulseaudio.pavucontrol)$";
+        windowrule = let
+          clipse = "match:class ^(clipse)$";
+          fileChooser = "match:class ^(xdg-desktop-portal-gtk)$, match:title ^(Open Folder|Open File|Open Files|File Operation Progress)$";
+          nautilusPreviewer = "match:class ^(org.gnome.NautilusPreviewer)$";
+          op = "match:class ^(1Password)$, match:float true";
+          pavucontrol = "match:class ^(org.pulseaudio.pavucontrol)$";
         in [
-          "float,${clipse}"
-          "size 600 720,${clipse}"
-          "center,${clipse}"
-          "float,${fileChooser}"
-          "center,${fileChooser}"
-          "float,${nautilusPreviewer}"
-          "size 600 720,${nautilusPreviewer}"
-          "center,${nautilusPreviewer}"
-          "center,${op}"
-          "noblur,${pavucontrol}"
+          "${clipse}, center on, float on, size 600 720"
+          "${fileChooser}, center on, float on"
+          "${nautilusPreviewer}, center on, float on, min_size 600 720"
+          "${op}, center on"
+          "${pavucontrol}, no_blur on"
         ];
 
         layerrule = [
