@@ -26,6 +26,7 @@
     ./features/ollama.nix
     ./features/opencode
     ./features/op.nix
+    ./features/printing.nix
     ./features/ssh.nix
     ./features/steam.nix
     ./features/valent.nix

@@ -40,6 +40,7 @@
     features.nfs.enable = true;
     features.opencode.enable = true;
     features.op.enable = true;
+    features.printing.enable = true;
     features.ssh.enable = true;
     features.valent.enable = true;
     features.vpn.enable = true;
