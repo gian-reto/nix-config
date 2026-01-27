@@ -36,7 +36,12 @@
         efi.canTouchEfiVariables = true;
       };
       # Enable `swraid` to use `mdadm`.
-      swraid.enable = true;
+      swraid = {
+        enable = true;
+        # Stop `mdadm` from complaining about "Neither MAILADDR nor PROGRAM has been set.
+        # This will cause the `mdmon` service to crash."
+        mdadmConf = "PROGRAM ${pkgs.coreutils}/bin/true";
+      };
     };
 
     networking = {
