@@ -125,8 +125,8 @@
 
       settings = {
         "device /dev/watchdog" = {
-          timeout = 30; # Hardware watchdog timeout in seconds.
-          interval = 10; # Ping interval in seconds.
+          timeout = 120; # Hardware watchdog timeout in seconds.
+          interval = 30; # Ping interval in seconds.
           safe-exit = true; # Disable watchdog on clean exit.
         };
         # Network connectivity monitor.
@@ -138,7 +138,7 @@
           critical = 1; # Trigger reboot on failure.
         };
         loadavg = {
-          enabled = true;
+          enabled = false;
 
           interval = 60;
           warning = 20.0; # ~ 1.0 × 20 threads (i5-13600K).
@@ -146,7 +146,7 @@
           logmark = true;
         };
         meminfo = {
-          enabled = true;
+          enabled = false;
 
           interval = 60;
           warning = 0.85; # Warning at 85% memory usage.
