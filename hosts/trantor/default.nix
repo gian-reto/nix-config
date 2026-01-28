@@ -86,10 +86,11 @@
       "panic=10" # Reboot 10 seconds after a panic.
       "softlockup_panic=1"
       "hardlockup_panic=1"
-      "hung_task_panic=1"
+      "hung_task_panic=0"
+      "hung_task_timeout_secs=300"
     ];
     boot.kernel.sysctl = {
-      "kernel.panic_on_oops" = 1;
+      "kernel.panic_on_oops" = 0;
       "kernel.watchdog" = 1;
     };
 
@@ -138,6 +139,7 @@
         "generic /run/current-system/sw/bin/watchdog-check-network" = {
           # Disabled for now; Causes reboot loop issues.
           enabled = false;
+
           interval = 900; # Check every 15 minutes.
           timeout = 60; # Allow up to 60 seconds for the check to complete.
           critical = 1; # Trigger reboot on failure.
