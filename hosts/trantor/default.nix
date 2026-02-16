@@ -94,9 +94,6 @@
       "kernel.watchdog" = 1;
     };
 
-    # NFS client support.
-    boot.supportedFilesystems = ["nfs"];
-
     # Network connectivity check script for watchdogd.
     environment.systemPackages = let
       logInfo = message: "echo \"${message}\" | /run/current-system/sw/bin/systemd-cat -t watchdog-check-network -p info || true";
