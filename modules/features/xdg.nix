@@ -30,8 +30,8 @@
       videos = "${home}/Videos";
 
       extraConfig = {
-        XDG_CODE_DIR = "${hmConfig.home.homeDirectory}/Code";
-        XDG_SCREENSHOTS_DIR = "${hmConfig.xdg.userDirs.pictures}/Screenshots";
+        CODE = "${hmConfig.home.homeDirectory}/Code";
+        SCREENSHOTS = "${hmConfig.xdg.userDirs.pictures}/Screenshots";
       };
     };
   };

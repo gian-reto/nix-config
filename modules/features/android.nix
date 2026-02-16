@@ -1,6 +1,7 @@
 {
-  lib,
   config,
+  lib,
+  pkgs,
   ...
 }: {
   options.features.android.enable = lib.mkOption {
@@ -13,8 +14,6 @@
   };
 
   config.os = lib.mkIf config.features.android.enable {
-    programs = {
-      adb.enable = true;
-    };
+    environment.systemPackages = [pkgs.android-tools];
   };
 }
