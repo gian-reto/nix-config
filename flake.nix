@@ -203,6 +203,12 @@
       inputs.systems.follows = "hyprland/systems";
     };
 
+    hyprland-hyprshutdown = {
+      url = "github:hyprwm/hyprshutdown";
+      inputs.nixpkgs.follows = "hyprland/nixpkgs";
+      inputs.systems.follows = "hyprland/systems";
+    };
+
     # VSCode stuff.
     vscode-insiders = {
       url = "github:iosmanthus/code-insiders-flake";
@@ -215,7 +221,7 @@
 
     # Other stuff.
     adw-shell = {
-      url = "github:gian-reto/adw-shell/8d4a240e8140b931ccc15c86cb0fd734525c7334";
+      url = "github:gian-reto/adw-shell/8cf7eb33e987d04ff92c339d4dc4ebea4148d73e";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 

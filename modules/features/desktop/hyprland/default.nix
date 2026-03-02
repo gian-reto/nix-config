@@ -257,7 +257,7 @@ in {
             ",XF86AudioMute,exec,${pactl} set-sink-mute @DEFAULT_SINK@ toggle"
             ",XF86AudioMicMute,exec,${pactl} set-source-mute @DEFAULT_SOURCE@ toggle"
             # Screen lock.
-            "${mod},l,exec,${lib.getExe hmConfig.programs.hyprlock.package}"
+            "${mod},l,exec,loginctl lock-session"
             # Screenshotting.
             "${mod} SHIFT,3,exec,${grimblast} --notify --freeze copy output"
             "${mod} SHIFT,4,exec,${grimblast} --notify --freeze copy area"

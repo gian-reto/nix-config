@@ -22,6 +22,8 @@ in {
       }
     '';
 
-    systemd.user.targets.graphical-session.wants = ["hyprpaper.service"];
+    systemd.user.targets.graphical-session = {
+      Unit.Wants = ["hyprpaper.service"];
+    };
   };
 }
