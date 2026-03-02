@@ -34,37 +34,45 @@
       # Open firewall for AirPlay (RAOP) connections (UDP ports 6001-6002).
       raopOpenFirewall = true;
 
-      # AirPlay (RAOP) support.
+      # AirPlay (RAOP) support. See: https://fenguoerbian.github.io/blog/2025-10-07-airplay-in-linux.
       configPackages = [
         (pkgs.writeTextDir "share/pipewire/pipewire.conf.d/10-raop-discover.conf" ''
-          context.modules = [{
-            name = libpipewire-module-zeroconf-discover
-            args = {}
-          }
-          {
-            name = libpipewire-module-raop-discover
-            args = {
-              roap.discover-local = false
-              raop.latency.ms = 248.16
-              stream.rules = [
-                {
-                  matches = [
-                    {
-                    raop.ip = "~.*"
-                    }
-                  ]
-                  actions = {
-                    create-stream = {
-                      stream.props = {
-                        media.class = "Audio/Sink"
-                        sess.latency.msec = 248.16
+          context.modules = [
+          {   name = libpipewire-module-raop-discover
+              args = {
+                  #roap.discover-local = false;
+                  #raop.latency.ms = 1000
+                  stream.rules = [
+                      {   matches = [
+                              {    raop.ip = "~.*"
+                                  #raop.port = 1000
+                                  #raop.name = ""
+                                  #raop.hostname = ""
+                                  #raop.domain = ""
+                                  #raop.device = ""
+                                  #raop.transport = "udp" | "tcp"
+                                  #raop.encryption.type = "none" | "RSA" | "auth_setup" | "fp_sap25"
+                                  #raop.audio.codec = "PCM" | "ALAC" | "AAC" | "AAC-ELD"
+                                  #audio.channels = 2
+                                  #audio.format = "S16" | "S24" | "S32"
+                                  #audio.rate = 44100
+                                  #device.model = ""
+                              }
+                          ]
+                          actions = {
+                              create-stream = {
+                                  #raop.password = ""
+                                  stream.props = {
+                                      #target.object = ""
+                                      #media.class = "Audio/Sink"
+                                  }
+                              }
+                          }
                       }
-                    }
-                  }
-                }
-              ]
-            }
-          }]
+                  ]
+              }
+          }
+          ]
         '')
       ];
     };
