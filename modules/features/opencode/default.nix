@@ -184,20 +184,20 @@ in {
             {
               description = "Builds new features or entire applications based on a high-level description of what needs to be done.";
               mode = "primary";
-              model = "github-copilot/claude-sonnet-4.5";
+              model = "github-copilot/claude-sonnet-4.6";
             }
             // build;
           "build-expert" =
             {
               description = "Builds complex new features or entire applications based on a high-level description of what needs to be done.";
               mode = "primary";
-              model = "github-copilot/claude-opus-4.5";
+              model = "github-copilot/claude-opus-4.6";
             }
             // build;
           consult = {
             description = "Provides expert advice and recommendations based on a deep understanding of the user's needs and the project context.";
             mode = "primary";
-            model = "github-copilot/claude-opus-4.5";
+            model = "github-copilot/claude-opus-4.6";
             prompt = "{file:${consultPrompt}}";
             tools =
               {
@@ -220,7 +220,7 @@ in {
           debug = {
             description = "Finds and fixes bugs in the codebase based on error messages, logs, or a description of the issue.";
             mode = "primary";
-            model = "github-copilot/claude-sonnet-4.5";
+            model = "github-copilot/claude-sonnet-4.6";
             prompt = "{file:${debugPrompt}}";
             tools =
               {
