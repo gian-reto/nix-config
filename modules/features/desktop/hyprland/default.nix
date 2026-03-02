@@ -66,7 +66,6 @@ in {
       clipse
       hyprpicker
       inputs.hyprland-contrib.packages.${pkgs.stdenv.hostPlatform.system}.grimblast
-      inputs.hyprland-hyprpaper.packages.${pkgs.stdenv.hostPlatform.system}.hyprpaper
       libnotify
       wf-recorder
       wl-clipboard
@@ -114,7 +113,6 @@ in {
       in {
         exec-once = [
           "hyprctl setcursor ${hmConfig.home.pointerCursor.name} ${toString hmConfig.home.pointerCursor.size}"
-          "${uwsmExe} app -- hyprpaper"
           "${uwsmExe} app -- hypridle"
           "${uwsmExe} app -- hyprlock"
           "${uwsmExe} app -- clipse -listen"
