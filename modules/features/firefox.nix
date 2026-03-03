@@ -468,6 +468,28 @@
               "media.gmp-widevinecdm.visible" = true;
               "media.gmp-widevinecdm.enabled" = true;
               "media.eme.encrypted-media-encryption-scheme.enabled" = true;
+
+              # Throttle background tabs more aggressively to save resources.
+              "dom.timeout.throttling_delay" = 1000;
+              "dom.timeout.enable_budget_timer_throttling" = true;
+              "dom.timeout.background_throttling_max_budget" = 20; # Budget per background tab (ms).
+              "dom.min_background_timeout_value" = 30000;
+              "dom.min_background_timeout_value_without_budget_throttling" = 30000;
+              "dom.timeout.budget_throttling_max_delay" = 30000;
+              "dom.timeout.background_budget_regeneration_rate" = 500;
+              "dom.ipc.processPriorityManager.enabled" = true; # Lower priority for background processes.
+
+              # Automatically unload background tabs.
+              "browser.tabs.unloadOnLowMemory" = true;
+              "browser.tabs.min_inactive_duration_before_unload" = 300000; # Unload allowed after 5m in background.
+
+              # Wayland integration.
+              "widget.use-xdg-desktop-portal" = true;
+              "widget.use-xdg-desktop-portal.file-picker" = 1; # Use XDG portal for file picker.
+              "widget.use-xdg-desktop-portal.location" = 0; # Don't use XDG portal for geolocation.
+              "widget.use-xdg-desktop-portal.mime-handler" = 1; # Use XDG portal for MIME handling.
+              "widget.use-xdg-desktop-portal.open-uri" = 1; # Use XDG portal for opening URIs.
+              "widget.use-xdg-desktop-portal.settings" = 1; # Use XDG portal for settings information.
             }
             # Aarch64 Widevine support.
             // (
