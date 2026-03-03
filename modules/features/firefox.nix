@@ -199,7 +199,6 @@
                   enhanced-h264ify
                   kagi-search
                   onepassword-password-manager
-                  privacy-badger
                   ublock-origin
                 ];
           };
