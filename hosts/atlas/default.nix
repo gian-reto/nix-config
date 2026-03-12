@@ -87,6 +87,9 @@
       };
     };
 
+    # Not needed, as `discard=async` is enabled by default for btrfs (https://wiki.archlinux.org/title/Btrfs#SSD_TRIM).
+    services.fstrim.enable = false;
+
     networking = {
       hostName = "atlas";
     };
