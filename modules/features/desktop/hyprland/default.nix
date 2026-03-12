@@ -221,6 +221,7 @@ in {
 
         bind = let
           _1password = lib.getExe' pkgs._1password-gui-beta "1password";
+          brightnessctl = lib.getExe pkgs.brightnessctl;
           grimblast = lib.getExe inputs.hyprland-contrib.packages.${pkgs.stdenv.hostPlatform.system}.grimblast;
           tesseract = lib.getExe pkgs.tesseract;
           pactl = lib.getExe' pkgs.pulseaudio "pactl";
@@ -249,9 +250,8 @@ in {
             "${mod},right,workspace,+1"
             "${mod} CTRL,left,movetoworkspace,-1"
             "${mod} CTRL,right,movetoworkspace,+1"
-            # Brightness control (only works if the system has `lightd`).
-            ",XF86MonBrightnessUp,exec,light -A 5"
-            ",XF86MonBrightnessDown,exec,light -U 5"
+            ",XF86MonBrightnessUp,exec,${brightnessctl} -c backlight set 10%+"
+            ",XF86MonBrightnessDown,exec,${brightnessctl} -c backlight set 10%-"
             # Volume control.
             ",XF86AudioRaiseVolume,exec,${pactl} set-sink-volume @DEFAULT_SINK@ +5%"
             ",XF86AudioLowerVolume,exec,${pactl} set-sink-volume @DEFAULT_SINK@ -5%"

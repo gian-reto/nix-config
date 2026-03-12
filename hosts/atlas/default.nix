@@ -67,10 +67,6 @@
 
   # Machine-specific configuration.
   os = {
-    programs = {
-      light.enable = true;
-    };
-
     nixpkgs.config = {
       allowUnfree = true;
       allowUnfreePredicate = _: true;
