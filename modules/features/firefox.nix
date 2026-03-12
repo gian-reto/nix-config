@@ -489,6 +489,14 @@
               "widget.use-xdg-desktop-portal.mime-handler" = 1; # Use XDG portal for MIME handling.
               "widget.use-xdg-desktop-portal.open-uri" = 1; # Use XDG portal for opening URIs.
               "widget.use-xdg-desktop-portal.settings" = 1; # Use XDG portal for settings information.
+
+              # Caching behavior.
+              "browser.cache.disk.enable" = false;
+              "browser.cache.disk.smart_size.enabled" = false;
+              "browser.cache.disk_cache_ssl" = false;
+              "browser.cache.offline.enable" = false;
+              "browser.cache.memory.enable" = true;
+              "browser.cache.memory.capacity" = 1048576; # In-memory cache size in KB.
             }
             # Aarch64 Widevine support.
             // (
