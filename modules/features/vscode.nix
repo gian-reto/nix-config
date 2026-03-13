@@ -57,6 +57,7 @@ in {
               ms-vsliveshare.vsliveshare
               rust-lang.rust-analyzer
               signageos.signageos-vscode-sops
+              ziglang.vscode-zig
             ])
             ++ (
               let
