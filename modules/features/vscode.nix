@@ -72,6 +72,7 @@ in {
                   amatiasq.sort-imports
                   csstools.postcss
                   dbaeumer.vscode-eslint
+                  dnut.rewrap-revived
                   github.copilot
                   github.copilot-chat
                   heybourn.headwind
@@ -80,7 +81,6 @@ in {
                   redhat.vscode-yaml
                   s-nlf-fh.glassit
                   solomonkinard.git-blame
-                  stkb.rewrap
                   svelte.svelte-vscode
                   tamasfe.even-better-toml
                   teabyii.ayu
