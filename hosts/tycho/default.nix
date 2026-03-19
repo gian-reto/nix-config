@@ -133,76 +133,113 @@
         ];
       };
 
-      # Disable WiFi power saving to prevent connection drops.
-      networkmanager.wifi.powersave = false;
+      networkmanager = {
+        wifi.powersave = true;
 
-      networkmanager.ensureProfiles.profiles.swisscom = {
-        connection = {
-          id = "Swisscom";
-          type = "gsm";
-          autoconnect = true;
-          autoconnect-priority = 1;
-          interface-name = "cdc-wdm0";
+        # Automatically switch between WiFi and WWAN: disable WWAN when WiFi
+        # is available, enable it as a fallback when WiFi drops.
+        dispatcherScripts = [
+          {
+            source = pkgs.writeShellScript "wifi-wwan-switch" ''
+              # See `nmcli dev`.
+              WIFI_IFACE="wlp1s0"
+
+              wifi_connected() {
+                ${pkgs.networkmanager}/bin/nmcli -t -f DEVICE,STATE dev 2>/dev/null \
+                  | grep -q "^''${WIFI_IFACE}:connected"
+              }
+
+              wwan_radio_off() {
+                [ "$(${pkgs.networkmanager}/bin/nmcli -t -f WWAN radio 2>/dev/null)" = "disabled" ]
+              }
+
+              case "$2" in
+                up)
+                  if [ "$1" = "$WIFI_IFACE" ] && wifi_connected; then
+                    ${pkgs.networkmanager}/bin/nmcli radio wwan off
+                  fi
+                  ;;
+                down)
+                  if [ "$1" = "$WIFI_IFACE" ]; then
+                    ${pkgs.networkmanager}/bin/nmcli radio wwan on
+                  fi
+                  ;;
+                connectivity-change)
+                  # Safety net for resume from suspend: enable WWAN if WiFi has
+                  # not reconnected and the WWAN radio is currently off.
+                  if wwan_radio_off && ! wifi_connected; then
+                    ${pkgs.networkmanager}/bin/nmcli radio wwan on
+                  fi
+                  ;;
+              esac
+            '';
+            type = "basic";
+          }
+        ];
+
+        ensureProfiles.profiles.swisscom = {
+          connection = {
+            id = "Swisscom";
+            type = "gsm";
+            autoconnect = true;
+            autoconnect-priority = 1;
+            interface-name = "cdc-wdm0";
+          };
+          gsm = {
+            apn = "gprs.swisscom.ch";
+            number = "*99#";
+            # Flag value 4 = NM_SETTING_SECRET_FLAG_NOT_REQUIRED (no password/PIN needed).
+            password-flags = "4";
+            pin-flags = "4";
+          };
+          ipv4 = {
+            # Automatically obtain IP configuration from cellular network.
+            method = "auto";
+          };
+          ipv6 = {
+            # Automatically obtain IPv6 configuration from cellular network.
+            method = "auto";
+            # Generate IPv6 addresses using stable algorithm (consistent but privacy-preserving).
+            addr-gen-mode = "stable-privacy";
+          };
+          # PPP section required for GSM connections (using defaults).
+          ppp = {};
+          # No proxy configuration needed.
+          proxy = {};
         };
-        gsm = {
-          apn = "gprs.swisscom.ch";
-          number = "*99#";
-          # Flag value 4 = NM_SETTING_SECRET_FLAG_NOT_REQUIRED (no password/PIN needed).
-          password-flags = "4";
-          pin-flags = "4";
-        };
-        ipv4 = {
-          # Automatically obtain IP configuration from cellular network.
-          method = "auto";
-        };
-        ipv6 = {
-          # Automatically obtain IPv6 configuration from cellular network.
-          method = "auto";
-          # Generate IPv6 addresses using stable algorithm (consistent but privacy-preserving).
-          addr-gen-mode = "stable-privacy";
-        };
-        # PPP section required for GSM connections (using defaults).
-        ppp = {};
-        # No proxy configuration needed.
-        proxy = {};
       };
     };
 
+    # `networking.modemmanager.enable` installs ModemManager but does not pull it
+    # into the boot sequence or wire it up to NetworkManager.
     systemd.units.ModemManager.enable = true;
     systemd.services.ModemManager = {
       aliases = ["dbus-org.freedesktop.ModemManager1.service"];
-      wantedBy = ["NetworkManager.service"];
+
+      after = ["NetworkManager.service"];
       partOf = ["NetworkManager.service"];
-      after = ["NetworkManager.service"];
-      serviceConfig.TimeoutStopSec = 10;
+      wantedBy = ["NetworkManager.service"];
     };
-    systemd.services."enable-wwan" = {
-      description = "Enable WWAN radio at boot";
-      after = ["NetworkManager.service"];
-      wants = ["NetworkManager.service"];
-      serviceConfig = {
-        Type = "oneshot";
-        ExecStart = "${pkgs.networkmanager}/bin/nmcli radio wwan on";
-      };
-      wantedBy = ["multi-user.target"];
-    };
+
     # Service to fix the Quectel EM05-G modem after suspend / hibernate.
     systemd.services."restart-wwan" = {
       description = "Restart ModemManager after suspend/hibernate";
+
       after = [
         "suspend.target"
         "hibernate.target"
         "suspend-then-hibernate.target"
       ];
-      serviceConfig = {
-        Type = "oneshot";
-        ExecStart = "${pkgs.systemd}/bin/systemctl restart ModemManager.service";
-      };
       wantedBy = [
         "suspend.target"
         "hibernate.target"
         "suspend-then-hibernate.target"
       ];
+
+      serviceConfig = {
+        Type = "oneshot";
+        ExecStart = "${pkgs.systemd}/bin/systemctl restart ModemManager.service";
+      };
     };
 
     services.openssh.enable = true;
