@@ -68,7 +68,7 @@
   # === NETWORKING ===
   # Disable WiFi power saving to prevent connection drops.
   WIFI_PWR_ON_AC = "off";
-  WIFI_PWR_ON_BAT = "off";
+  WIFI_PWR_ON_BAT = "on";
 
   # Wake-on-LAN settings.
   WOL_DISABLE = "Y";

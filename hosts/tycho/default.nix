@@ -134,8 +134,6 @@
       };
 
       networkmanager = {
-        wifi.powersave = true;
-
         # Automatically switch between WiFi and WWAN: disable WWAN when WiFi
         # is available, enable it as a fallback when WiFi drops.
         dispatcherScripts = [
