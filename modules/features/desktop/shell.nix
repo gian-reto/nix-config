@@ -61,7 +61,7 @@ in {
           Description = "Adwaita Shell";
           Documentation = "https://github.com/gian-reto/adw-shell";
           PartOf = ["graphical-session.target"];
-          After = ["graphical-session-pre.target"];
+          After = ["graphical-session.target"];
         };
 
         Service = {

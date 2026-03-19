@@ -37,6 +37,7 @@
 
     boot = {
       initrd.systemd.enable = true;
+      blacklistedKernelModules = ["amdxdna"];
       loader = {
         systemd-boot = {
           enable = true;
@@ -173,6 +174,7 @@
       wantedBy = ["NetworkManager.service"];
       partOf = ["NetworkManager.service"];
       after = ["NetworkManager.service"];
+      serviceConfig.TimeoutStopSec = 10;
     };
     systemd.services."enable-wwan" = {
       description = "Enable WWAN radio at boot";
