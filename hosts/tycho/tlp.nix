@@ -18,7 +18,7 @@
 
   # High performance on AC, maximum power saving on battery.
   CPU_ENERGY_PERF_POLICY_ON_AC = "performance";
-  CPU_ENERGY_PERF_POLICY_ON_BAT = "balance_power";
+  CPU_ENERGY_PERF_POLICY_ON_BAT = "power";
 
   # Enable turbo boost on AC for maximum performance, disable on battery.
   CPU_BOOST_ON_AC = "1";
@@ -27,7 +27,7 @@
   # === Graphics ===
   # Graphics
   RADEON_DPM_PERF_LEVEL_ON_AC = "auto";
-  RADEON_DPM_PERF_LEVEL_ON_BAT = "auto";
+  RADEON_DPM_PERF_LEVEL_ON_BAT = "low";
   RADEON_DPM_STATE_ON_AC = "performance";
   RADEON_DPM_STATE_ON_BAT = "battery";
   AMDGPU_ABM_LEVEL_ON_AC = "0";

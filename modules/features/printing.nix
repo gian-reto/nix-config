@@ -18,6 +18,9 @@
     services.printing = {
       enable = true;
 
+      # Start on-demand rather than keeping the daemon running permanently.
+      startWhenNeeded = true;
+
       # Include Canon printer drivers and other common drivers.
       drivers = with pkgs; [
         # Canon printer drivers.
