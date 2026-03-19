@@ -74,7 +74,7 @@
 
     # Power management.
     services.power-profiles-daemon.enable = false;
-    powerManagement.powertop.enable = true;
+    powerManagement.powertop.enable = false;
     services.tlp = {
       enable = true;
 
