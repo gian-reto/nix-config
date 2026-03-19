@@ -109,10 +109,6 @@
       ];
     };
 
-    networking.networkmanager = {
-      enable = true;
-    };
-
     # Enable GPU stuff.
     boot.initrd.kernelModules = ["amdgpu"];
     boot.kernelParams = [
