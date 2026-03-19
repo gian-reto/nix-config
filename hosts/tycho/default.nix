@@ -37,8 +37,6 @@
 
     boot = {
       initrd.systemd.enable = true;
-      # Use 6.16 kernel for better hardware support (especially Wifi suspend issue).
-      kernelPackages = pkgs.linuxPackages_6_17;
       loader = {
         systemd-boot = {
           enable = true;
@@ -97,22 +95,22 @@
     };
 
     # Sleep.
-    services.logind = {
+    services.logind.settings.Login = {
       # Suspend first then hibernate when closing the lid.
-      lidSwitch = "suspend-then-hibernate";
+      HandleLidSwitch = "suspend-then-hibernate";
 
       # Hibernate on power button pressed
-      powerKey = "hibernate";
-      powerKeyLongPress = "poweroff";
+      HandlePowerKey = "hibernate";
+      HandlePowerKeyLongPress = "poweroff";
     };
     # Delay for hibernation.
-    systemd.sleep.extraConfig = ''
-      HibernateDelaySec=15m
-      HibernateOnACPower=no
+    systemd.sleep.settings.Sleep = {
+      HibernateDelaySec = "15m";
+      HibernateOnACPower = "no";
       # Deep sleep is not supported on this device.
-      MemorySleepMode=s2idle
-      SuspendState=mem
-    '';
+      MemorySleepMode = "s2idle";
+      SuspendState = "mem";
+    };
 
     # Fingerprint.
     services.fprintd.enable = true;
