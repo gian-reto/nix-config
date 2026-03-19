@@ -33,5 +33,11 @@
     home.packages = with pkgs; [
       valent # KDE Connect client.
     ];
+
+    # Suppress the XDG autostart entry. D-Bus activation handles on-demand startup.
+    xdg.configFile."autostart/ca.andyholmes.Valent-autostart.desktop".text = ''
+      [Desktop Entry]
+      Hidden=true
+    '';
   };
 }
