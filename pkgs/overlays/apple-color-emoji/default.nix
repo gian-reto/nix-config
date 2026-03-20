@@ -4,7 +4,7 @@
 }:
 stdenvNoCC.mkDerivation rec {
   pname = "apple-color-emoji";
-  version = "18.4";
+  version = "macos-26-20260219-2aa12422";
   meta = {
     description = "Apple Color Emoji font";
     homepage = "https://developer.apple.com/fonts/";
@@ -12,8 +12,8 @@ stdenvNoCC.mkDerivation rec {
   };
 
   src = builtins.fetchurl {
-    url = "https://github.com/samuelngs/apple-emoji-linux/releases/download/v${version}/AppleColorEmoji.ttf";
-    sha256 = "sha256:a4fd077bd11437b4940d8cf08f4084e1edfd4ae359f92573ec576652f885eabd";
+    url = "https://github.com/samuelngs/apple-emoji-ttf/releases/download/${version}/AppleColorEmoji-Linux.ttf";
+    sha256 = "sha256:535a043af04706d24471059e64745bfc80d6617ada2eea3435dc5620dc0f5318";
   };
 
   dontUnpack = true;
