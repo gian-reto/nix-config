@@ -95,24 +95,6 @@
       settings = import ./tlp.nix;
     };
 
-    # Sleep.
-    services.logind.settings.Login = {
-      # Suspend first then hibernate when closing the lid.
-      HandleLidSwitch = "suspend-then-hibernate";
-
-      # Hibernate on power button pressed
-      HandlePowerKey = "hibernate";
-      HandlePowerKeyLongPress = "poweroff";
-    };
-    # Delay for hibernation.
-    systemd.sleep.settings.Sleep = {
-      HibernateDelaySec = "15m";
-      HibernateOnACPower = "no";
-      # Deep sleep is not supported on this device.
-      MemorySleepMode = "s2idle";
-      SuspendState = "mem";
-    };
-
     # Fingerprint.
     services.fprintd.enable = true;
 
@@ -224,14 +206,12 @@
       description = "Restart ModemManager after suspend/hibernate";
 
       after = [
-        "suspend.target"
         "hibernate.target"
-        "suspend-then-hibernate.target"
+        "suspend.target"
       ];
       wantedBy = [
-        "suspend.target"
         "hibernate.target"
-        "suspend-then-hibernate.target"
+        "suspend.target"
       ];
 
       serviceConfig = {

@@ -18,11 +18,6 @@
     # Enable the desktop feature.
     features.desktop.enable = true;
 
-    # Use swap less aggressively on desktops & laptops.
-    os.boot.kernel.sysctl = {
-      "vm.swappiness" = 10;
-    };
-
     # Enable related features.
     features.alacritty.enable = true;
     features.audio.enable = true;
@@ -46,6 +41,11 @@
     features.vpn.enable = true;
     features.vscode.enable = true;
     features.yubikey.enable = true;
+
+    # Use swap less aggressively on desktops & laptops.
+    os.boot.kernel.sysctl = {
+      "vm.swappiness" = 10;
+    };
 
     hm.home.packages = with pkgs; [
       # GNOME core applications.

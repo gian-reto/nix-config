@@ -6,7 +6,7 @@
 }: let
   cfg = config.features.desktop;
 in {
-  config.hm = lib.mkIf (cfg.enable && cfg.compositor == "hyprland") {
+  config.hm = lib.mkIf (cfg.enable && config.laptop.enable && cfg.compositor == "hyprland") {
     home.packages = with pkgs; [
       caffeine-ng
     ];
@@ -37,7 +37,7 @@ in {
           }
           {
             timeout = 900; # 15 minutes.
-            on-timeout = "systemctl suspend-then-hibernate";
+            on-timeout = "systemctl suspend";
           }
         ];
       };

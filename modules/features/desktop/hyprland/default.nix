@@ -112,12 +112,15 @@ in {
           )
           10);
       in {
-        exec-once = [
-          "hyprctl setcursor ${hmConfig.home.pointerCursor.name} ${toString hmConfig.home.pointerCursor.size}"
-          "${uwsmExe} app -- hypridle"
-          "${uwsmExe} app -- hyprlock"
-          "${uwsmExe} app -- clipse -listen"
-        ];
+        exec-once =
+          [
+            "hyprctl setcursor ${hmConfig.home.pointerCursor.name} ${toString hmConfig.home.pointerCursor.size}"
+            "${uwsmExe} app -- hyprlock"
+            "${uwsmExe} app -- clipse -listen"
+          ]
+          ++ (lib.optionals hmConfig.services.hypridle.enable [
+            "${uwsmExe} app -- hypridle"
+          ]);
 
         general = {
           gaps_in = 3;
