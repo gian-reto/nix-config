@@ -49,6 +49,8 @@
 
     # Not needed, as `discard=async` is enabled by default for btrfs (https://wiki.archlinux.org/title/Btrfs#SSD_TRIM).
     services.fstrim.enable = false;
+    # Firmware updates.
+    services.fwupd.enable = true;
 
     # System wide packages.
     environment = {
