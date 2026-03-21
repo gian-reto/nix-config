@@ -6,7 +6,7 @@
 }: {
   osModules = [
     inputs.disko.nixosModules.disko
-    inputs.nixos-x13s.nixosModules.default
+    inputs.nixos-hardware-x13s.nixosModules.lenovo-thinkpad-x13s
     ./disk-configuration.nix
     ./hardware-configuration.nix
   ];
@@ -30,18 +30,22 @@
   };
 
   # Machine-specific configuration.
-  os = rec {
+  os = {
     nixpkgs.config = {
       allowUnfree = true;
       allowUnfreePredicate = _: true;
     };
 
-    nixos-x13s = {
+    hardware.deviceTree = {
       enable = true;
 
-      kernel = "jhovold";
-      bluetoothMac = "E4:38:83:2F:84:FA";
+      name = "qcom/sc8280xp-lenovo-thinkpad-x13s.dtb";
     };
+    hardware.lenovo.x13s = {
+      bluetoothMac = "E4:38:83:2F:84:FA";
+      wifiMac = "00:03:7f:12:64:9f";
+    };
+    systemd.tpm2.enable = false;
 
     boot = {
       initrd.systemd.enable = true;
@@ -54,10 +58,6 @@
       };
     };
 
-    networking = {
-      hostName = "cassandra";
-    };
-
     # System wide packages.
     environment.systemPackages = with pkgs; [
       # See: https://github.com/jhovold/linux/wiki/X13s#userspace-dependencies.
@@ -67,10 +67,13 @@
 
       # Some additional tools.
       mesa-demos
-      pciutils
       modemmanager
+      pciutils
       vulkan-tools
     ];
+
+    # GPU stuff.
+    hardware.graphics.enable = true;
 
     # Power management.
     services.power-profiles-daemon.enable = false;
@@ -86,75 +89,124 @@
     services.fprintd.tod.enable = true;
     services.fprintd.tod.driver = pkgs.libfprint-2-tod1-goodix;
 
-    # Network manager modemmanager setup.
-    services.udev.packages = [pkgs.modemmanager];
-    services.dbus.packages = [pkgs.modemmanager];
-    systemd.packages = [pkgs.modemmanager];
+    networking = {
+      hostName = "cassandra";
 
-    systemd.units.ModemManager.enable = true;
-    networking.networkmanager = {
-      enable = true;
+      # Cellular modem configuration.
+      modemmanager = {
+        enable = true;
+        package = pkgs.modemmanager;
 
-      fccUnlockScripts = [
-        {
-          id = "105b:e0c3";
-          path = "${pkgs.modemmanager}/share/ModemManager/fcc-unlock.available.d/105b:e0c3";
-        }
-      ];
+        fccUnlockScripts = [
+          {
+            id = "105b:e0c3";
+            path = "${pkgs.modemmanager}/share/ModemManager/fcc-unlock.available.d/105b:e0c3";
+          }
+        ];
+      };
+
+      networkmanager = {
+        # Automatically switch between WiFi and WWAN: disable WWAN when WiFi
+        # is available, enable it as a fallback when WiFi drops.
+        dispatcherScripts = [
+          {
+            source = pkgs.writeShellScript "wifi-wwan-switch" ''
+              # See `nmcli dev`.
+              WIFI_IFACE="wlp1s0"
+
+              wifi_connected() {
+                ${pkgs.networkmanager}/bin/nmcli -t -f DEVICE,STATE dev 2>/dev/null \
+                  | grep -q "^''${WIFI_IFACE}:connected"
+              }
+
+              wwan_radio_off() {
+                [ "$(${pkgs.networkmanager}/bin/nmcli -t -f WWAN radio 2>/dev/null)" = "disabled" ]
+              }
+
+              case "$2" in
+                up)
+                  if [ "$1" = "$WIFI_IFACE" ] && wifi_connected; then
+                    ${pkgs.networkmanager}/bin/nmcli radio wwan off
+                  fi
+                  ;;
+                down)
+                  if [ "$1" = "$WIFI_IFACE" ]; then
+                    ${pkgs.networkmanager}/bin/nmcli radio wwan on
+                  fi
+                  ;;
+                connectivity-change)
+                  # Safety net for resume from suspend: enable WWAN if WiFi has
+                  # not reconnected and the WWAN radio is currently off.
+                  if wwan_radio_off && ! wifi_connected; then
+                    ${pkgs.networkmanager}/bin/nmcli radio wwan on
+                  fi
+                  ;;
+              esac
+            '';
+            type = "basic";
+          }
+        ];
+
+        ensureProfiles.profiles.swisscom = {
+          connection = {
+            id = "Swisscom";
+            type = "gsm";
+            autoconnect = true;
+            autoconnect-priority = 1;
+            interface-name = "cdc-wdm0";
+          };
+          gsm = {
+            apn = "gprs.swisscom.ch";
+            number = "*99#";
+            # Flag value 4 = NM_SETTING_SECRET_FLAG_NOT_REQUIRED (no password/PIN needed).
+            password-flags = "4";
+            pin-flags = "4";
+          };
+          ipv4 = {
+            # Automatically obtain IP configuration from cellular network.
+            method = "auto";
+          };
+          ipv6 = {
+            # Automatically obtain IPv6 configuration from cellular network.
+            method = "auto";
+            # Generate IPv6 addresses using stable algorithm (consistent but privacy-preserving).
+            addr-gen-mode = "stable-privacy";
+          };
+          # PPP section required for GSM connections (using defaults).
+          ppp = {};
+          # No proxy configuration needed.
+          proxy = {};
+        };
+      };
     };
+
+    # `networking.modemmanager.enable` installs ModemManager but does not pull it
+    # into the boot sequence or wire it up to NetworkManager.
+    systemd.units.ModemManager.enable = true;
     systemd.services.ModemManager = {
       aliases = ["dbus-org.freedesktop.ModemManager1.service"];
-      wantedBy = ["NetworkManager.service"];
-      partOf = ["NetworkManager.service"];
+
       after = ["NetworkManager.service"];
+      partOf = ["NetworkManager.service"];
+      wantedBy = ["NetworkManager.service"];
     };
 
-    # Fix the bluetooth service. `bluetooth-x13s-mac.service` (from
-    # `nixos-x13s`) seems to be broken.
-    systemd.services = {
-      bluetooth-x13s-mac = {
-        enable = lib.mkForce false;
-      };
-      bluetooth-x13s-mac-fix = {
-        enable = lib.mkDefault true;
+    # Service to fix the modem after suspend / hibernate.
+    systemd.services."restart-wwan" = {
+      description = "Restart ModemManager after suspend/hibernate";
 
-        description = "Fix bluetooth device MAC address";
-        unitConfig = {
-          Type = "oneshot";
-        };
-        serviceConfig = {
-          User = "root";
-          RemainAfterExit = true;
-        };
-        wantedBy = ["multi-user.target"];
-        after = ["multi-user.target" "bluetooth.service"];
-        script = ''
-          count=0
-          while true; do
-            count=$((count + 1))
+      after = [
+        "hibernate.target"
+        "suspend.target"
+      ];
+      wantedBy = [
+        "hibernate.target"
+        "suspend.target"
+      ];
 
-            if test $count -ge 5; then
-                echo "Bluetooth MAC address not correct after $count attempts"
-                break
-            fi
-
-            mac=$(${pkgs.bluez}/bin/hciconfig | grep "BD Address" | ${pkgs.gawk}/bin/awk '{ print $3 }')
-            if [ "$mac" != "${nixos-x13s.bluetoothMac}" ]; then
-              echo "Bluetooth MAC address is incorrect. Fixing..."
-              echo "Blocking bluetooth device..."
-              ${pkgs.util-linux}/bin/rfkill block bluetooth
-              echo "Unblocking bluetooth device..."
-              ${pkgs.util-linux}/bin/rfkill unblock bluetooth
-              echo "Setting bluetooth MAC address..."
-              ${pkgs.util-linux}/bin/script -c '${pkgs.bluez}/bin/btmgmt --index 0 public-addr ${nixos-x13s.bluetoothMac}'
-            else
-              echo "Bluetooth MAC address correct after $count attempts"
-              break
-            fi
-
-            sleep $((2 + (count * 3)))
-          done
-        '';
+      serviceConfig = {
+        Type = "oneshot";
+        ExecStart = "${pkgs.systemd}/bin/systemctl restart ModemManager.service";
       };
     };
 
@@ -191,36 +243,13 @@
       };
     };
 
-    # Enable GPU acceleration.
-    hardware.graphics = {
-      enable = true;
-
-      # From: https://github.com/LunNova/nixos-configs/blob/76ea08c9202ef77ab72eb3cd4715c28475a2667e/hosts/amayadori/x13s.nix#L236.
-      package =
-        ((pkgs.mesa.override {
-            galliumDrivers = ["swrast" "freedreno" "zink"];
-            vulkanDrivers = ["swrast" "freedreno"];
-          })
-          .overrideAttrs (old: {
-            mesonFlags =
-              old.mesonFlags
-              ++ [
-                "-Dgallium-vdpau=disabled"
-                "-Dgallium-va=disabled"
-                "-Dandroid-libbacktrace=disabled"
-              ];
-            postPatch = ''
-              ${old.postPatch}
-
-              mkdir -p $spirv2dxil
-              touch $spirv2dxil/dummy
-            '';
-          }))
-        .drivers;
+    services.openssh.enable = true;
+    users.users.root = {
+      openssh.authorizedKeys.keys = lib.splitString "\n" (builtins.readFile ../../files/ssh.pub);
     };
 
-    system.stateVersion = "24.05";
+    system.stateVersion = "25.11";
   };
 
-  hm.home.stateVersion = "24.05";
+  hm.home.stateVersion = "25.11";
 }

@@ -22,13 +22,15 @@
       startWhenNeeded = true;
 
       # Include Canon printer drivers and other common drivers.
-      drivers = with pkgs; [
-        # Canon printer drivers.
-        canon-cups-ufr2 # Canon printer drivers.
-
-        # Additional useful drivers.
-        gutenprint-bin
-      ];
+      drivers = with pkgs;
+        [
+          # Canon printer drivers.
+          canon-cups-ufr2 # Canon printer drivers.
+        ]
+        ++ (lib.optionals (pkgs.stdenv.hostPlatform.isx86) [
+          # Additional useful drivers.
+          pkgs.gutenprint-bin
+        ]);
 
       # Automatic printer discovery.
       browsed.enable = true;

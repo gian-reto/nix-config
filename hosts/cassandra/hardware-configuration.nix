@@ -7,24 +7,10 @@
     (modulesPath + "/installer/scan/not-detected.nix")
   ];
 
-  fileSystems = {
-    "/" = {
-      device = "/dev/disk/by-uuid/6c199b72-4a82-4bc6-9ab2-e5a0d32f04de";
-      fsType = "ext4";
-    };
-    "/boot" = {
-      device = "/dev/disk/by-uuid/6492-704B";
-      fsType = "vfat";
-      options = ["fmask=0077" "dmask=0077"];
-    };
-  };
-
-  swapDevices = [
-    {
-      device = "/dev/disk/by-uuid/f2a6dd2e-f82f-47ea-b4b4-b129ea2574e7";
-    }
-  ];
-
+  # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
+  # (the default) this is the recommended approach. When using systemd-networkd it's
+  # still possible to use this option, but it's recommended to use it in conjunction
+  # with explicit per-interface declarations with `networking.interfaces.<interface>.useDHCP`.
   networking.useDHCP = lib.mkDefault true;
 
   nixpkgs.hostPlatform.system = "aarch64-linux";

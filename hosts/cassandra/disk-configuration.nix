@@ -1,5 +1,3 @@
-# TODO: Unused at the moment, because `hardware-configuration.nix` still depends
-# on uuids.
 {
   disko.devices = {
     disk = {
