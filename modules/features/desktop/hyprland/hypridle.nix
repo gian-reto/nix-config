@@ -6,10 +6,10 @@
 }: let
   cfg = config.features.desktop;
 in {
-  config.hm = lib.mkIf (cfg.enable && config.laptop.enable && cfg.compositor == "hyprland") {
-    home.packages = with pkgs; [
+  config.hm = lib.mkIf (cfg.enable && cfg.compositor == "hyprland") {
+    home.packages = lib.optionals config.laptop.enable (with pkgs; [
       caffeine-ng
-    ];
+    ]);
 
     services.hypridle = {
       enable = true;
@@ -21,7 +21,7 @@ in {
           after_sleep_cmd = "hyprctl dispatch dpms on";
         };
 
-        listener = [
+        listener = lib.optionals config.laptop.enable [
           {
             timeout = 570; # 9 minutes and 30 seconds.
             on-timeout = "${pkgs.libnotify}/bin/notify-send 'Locking in 30 seconds' -t 30000";
