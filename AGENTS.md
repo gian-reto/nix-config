@@ -91,23 +91,74 @@ Note: The directory `modules/features/ags/` is different from the other features
 
 - **Formatting**: Use `alejandra format <path_to_file>.nix` to format a specific Nix file.
 - **Linting**: Use `nil diagnostics <path_to_file>.nix` to check for syntax errors in a specific Nix file.
-- **Switch to new configuration**: Use the command `oss` without any other arguments or flags (it's an alias for `nh os switch` and `nixos-rebuild switch`) to build and switch to the new configuration. It determines the current host / flake automatically.
 
 ## Workflow
 
-- ALWAYS use the `nixos` tool / MCP server to search NixOS packages, programs
-  and options, and verify that they actually exist. Also use the tool to find
-  `home-manager` programs and options.
-- ALWAYS use the `context7` tool to access the latest documentation for NixOS,
-  the Nix language, or the Nix package manager if you're unsure about syntax,
-  features, or to find examples if needed.
-- ALWAYS make sure that your code is suitable for a Nix configuration with
-  flakes enabled.
+- ALWAYS verify that Nix packages and NixOS (or `home-manager`) options actually exist before using them in the configuration, or suggesting them to the user.
+- ALWAYS make sure that your code is suitable for a Nix configuration with flakes enabled.
 - ALWAYS ask for confirmation before executing a command that applies changes to the system.
 - ALWAYS consult the respective recipe in the `docs/` directory, if available.
-- ALWAYS ask for clarification if something is not clear.
 - ALWAYS ask before building or switching to a new configuration.
 
 ## Tips & Tricks
 
 - Because this repository uses `combined-manager`, suggestions from error messages or web searches may not be directly applicable. For example, `config.xdg.configHome` is actually `hmConfig.xdg.configHome` in this repository, because the `home-manager` configuration is accessed through the `hmConfig` attribute. The same applies to the system config, which is accessed through the `osConfig` attribute. So, depending on the context, you may need to use `hmConfig` or `osConfig` instead of `config`.
+
+# context-mode — MANDATORY routing rules
+
+You have context-mode MCP tools available. These rules are NOT optional — they protect your context window from flooding. A single unrouted command can dump 56 KB into context and waste the entire session.
+
+## BLOCKED commands — do NOT attempt these
+
+### curl / wget — BLOCKED
+Any shell command containing `curl` or `wget` will be intercepted and blocked by the context-mode plugin. Do NOT retry.
+Instead use:
+- `context-mode_ctx_fetch_and_index(url, source)` to fetch and index web pages
+- `context-mode_ctx_execute(language: "javascript", code: "const r = await fetch(...)")` to run HTTP calls in sandbox
+
+### Inline HTTP — BLOCKED
+Any shell command containing `fetch('http`, `requests.get(`, `requests.post(`, `http.get(`, or `http.request(` will be intercepted and blocked. Do NOT retry with shell.
+Instead use:
+- `context-mode_ctx_execute(language, code)` to run HTTP calls in sandbox — only stdout enters context
+
+### Direct web fetching — BLOCKED
+Do NOT use any direct URL fetching tool. Use the sandbox equivalent.
+Instead use:
+- `context-mode_ctx_fetch_and_index(url, source)` then `context-mode_ctx_search(queries)` to query the indexed content
+
+## REDIRECTED tools — use sandbox equivalents
+
+### Shell (>20 lines output)
+Shell is ONLY for: `git`, `mkdir`, `rm`, `mv`, `cd`, `ls`, `npm install`, `pip install`, and other short-output commands.
+For everything else, use:
+- `context-mode_ctx_batch_execute(commands, queries)` — run multiple commands + search in ONE call
+- `context-mode_ctx_execute(language: "shell", code: "...")` — run in sandbox, only stdout enters context
+
+### File reading (for analysis)
+If you are reading a file to **edit** it → reading is correct (edit needs content in context).
+If you are reading to **analyze, explore, or summarize** → use `context-mode_ctx_execute_file(path, language, code)` instead. Only your printed summary enters context.
+
+### grep / search (large results)
+Search results can flood context. Use `context-mode_ctx_execute(language: "shell", code: "grep ...")` to run searches in sandbox. Only your printed summary enters context.
+
+## Tool selection hierarchy
+
+1. **GATHER**: `context-mode_ctx_batch_execute(commands, queries)` — Primary tool. Runs all commands, auto-indexes output, returns search results. ONE call replaces 30+ individual calls.
+2. **FOLLOW-UP**: `context-mode_ctx_search(queries: ["q1", "q2", ...])` — Query indexed content. Pass ALL questions as array in ONE call.
+3. **PROCESSING**: `context-mode_ctx_execute(language, code)` | `context-mode_ctx_execute_file(path, language, code)` — Sandbox execution. Only stdout enters context.
+4. **WEB**: `context-mode_ctx_fetch_and_index(url, source)` then `context-mode_ctx_search(queries)` — Fetch, chunk, index, query. Raw HTML never enters context.
+5. **INDEX**: `context-mode_ctx_index(content, source)` — Store content in FTS5 knowledge base for later search.
+
+## Output constraints
+
+- Keep responses under 500 words.
+- Write artifacts (code, configs, PRDs) to FILES — never return them as inline text. Return only: file path + 1-line description.
+- When indexing content, use descriptive source labels so others can `search(source: "label")` later.
+
+## ctx commands
+
+| Command | Action |
+|---------|--------|
+| `ctx stats` | Call the `stats` MCP tool and display the full output verbatim |
+| `ctx doctor` | Call the `doctor` MCP tool, run the returned shell command, display as checklist |
+| `ctx upgrade` | Call the `upgrade` MCP tool, run the returned shell command, display as checklist |
