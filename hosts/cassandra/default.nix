@@ -6,7 +6,7 @@
 }: {
   osModules = [
     inputs.disko.nixosModules.disko
-    inputs.nixos-hardware-x13s.nixosModules.lenovo-thinkpad-x13s
+    inputs.x13s-nixos.nixosModules.default
     ./disk-configuration.nix
     ./hardware-configuration.nix
   ];
@@ -36,16 +36,7 @@
       allowUnfreePredicate = _: true;
     };
 
-    hardware.deviceTree = {
-      enable = true;
-
-      name = "qcom/sc8280xp-lenovo-thinkpad-x13s.dtb";
-    };
-    hardware.lenovo.x13s = {
-      bluetoothMac = "E4:38:83:2F:84:FA";
-      wifiMac = "00:03:7f:12:64:9f";
-    };
-    systemd.tpm2.enable = false;
+    hardware.lenovo-thinkpad-x13s.enable = true;
 
     boot = {
       initrd.systemd.enable = true;
@@ -207,6 +198,26 @@
       serviceConfig = {
         Type = "oneshot";
         ExecStart = "${pkgs.systemd}/bin/systemctl restart ModemManager.service";
+      };
+    };
+
+    services.udev.extraRules = let
+      wifiMac = "00:03:7f:12:64:9f";
+    in ''
+      ACTION=="add", SUBSYSTEM=="net", KERNELS=="0006:01:00.0", RUN+="${pkgs.iproute2}/bin/ip link set dev $name address ${wifiMac}"
+    '';
+
+    systemd.services.fix-bluetooth-mac = let
+      bluetoothMac = "E4:38:83:2F:84:FA";
+    in {
+      wantedBy = ["multi-user.target"];
+      before = ["bluetooth.service"];
+      requiredBy = ["bluetooth.service"];
+
+      serviceConfig = {
+        Type = "oneshot";
+        RemainAfterExit = true;
+        ExecStart = "${pkgs.util-linux}/bin/script -q -c '${pkgs.bluez}/bin/btmgmt --index 0 public-addr ${bluetoothMac}'";
       };
     };
 

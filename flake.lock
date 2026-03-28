@@ -1427,23 +1427,6 @@
         "url": "https://github.com/gian-reto/nixos-fairphone-fp5"
       }
     },
-    "nixos-hardware-x13s": {
-      "locked": {
-        "lastModified": 1770250758,
-        "narHash": "sha256-2hjDbp61CCuJNjk3QtAd5Igvi1SGwKSP8feROfsTmuw=",
-        "ref": "x13-updates",
-        "rev": "5d4c18ba0609bc74931490bf7220691ff4b9c75e",
-        "revCount": 2594,
-        "type": "git",
-        "url": "ssh://git@github.com/BrainWart/nixos-hardware"
-      },
-      "original": {
-        "ref": "x13-updates",
-        "rev": "5d4c18ba0609bc74931490bf7220691ff4b9c75e",
-        "type": "git",
-        "url": "ssh://git@github.com/BrainWart/nixos-hardware"
-      }
-    },
     "nixpkgs": {
       "locked": {
         "lastModified": 1772198003,
@@ -1615,11 +1598,11 @@
         "nix-services": "nix-services",
         "nix-vscode-extensions": "nix-vscode-extensions",
         "nixos-fairphone-fp5": "nixos-fairphone-fp5",
-        "nixos-hardware-x13s": "nixos-hardware-x13s",
         "nixpkgs": "nixpkgs_4",
         "nixpkgs-stable": "nixpkgs-stable",
         "systems": "systems_3",
-        "vscode-insiders": "vscode-insiders"
+        "vscode-insiders": "vscode-insiders",
+        "x13s-nixos": "x13s-nixos"
       }
     },
     "sops-nix": {
@@ -1723,6 +1706,28 @@
         "owner": "iosmanthus",
         "repo": "code-insiders-flake",
         "type": "github"
+      }
+    },
+    "x13s-nixos": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1774726982,
+        "narHash": "sha256-thzNtcUUpJ4BFL2U2dreDAdD+69DbQYKQUbQmUjd+rQ=",
+        "ref": "260328-refactoring",
+        "rev": "0b470650f2cac09a79bc9e2321889dba65ea3345",
+        "revCount": 121,
+        "type": "git",
+        "url": "https://github.com/gian-reto/x13s-nixos"
+      },
+      "original": {
+        "ref": "260328-refactoring",
+        "rev": "0b470650f2cac09a79bc9e2321889dba65ea3345",
+        "type": "git",
+        "url": "https://github.com/gian-reto/x13s-nixos"
       }
     },
     "xdph": {

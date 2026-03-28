@@ -19,8 +19,6 @@
         // (
           if system == "aarch64-linux"
           then {
-            # ThinkPad X13s installer disk image (flash to USB, then use `disko-install`).
-            cassandra-installer-image = inputs.self.nixosConfigurations.cassandra-installer.config.system.build.image;
             # Fairphone 5 boot image (for flashing to `boot` partition).
             orion-boot-image = inputs.nixos-fairphone-fp5.lib.mkBootImage inputs.self.nixosConfigurations.orion pkgs;
             # Fairphone 5 rootfs image (for flashing to `userdata` partition).
@@ -56,17 +54,6 @@
             ./users/gian
           ];
         };
-      };
-
-      # ThinkPad X13s installer disk image.
-      cassandra-installer = nixpkgs.lib.nixosSystem {
-        system = "aarch64-linux";
-
-        specialArgs = {inherit inputs;};
-
-        modules = [
-          ./hosts/cassandra/installer.nix
-        ];
       };
 
       # ThinkPad X13s.
@@ -180,8 +167,9 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    nixos-hardware-x13s = {
-      url = "git+ssh://git@github.com/BrainWart/nixos-hardware?ref=x13-updates&rev=5d4c18ba0609bc74931490bf7220691ff4b9c75e";
+    x13s-nixos = {
+      url = "git+https://github.com/gian-reto/x13s-nixos?ref=260328-refactoring&rev=0b470650f2cac09a79bc9e2321889dba65ea3345";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
 
     # Fairphone 5 hardware support.
