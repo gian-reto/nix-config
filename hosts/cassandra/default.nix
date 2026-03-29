@@ -207,17 +207,62 @@
       ACTION=="add", SUBSYSTEM=="net", KERNELS=="0006:01:00.0", RUN+="${pkgs.iproute2}/bin/ip link set dev $name address ${wifiMac}"
     '';
 
-    systemd.services.fix-bluetooth-mac = let
-      bluetoothMac = "E4:38:83:2F:84:FA";
-    in {
-      wantedBy = ["multi-user.target"];
-      before = ["bluetooth.service"];
-      requiredBy = ["bluetooth.service"];
+    # Fix the bluetooth service. `bluetooth-x13s-mac.service` (from
+    # `nixos-x13s`) seems to be broken.
+    systemd.services = {
+      bluetooth-x13s-mac-fix = let
+        bluetoothMac = "E4:38:83:2F:84:FA";
+      in {
+        enable = lib.mkDefault true;
 
-      serviceConfig = {
-        Type = "oneshot";
-        RemainAfterExit = true;
-        ExecStart = "${pkgs.util-linux}/bin/script -q -c '${pkgs.bluez}/bin/btmgmt --index 0 public-addr ${bluetoothMac}'";
+        description = "Fix bluetooth device MAC address";
+        serviceConfig = {
+          RemainAfterExit = true;
+          Type = "oneshot";
+          User = "root";
+        };
+        wantedBy = ["multi-user.target"];
+        after = ["multi-user.target" "bluetooth.service"];
+
+        script = ''
+          set -euo pipefail
+
+          get_mac() {
+            ${pkgs.bluez}/bin/hciconfig -a 2>/dev/null | ${pkgs.gawk}/bin/awk '/BD Address/ { print $3; exit }'
+          }
+
+          count=0
+          while true; do
+            count=$((count + 1))
+
+            if test $count -ge 5; then
+                echo "Bluetooth MAC address not correct after $count attempts"
+                exit 1
+            fi
+
+            mac="$(get_mac || true)"
+            if [ "$mac" != "${bluetoothMac}" ]; then
+              echo "Bluetooth MAC address is incorrect. Fixing..."
+              echo "Blocking bluetooth device..."
+              ${pkgs.util-linux}/bin/rfkill block bluetooth || true
+              echo "Unblocking bluetooth device..."
+              ${pkgs.util-linux}/bin/rfkill unblock bluetooth || true
+              echo "Setting bluetooth MAC address..."
+              if ${pkgs.util-linux}/bin/script -qec '${pkgs.bluez}/bin/btmgmt --index 0 public-addr ${bluetoothMac}' /dev/null >/dev/null 2>&1; then
+                echo "Bluetooth MAC address update command succeeded"
+              else
+                echo "Bluetooth MAC address update command failed, retrying..."
+              fi
+            else
+              echo "Bluetooth MAC address correct after $count attempts"
+              # Block device again, because we want bluetooth to be off by default.
+              ${pkgs.util-linux}/bin/rfkill block bluetooth || true
+              exit 0
+            fi
+
+            sleep $((2 + (count * 3)))
+          done
+        '';
       };
     };
 
