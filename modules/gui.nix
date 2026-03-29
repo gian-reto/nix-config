@@ -39,7 +39,7 @@
     features.ssh.enable = true;
     features.valent.enable = true;
     features.vpn.enable = true;
-    features.vscode.enable = pkgs.stdenv.hostPlatform.isx86;
+    features.vscode.enable = true;
     features.yubikey.enable = true;
 
     # Use swap less aggressively on desktops & laptops.

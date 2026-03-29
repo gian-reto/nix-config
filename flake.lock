@@ -1695,16 +1695,16 @@
         ]
       },
       "locked": {
-        "lastModified": 1773274776,
-        "narHash": "sha256-q1IpoLwpyffwF5lDw58Vtx+D1Pw8E2UBUUvlser+N9Q=",
-        "owner": "iosmanthus",
-        "repo": "code-insiders-flake",
-        "rev": "a0b1a9801eb098124ebe901ba6097ce972707d2c",
+        "lastModified": 1774685890,
+        "narHash": "sha256-xuCrKarpIuYz+4PW6meEDrvMcTw0Z0fspxNTTA3Kf7E=",
+        "owner": "auguwu",
+        "repo": "vscode-insiders-nix",
+        "rev": "37719353189cb3b35e218c8a62df6e4da0190247",
         "type": "github"
       },
       "original": {
-        "owner": "iosmanthus",
-        "repo": "code-insiders-flake",
+        "owner": "auguwu",
+        "repo": "vscode-insiders-nix",
         "type": "github"
       }
     },

@@ -213,7 +213,7 @@
 
     # VSCode stuff.
     vscode-insiders = {
-      url = "github:iosmanthus/code-insiders-flake";
+      url = "github:auguwu/vscode-insiders-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nix-vscode-extensions = {

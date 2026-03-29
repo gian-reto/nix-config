@@ -104,8 +104,10 @@ in {
             "window.restoreWindows" = "all";
             "window.titleBarStyle" = "custom";
             "window.dialogStyle" = "native";
+            "window.autoDetectColorScheme" = true;
             "workbench.iconTheme" = "ayu";
-            "workbench.colorTheme" = "Adwaita Dark";
+            "workbench.colorTheme" = "Adwaita Light";
+            "workbench.preferredDarkColorTheme" = "Adwaita Dark";
             "workbench.panel.defaultLocation" = "bottom";
             "workbench.sideBar.location" = "left";
             "workbench.editor.tabActionLocation" = "right";
@@ -176,8 +178,7 @@ in {
               "typescript" = true;
               "asciidoc" = true;
             };
-            "javascript.updateImportsOnFileMove.enabled" = "always";
-            "typescript.updateImportsOnFileMove.enabled" = "always";
+            "js/ts.updateImportsOnFileMove.enabled" = "always";
             "redhat.telemetry.enabled" = false;
             "[svelte]" = {
               "editor.defaultFormatter" = "svelte.svelte-vscode";
