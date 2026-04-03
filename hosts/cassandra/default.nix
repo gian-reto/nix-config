@@ -49,6 +49,9 @@
       };
     };
 
+    # Firmware updates.
+    services.fwupd.enable = true;
+
     # System wide packages.
     environment.systemPackages = with pkgs; [
       # See: https://github.com/jhovold/linux/wiki/X13s#userspace-dependencies.
