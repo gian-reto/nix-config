@@ -106,7 +106,7 @@
           {
             source = pkgs.writeShellScript "wifi-wwan-switch" ''
               # See `nmcli dev`.
-              WIFI_IFACE="wlp1s0"
+              WIFI_IFACE="wlP6p1s0"
 
               wifi_connected() {
                 ${pkgs.networkmanager}/bin/nmcli -t -f DEVICE,STATE dev 2>/dev/null \
@@ -147,7 +147,6 @@
             type = "gsm";
             autoconnect = true;
             autoconnect-priority = 1;
-            interface-name = "cdc-wdm0";
           };
           gsm = {
             apn = "gprs.swisscom.ch";
