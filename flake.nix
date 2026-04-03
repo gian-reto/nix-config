@@ -167,8 +167,9 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    # Lenovo X13s hardware support.
     x13s-nixos = {
-      url = "git+https://github.com/gian-reto/x13s-nixos?ref=260328-refactoring&rev=0b470650f2cac09a79bc9e2321889dba65ea3345";
+      url = "github:gian-reto/x13s-nixos/5abbd4cf4392dd79d8498da92c9ccde71597f4cb";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 

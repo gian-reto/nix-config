@@ -1715,19 +1715,18 @@
         ]
       },
       "locked": {
-        "lastModified": 1774726982,
-        "narHash": "sha256-thzNtcUUpJ4BFL2U2dreDAdD+69DbQYKQUbQmUjd+rQ=",
-        "ref": "260328-refactoring",
-        "rev": "0b470650f2cac09a79bc9e2321889dba65ea3345",
-        "revCount": 121,
-        "type": "git",
-        "url": "https://github.com/gian-reto/x13s-nixos"
+        "lastModified": 1775230745,
+        "narHash": "sha256-TBmynd/2nV+lWwCAE4HhmQHXALrySdsbkLIeMNHItRY=",
+        "owner": "gian-reto",
+        "repo": "x13s-nixos",
+        "rev": "5abbd4cf4392dd79d8498da92c9ccde71597f4cb",
+        "type": "github"
       },
       "original": {
-        "ref": "260328-refactoring",
-        "rev": "0b470650f2cac09a79bc9e2321889dba65ea3345",
-        "type": "git",
-        "url": "https://github.com/gian-reto/x13s-nixos"
+        "owner": "gian-reto",
+        "repo": "x13s-nixos",
+        "rev": "5abbd4cf4392dd79d8498da92c9ccde71597f4cb",
+        "type": "github"
       }
     },
     "xdph": {
