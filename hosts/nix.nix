@@ -73,6 +73,8 @@ in {
 
     nix = {
       package = inputs.nixpkgs-stable.legacyPackages.${pkgs.stdenv.hostPlatform.system}.nix;
+
+      channel.enable = false;
       # Add each flake input as a registry and nix_path.
       registry = lib.mapAttrs (_: flake: {inherit flake;}) flakeInputs;
       nixPath = lib.mapAttrsToList (n: _: "${n}=flake:${n}") flakeInputs;
