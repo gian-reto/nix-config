@@ -1479,6 +1479,22 @@
         "type": "github"
       }
     },
+    "nixpkgs-helium": {
+      "locked": {
+        "lastModified": 1775593516,
+        "narHash": "sha256-/feDOlgrpSOsTuCf7pCi1a5rt3Tz+BQP9AzrWZiJWfQ=",
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "rev": "8823bb624d07e07a006fe055699ed34c4d028ada",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nixos",
+        "ref": "pull/498572/head",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
     "nixpkgs-lib": {
       "locked": {
         "lastModified": 1765674936,
@@ -1620,6 +1636,7 @@
         "nix-vscode-extensions": "nix-vscode-extensions",
         "nixos-fairphone-fp5": "nixos-fairphone-fp5",
         "nixpkgs": "nixpkgs_4",
+        "nixpkgs-helium": "nixpkgs-helium",
         "nixpkgs-stable": "nixpkgs-stable",
         "systems": "systems_3",
         "vscode-insiders": "vscode-insiders",

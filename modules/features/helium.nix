@@ -5,6 +5,11 @@
   pkgs,
   ...
 }: let
+  pkgsHelium = import inputs.nixpkgs-helium {
+    system = pkgs.stdenv.hostPlatform.system;
+    config.allowUnfree = true;
+  };
+
   managedPolicies = {
     # Do not check whether Helium is the default browser.
     DefaultBrowserSettingEnabled = false;
@@ -198,6 +203,9 @@ in {
     hm = {
       programs.helium = {
         enable = true;
+        package = pkgsHelium.helium.override {
+          enableWideVine = true;
+        };
 
         commandLineArgs = [
           "--enable-features=WaylandWindowDecorations"
@@ -260,11 +268,6 @@ in {
         in
           lib.mkIf config.features.op.enable [onepassword];
       };
-
-      # Widevine support, see: https://github.com/imputnet/helium/issues/116#issuecomment-3668370766.
-      xdg.configFile."net.imput.helium/WidevineCdm/latest-component-updated-widevine-cdm".text = ''
-        {"Path":"${pkgs.widevine-cdm}/share/google/chrome/WidevineCdm"}
-      '';
     };
   };
 }
