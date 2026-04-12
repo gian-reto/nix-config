@@ -245,7 +245,6 @@ in {
           {id = "kceglpglilklghkgofolieongaolnaob";} # Cookie AutoDelete.
           {id = "ldpochfccmkkmhdbclfhpagapcfdljkj";} # Decentraleyes.
           {id = "mdjildafknihdffpkfmmpnpoiajfjnjd";} # Consent-O-Matic.
-          {id = "omkfmpieigblcllmkgbflkikinpkodlk";} # Enhanced h264ify.
         ];
 
         nativeMessagingHosts = let
