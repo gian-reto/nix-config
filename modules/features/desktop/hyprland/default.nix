@@ -223,7 +223,7 @@ in {
         ];
 
         bind = let
-          _1password = lib.getExe' pkgs._1password-gui-beta "1password";
+          _1password = lib.getExe' pkgs._1password-gui "1password";
           brightnessctl = lib.getExe pkgs.brightnessctl;
           grimblast = lib.getExe inputs.hyprland-contrib.packages.${pkgs.stdenv.hostPlatform.system}.grimblast;
           tesseract = lib.getExe pkgs.tesseract;

@@ -36,7 +36,7 @@
       _1password-gui = {
         enable = true;
 
-        package = pkgs._1password-gui-beta;
+        package = pkgs._1password-gui;
         polkitPolicyOwners = [hmConfig.home.username];
       };
     };
@@ -70,7 +70,7 @@
         Type = "simple";
         # Wait for StatusNotifierWatcher to be available on D-Bus before starting.
         ExecStartPre = "${lib.getExe pkgs.bash} -c 'until ${lib.getExe' pkgs.systemd "busctl"} --user list | ${lib.getExe pkgs.gnugrep} -q org.kde.StatusNotifierWatcher; do sleep 1; done'";
-        ExecStart = "${lib.getExe osConfig.programs.uwsm.package} app -- ${lib.getExe' pkgs._1password-gui-beta "1password"} --silent --ozone-platform-hint=auto";
+        ExecStart = "${lib.getExe osConfig.programs.uwsm.package} app -- ${lib.getExe' pkgs._1password-gui "1password"} --silent --ozone-platform-hint=auto";
         Restart = "on-failure";
         RestartSec = 5;
       };
