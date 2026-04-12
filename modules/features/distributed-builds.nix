@@ -35,7 +35,7 @@ in {
           Host eu.nixbuild.net
             PubkeyAcceptedKeyTypes ssh-ed25519
             ServerAliveInterval 60
-            IPQoS throughput
+            IPQoS none
             IdentityAgent ${_1passwordAgentPath}
         '';
 
