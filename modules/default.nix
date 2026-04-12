@@ -27,7 +27,6 @@
     ./features/opencode
     ./features/op.nix
     ./features/printing.nix
-    ./features/psd.nix
     ./features/ssh.nix
     ./features/steam.nix
     ./features/valent.nix
