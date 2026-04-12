@@ -22,7 +22,6 @@
     features.alacritty.enable = true;
     features.audio.enable = true;
     features.bluetooth.enable = true;
-    features.chromium.enable = true;
     features.containers.enable = true;
     features.firefox.enable = true;
     features.flatpak.enable = true;

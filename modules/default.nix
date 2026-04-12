@@ -8,7 +8,6 @@
     ./features/bat.nix
     ./features/bluetooth.nix
     ./features/btop.nix
-    ./features/chromium.nix
     ./features/containers.nix
     ./features/desktop
     ./features/direnv.nix
