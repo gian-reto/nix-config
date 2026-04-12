@@ -239,7 +239,7 @@
     };
 
     helium = {
-      url = "github:schembriaiden/helium-browser-nix-flake";
+      url = "github:cjavad/nixpille-helium";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 

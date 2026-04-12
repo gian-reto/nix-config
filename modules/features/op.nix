@@ -6,13 +6,24 @@
   pkgs,
   ...
 }: {
-  options.features.op.enable = lib.mkOption {
-    description = ''
-      Whether to enable 1password.
-    '';
-    type = lib.types.bool;
-    default = false;
-    example = true;
+  options.features.op = {
+    enable = lib.mkOption {
+      description = ''
+        Whether to enable 1password.
+      '';
+      type = lib.types.bool;
+      default = false;
+      example = true;
+    };
+
+    allowedBrowsers = lib.mkOption {
+      description = ''
+        Browser binaries that are allowed to integrate with 1Password.
+      '';
+      type = lib.types.listOf lib.types.str;
+      default = [];
+      example = ["firefox" "helium"];
+    };
   };
 
   config.os = lib.mkIf config.features.op.enable {
@@ -32,11 +43,7 @@
 
     environment.etc."1password/custom_allowed_browsers" = {
       mode = "0755";
-      text = lib.concatLines ([]
-        ++ lib.optionals config.features.firefox.enable [
-          "firefox"
-          "firefox-devedition"
-        ]);
+      text = lib.concatLines (lib.unique config.features.op.allowedBrowsers);
     };
   };
 

@@ -2,7 +2,6 @@
 {
   config,
   lib,
-  inputs,
   pkgs,
   ...
 }: {
@@ -33,6 +32,7 @@
     features.git.enable = true;
     features.gpg.enable = true;
     features.gtk.enable = true;
+    features.helium.enable = true;
     features.nfs.enable = true;
     features.opencode.enable = true;
     features.op.enable = true;
@@ -77,7 +77,6 @@
       github-desktop # GitHub desktop client.
       gnome-obfuscate # Image obfuscator.
       impression # Bootable drive writer.
-      inputs.helium.packages.${pkgs.stdenv.hostPlatform.system}.default # Helium browser.
       metadata-cleaner # Metadata cleaner.
       obsidian # Note-taking app.
       parabolic # Video & audio downloader.
