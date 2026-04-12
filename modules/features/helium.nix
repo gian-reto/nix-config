@@ -220,7 +220,7 @@ in {
         package = heliumPackage;
 
         commandLineArgs = [
-          "--enable-features=WaylandWindowDecorations"
+          "--enable-features=TouchpadOverscrollHistoryNavigation,WaylandWindowDecorations"
           "--ozone-platform-hint=auto"
 
           # Currently disabled due to: https://issues.chromium.org/issues/324994866.
@@ -235,6 +235,7 @@ in {
           "--fingerprinting-canvas-image-data-noise"
           "--fingerprinting-canvas-measuretext-noise"
           "--fingerprinting-client-rects-noise"
+          "--gtk-version=4"
           "--hide-sidepanel-button"
           "--no-pings"
           "--popups-to-tabs"
