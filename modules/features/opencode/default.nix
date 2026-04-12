@@ -200,6 +200,8 @@ in {
       enable = true;
       package = pkgs.opencode;
 
+      tui.theme = "system";
+
       settings = {
         autoshare = false;
         autoupdate = false;
@@ -239,7 +241,6 @@ in {
           };
         };
         small_model = "openai/gpt-5.3-codex-spark";
-        theme = "system";
 
         # Global permissions.
         permission = permission;

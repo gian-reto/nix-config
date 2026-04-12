@@ -19,6 +19,7 @@
     in {
       enable = true;
       createDirectories = true;
+      setSessionVariables = true;
 
       desktop = "${home}/Desktop";
       documents = "${home}/Documents";

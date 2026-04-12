@@ -47,6 +47,7 @@
           gtk-application-prefer-dark-theme = true;
         };
       };
+      gtk4.theme = null;
     };
 
     # Prevent theme package from applying to GTK4.
