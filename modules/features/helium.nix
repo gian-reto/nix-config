@@ -10,6 +10,20 @@
     config.allowUnfree = true;
   };
 
+  heliumPackage = pkgsHelium.helium.override {
+    enableWideVine = true;
+  };
+
+  heliumDesktop = pkgs.runCommandLocal "helium.desktop" {} ''
+    cp ${builtins.fetchurl {
+      url = "https://raw.githubusercontent.com/imputnet/helium-linux/d96d1082f5f1288c3563759c5d6e764a4a6107eb/package/helium.desktop";
+      sha256 = "sha256-XxN9dZHI6rDpmXpLdMg0cLQ0IL1EJOS6YB4mlL+E5Hg=";
+    }} $out
+
+    substituteInPlace $out \
+      --replace-fail "Icon=helium" "Icon=chromium"
+  '';
+
   managedPolicies = {
     # Do not check whether Helium is the default browser.
     DefaultBrowserSettingEnabled = false;
@@ -203,9 +217,7 @@ in {
     hm = {
       programs.helium = {
         enable = true;
-        package = pkgsHelium.helium.override {
-          enableWideVine = true;
-        };
+        package = heliumPackage;
 
         commandLineArgs = [
           "--enable-features=WaylandWindowDecorations"
@@ -266,6 +278,17 @@ in {
           );
         in
           lib.mkIf config.features.op.enable [onepassword];
+      };
+
+      home.file = {
+        ".local/share/applications/helium.desktop".source = heliumDesktop;
+
+        # Hide the broken Chromium desktop entry shipped by the package.
+        ".local/share/applications/chromium-browser.desktop".text = ''
+          [Desktop Entry]
+          Type=Application
+          Hidden=true
+        '';
       };
     };
   };
