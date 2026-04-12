@@ -238,6 +238,11 @@
       flake = false;
     };
 
+    helium = {
+      url = "github:schembriaiden/helium-browser-nix-flake";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     # LLM stuff.
     mcp-servers-nix = {
       url = "github:natsukium/mcp-servers-nix";

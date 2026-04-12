@@ -2,6 +2,7 @@
 {
   config,
   lib,
+  inputs,
   pkgs,
   ...
 }: {
@@ -76,6 +77,7 @@
       github-desktop # GitHub desktop client.
       gnome-obfuscate # Image obfuscator.
       impression # Bootable drive writer.
+      inputs.helium.packages.${pkgs.stdenv.hostPlatform.system}.default # Helium browser.
       metadata-cleaner # Metadata cleaner.
       obsidian # Note-taking app.
       parabolic # Video & audio downloader.
