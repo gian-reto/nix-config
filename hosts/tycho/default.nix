@@ -26,6 +26,12 @@
         refreshRate = 60;
       };
     };
+    distributed-builds = {
+      enable = true;
+
+      # Only use nixbuild.net on-demand.
+      enableNixIntegration = false;
+    };
   };
 
   # Machine-specific configuration.
