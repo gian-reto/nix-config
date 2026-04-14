@@ -13,7 +13,7 @@
 in {
   options.features.opencode.enable = lib.mkOption {
     description = ''
-      Whether to enable opencode (https://github.com/sst/opencode).
+      Whether to enable opencode (https://github.com/anomalyco/opencode).
     '';
     type = lib.types.bool;
     default = false;
@@ -227,8 +227,13 @@ in {
             };
           };
           openrouter.models = {
-            "google/gemini-3-flash-preview" = {
-              name = "Gemini 3 Flash Preview";
+            "x-ai/grok-4.1-fast" = {
+              name = "Grok 4.1 Fast";
+              options = {
+                reasoning = {
+                  enabled = true;
+                };
+              };
             };
             "z-ai/glm-5" = {
               name = "GLM-5";
@@ -293,7 +298,7 @@ in {
           explore = {
             description = "Finds relevant locations in the codebase to start working on a given task, based on a description of the task and the project context.";
             mode = "subagent";
-            model = "openrouter/google/gemini-3-flash-preview";
+            model = "openrouter/x-ai/grok-4.1-fast";
             prompt = "{file:prompts/explore.md}";
             permission = {
               bash = "deny";
@@ -302,6 +307,7 @@ in {
               webfetch = "deny";
               external_directory = "deny";
             };
+            steps = 30;
             temperature = 0.3;
           };
           general = {
@@ -311,7 +317,7 @@ in {
           "github-research" = {
             description = "Finds relevant code examples on GitHub based on the given task description, technologies, and other constraints.";
             mode = "subagent";
-            model = "openrouter/google/gemini-3-flash-preview";
+            model = "openrouter/x-ai/grok-4.1-fast";
             prompt = "{file:prompts/github-research.md}";
             permission =
               permissionAllowContext7Mcp
@@ -322,6 +328,7 @@ in {
                 task = "deny";
                 external_directory = "deny";
               };
+            steps = 30;
             temperature = 0.25;
           };
           plan = {
@@ -331,7 +338,7 @@ in {
           "web-research" = {
             description = "Conducts web-based research to gather information on a specific topic using a search engine and summarises the findings.";
             mode = "subagent";
-            model = "openrouter/google/gemini-3-flash-preview";
+            model = "openrouter/x-ai/grok-4.1-fast";
             prompt = "{file:prompts/web-research.md}";
             permission =
               permissionAllowContext7Mcp
@@ -342,6 +349,7 @@ in {
                 task = "deny";
                 external_directory = "deny";
               };
+            steps = 30;
             temperature = 0.25;
           };
           summary = {

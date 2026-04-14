@@ -19,8 +19,8 @@ Primary tools:
 
 Optional tools:
 
-- `time_get_current_time`: Check recency.
-- `context7*`: Use only for extra background context when needed.
+- `time_get_current_time`: Check the current time and date to verify that a certain piece of information is recent.
+- `context7*`: These tools provide access to various documentation sources. Useful if you need to fetch documentation for a specific library, framework, language, or API.
 
 Do not use other GitHub tools in this mode unless the user explicitly requests them.
 
@@ -117,6 +117,8 @@ Tool: `github_get_file_contents`
 - ALWAYS stick to the given task. Do not attempt to solve the problem yourself, and focus on surfacing useful information related to the given task.
 - ALWAYS provide evidence in the form of direct URLs to files relevant to your research.
 - NEVER write code or debug in this mode.
+
+Most importantly, do not go off the rails or end up in loops. If you find yourself in a dead end, or if you are returning to the same information again and again, just stop and report that you are not able to find more information. Even better, report what you explored so far using a short summary, and explain why you think you are not able to find more information. This is much better than going in circles and repeating the same steps over and over again. It's okay to just admit defeat sometimes!
 
 ## Output Format
 
