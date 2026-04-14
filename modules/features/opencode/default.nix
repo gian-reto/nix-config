@@ -5,7 +5,6 @@
   pkgs,
   ...
 }: let
-  opencodeMemPackage = "opencode-mem@2.13.0";
   mcpPackages = inputs.mcp-servers-nix.packages.${pkgs.stdenv.hostPlatform.system};
   mcpNixosPackage = inputs.mcp-nixos.packages.${pkgs.stdenv.hostPlatform.system}.default;
 in {
@@ -22,40 +21,6 @@ in {
     xdg.configFile = {
       "opencode/AGENTS.md" = {
         source = ./rules/AGENTS.md;
-      };
-      "opencode/opencode-mem.jsonc" = {
-        text = builtins.toJSON {
-          storagePath = "~/.opencode-mem/data";
-          webServerEnabled = false;
-
-          embeddingModel = "Xenova/nomic-embed-text-v1";
-          opencodeProvider = "openai";
-          opencodeModel = "gpt-5.4-mini";
-          memoryTemperature = false;
-
-          autoCaptureEnabled = true;
-          autoCaptureLanguage = "auto";
-          showAutoCaptureToasts = true;
-          showUserProfileToasts = true;
-          showErrorToasts = true;
-          userProfileAnalysisInterval = 10;
-          # Max memories returned by search operations.
-          maxMemories = 10;
-          compaction = {
-            enabled = true;
-            # Limit of memories to inject back into the conversation after compaction.
-            memoryLimit = 10;
-          };
-          chatMessage = {
-            enabled = true;
-            maxMemories = 3;
-            # Do not re-inject memories that were created in the current conversation session.
-            excludeCurrentSession = true;
-            maxAgeDays = 365;
-            # Only inject memories at the start of a conversation.
-            injectOn = "first";
-          };
-        };
       };
       "opencode/plugins" = {
         recursive = true;
@@ -358,9 +323,6 @@ in {
           };
         };
 
-        plugin = [
-          opencodeMemPackage
-        ];
         mcp = {
           context7 = {
             type = "local";
