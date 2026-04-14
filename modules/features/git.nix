@@ -38,6 +38,7 @@ in {
 
       package = pkgs.gitFull;
       lfs.enable = true;
+      signing.format = "openpgp";
 
       settings = {
         alias = {
