@@ -2,29 +2,51 @@
   config,
   lib,
   ...
-}: {
-  options.laptop.enable = lib.mkOption {
-    description = ''
-      Whether to enable features specific to laptops.
-    '';
-    type = lib.types.bool;
-    default = false;
-    example = true;
+}: let
+  cfg = config.laptop;
+in {
+  options.laptop = {
+    enable = lib.mkOption {
+      description = ''
+        Whether to enable features specific to laptops.
+      '';
+      type = lib.types.bool;
+      default = false;
+      example = true;
+    };
+
+    sleepBehavior = lib.mkOption {
+      description = ''
+        Which behavior to use for lid close and power button sleep actions.
+      '';
+      type = lib.types.enum [
+        "shutdown"
+        "suspend-then-hibernate"
+      ];
+      default = "suspend-then-hibernate";
+      example = "shutdown";
+    };
   };
 
-  config = lib.mkIf config.laptop.enable {
+  config = lib.mkIf cfg.enable {
     os = {
       # Sleep.
       services.logind.settings.Login = {
         # Suspend first then hibernate when closing the lid.
-        HandleLidSwitch = "suspend-then-hibernate";
+        HandleLidSwitch =
+          if cfg.sleepBehavior == "shutdown"
+          then "poweroff"
+          else "suspend-then-hibernate";
 
         # Hibernate on power button pressed.
-        HandlePowerKey = "hibernate";
+        HandlePowerKey =
+          if cfg.sleepBehavior == "shutdown"
+          then "poweroff"
+          else "hibernate";
         HandlePowerKeyLongPress = "poweroff";
       };
 
-      systemd.sleep.settings.Sleep = {
+      systemd.sleep.settings.Sleep = lib.mkIf (cfg.sleepBehavior == "suspend-then-hibernate") {
         HibernateDelaySec = "45min";
         # Write image to disk then power off completely.
         HibernateMode = "shutdown";
@@ -42,7 +64,7 @@
 
       # Force smallest possible hibernate image, see:
       # https://wiki.archlinux.org/title/Power_management/Suspend_and_hibernate#About_swap_partition/file_size.
-      systemd.tmpfiles.rules = ["w /sys/power/image_size - - - - 0"];
+      systemd.tmpfiles.rules = lib.mkIf (cfg.sleepBehavior == "suspend-then-hibernate") ["w /sys/power/image_size - - - - 0"];
     };
   };
 }

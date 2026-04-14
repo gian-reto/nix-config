@@ -13,7 +13,12 @@
 
   # Enable my modules!
   gui.enable = true;
-  laptop.enable = true;
+  laptop = {
+    enable = true;
+
+    # The X13s does not support hibernation yet and drains too much power in suspend.
+    sleepBehavior = "shutdown";
+  };
 
   # Enable & configure individual features.
   features = {
@@ -182,25 +187,6 @@
       after = ["NetworkManager.service"];
       partOf = ["NetworkManager.service"];
       wantedBy = ["NetworkManager.service"];
-    };
-
-    # Service to fix the modem after suspend / hibernate.
-    systemd.services."restart-wwan" = {
-      description = "Restart ModemManager after suspend/hibernate";
-
-      after = [
-        "hibernate.target"
-        "suspend.target"
-      ];
-      wantedBy = [
-        "hibernate.target"
-        "suspend.target"
-      ];
-
-      serviceConfig = {
-        Type = "oneshot";
-        ExecStart = "${pkgs.systemd}/bin/systemctl restart ModemManager.service";
-      };
     };
 
     services.udev.extraRules = let
