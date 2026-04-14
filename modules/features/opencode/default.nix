@@ -6,8 +6,8 @@
   ...
 }: let
   bunExe = lib.getExe' pkgs.bun "bun";
-  contextModePackage = "context-mode@1.0.49";
-  opencodeMemPackage = "opencode-mem@2.12.0";
+  contextModePackage = "context-mode@1.0.89";
+  opencodeMemPackage = "opencode-mem@2.13.0";
   mcpPackages = inputs.mcp-servers-nix.packages.${pkgs.stdenv.hostPlatform.system};
   mcpNixosPackage = inputs.mcp-nixos.packages.${pkgs.stdenv.hostPlatform.system}.default;
 in {
