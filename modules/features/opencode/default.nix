@@ -239,7 +239,7 @@ in {
             };
           };
         };
-        small_model = "openai/gpt-5.3-codex-spark";
+        small_model = "openai/gpt-5.4-mini";
 
         # Global permissions.
         permission = permission;
@@ -353,7 +353,7 @@ in {
           };
           title = {
             hidden = true;
-            model = "openai/gpt-5.3-codex-spark";
+            model = "openai/gpt-5.4-mini";
             temperature = 0.05;
           };
         };
