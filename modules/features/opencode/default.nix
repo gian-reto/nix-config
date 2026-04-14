@@ -301,7 +301,7 @@ in {
               webfetch = "deny";
               external_directory = "deny";
             };
-            steps = 30;
+            steps = 70;
             temperature = 0.3;
           };
           general = {
@@ -322,7 +322,7 @@ in {
                 task = "deny";
                 external_directory = "deny";
               };
-            steps = 30;
+            steps = 70;
             temperature = 0.25;
           };
           plan = {
@@ -343,7 +343,7 @@ in {
                 task = "deny";
                 external_directory = "deny";
               };
-            steps = 30;
+            steps = 70;
             temperature = 0.25;
           };
           summary = {
