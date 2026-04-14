@@ -16,7 +16,20 @@
 
     programs = {
       dconf.enable = true;
-      nix-ld.enable = true;
+
+      # See: https://github.com/nix-community/nix-ld.
+      nix-ld = {
+        enable = true;
+        package = pkgs.nix-ld;
+
+        libraries = with pkgs; [
+          gcc
+          icu
+          libcxx
+          stdenv.cc.cc.lib
+          zlib
+        ];
+      };
     };
 
     networking.domain = "hosts.internal.giantarnutzer.com";
