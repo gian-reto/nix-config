@@ -97,98 +97,67 @@ in {
             ]);
 
           userSettings = {
-            "telemetry.telemetryLevel" = "off";
+            "[nix]" = {
+              "editor.defaultFormatter" = "kamadorueda.alejandra";
+            };
+            "[rust]" = {
+              "editor.defaultFormatter" = "rust-lang.rust-analyzer";
+            };
+            "[svelte]" = {
+              "editor.defaultFormatter" = "svelte.svelte-vscode";
+            };
             "breadcrumbs.enabled" = true;
-            "window.commandCenter" = true;
-            "window.menuBarVisibility" = "classic";
-            "window.restoreWindows" = "all";
-            "window.titleBarStyle" = "custom";
-            "window.dialogStyle" = "native";
-            "window.autoDetectColorScheme" = true;
-            "workbench.iconTheme" = "ayu";
-            "workbench.colorTheme" = "Adwaita Light";
-            "workbench.preferredDarkColorTheme" = "Adwaita Dark";
-            "workbench.panel.defaultLocation" = "bottom";
-            "workbench.sideBar.location" = "left";
-            "workbench.editor.tabActionLocation" = "right";
-            "workbench.list.smoothScrolling" = true;
-            "workbench.startupEditor" = "newUntitledFile";
-            "editor.fontFamily" = "${builtins.head osConfig.fonts.fontconfig.defaultFonts.monospace}, 'monospace', monospace";
-            "editor.fontSize" = 14;
-            "editor.fontLigatures" = true;
-            "editor.tabSize" = 2;
-            "editor.insertSpaces" = true;
-            "editor.wordWrap" = "off";
-            "editor.cursorBlinking" = "expand";
-            "editor.formatOnPaste" = false;
-            "editor.formatOnSave" = true;
-            "editor.formatOnType" = false;
+            "editor.bracketPairColorization.enabled" = true;
             "editor.codeActionsOnSave" = {
               "source.fixAll" = "explicit";
             };
-            "editor.minimap.enabled" = true;
-            "editor.minimap.renderCharacters" = true;
+            "editor.cursorBlinking" = "expand";
             "editor.defaultFormatter" = "esbenp.prettier-vscode";
-            "editor.overviewRulerBorder" = true;
-            "editor.renderLineHighlight" = "line";
-            "editor.inlineSuggest.enabled" = true;
-            "editor.inertialScroll" =
-              if config.laptop.enable
-              then true
-              else false;
-            "editor.smoothScrolling" = true;
-            "editor.suggestSelection" = "first";
-            "editor.guides.indentation" = true;
-            "editor.guides.bracketPairs" = true;
-            "editor.bracketPairColorization.enabled" = true;
-            "editor.mouseWheelScrollSensitivity" =
-              if config.laptop.enable
-              then 0.3
-              else 1;
             "editor.fastScrollSensitivity" =
               if config.laptop.enable
               then 0.9
               else 3;
-            "explorer.confirmDelete" = true;
+            "editor.fontFamily" = "${builtins.head osConfig.fonts.fontconfig.defaultFonts.monospace}, 'monospace', monospace";
+            "editor.fontLigatures" = true;
+            "editor.fontSize" = 14;
+            "editor.formatOnPaste" = false;
+            "editor.formatOnSave" = true;
+            "editor.formatOnType" = false;
+            "editor.guides.bracketPairs" = true;
+            "editor.guides.indentation" = true;
+            "editor.inertialScroll" =
+              if config.laptop.enable
+              then true
+              else false;
+            "editor.inlineSuggest.enabled" = true;
+            "editor.insertSpaces" = true;
+            "editor.minimap.enabled" = true;
+            "editor.minimap.renderCharacters" = true;
+            "editor.mouseWheelScrollSensitivity" =
+              if config.laptop.enable
+              then 0.3
+              else 1;
+            "editor.overviewRulerBorder" = true;
+            "editor.renderLineHighlight" = "line";
+            "editor.smoothScrolling" = true;
+            "editor.suggestSelection" = "first";
+            "editor.tabSize" = 2;
+            "editor.wordWrap" = "off";
             "explorer.compactFolders" = false;
-            "terminal.integrated.fontFamily" = builtins.head osConfig.fonts.fontconfig.defaultFonts.monospace;
-            "terminal.integrated.defaultProfile.linux" = "zsh";
-            "terminal.integrated.cursorBlinking" = true;
-            "terminal.integrated.enableVisualBell" = false;
-            "terminal.integrated.scrollback" = 100000;
-            "terminal.integrated.smoothScrolling" = true;
-            "terminal.integrated.mouseWheelScrollSensitivity" = 1.2;
-            "terminal.integrated.fastScrollSensitivity" = 3;
-            # Error `GCVM_L2_PROTECTION_FAULT_STATUS` in `amdgpu` caused by VSCode.
-            # See: https://github.com/microsoft/vscode/issues/238088.
-            "terminal.integrated.gpuAcceleration" = "off";
-            "security.workspace.trust.enabled" = false;
-            "security.workspace.trust.untrustedFiles" = "open";
-            "security.workspace.trust.banner" = "never";
-            "security.workspace.trust.startupPrompt" = "never";
+            "explorer.confirmDelete" = true;
             "files.associations" = {
               "*.svg" = "html";
             };
             "github.copilot.enable" = {
               "*" = true;
-              "plaintext" = false;
-              "markdown" = true;
-              "scminput" = false;
-              "yaml" = true;
-              "typescript" = true;
               "asciidoc" = true;
+              "markdown" = true;
+              "plaintext" = false;
+              "scminput" = false;
+              "typescript" = true;
+              "yaml" = true;
             };
             "js/ts.updateImportsOnFileMove.enabled" = "always";
-            "redhat.telemetry.enabled" = false;
-            "[svelte]" = {
-              "editor.defaultFormatter" = "svelte.svelte-vscode";
-            };
-            "[rust]" = {
-              "editor.defaultFormatter" = "rust-lang.rust-analyzer";
-            };
-            "[nix]" = {
-              "editor.defaultFormatter" = "kamadorueda.alejandra";
-            };
             "nix.enableLanguageServer" = true;
             "nix.serverPath" = "${lib.getExe pkgs.nil}";
             "nix.serverSettings" = {
@@ -196,6 +165,38 @@ in {
                 "${lib.getExe pkgs.alejandra}"
               ];
             };
+            "redhat.telemetry.enabled" = false;
+            "security.workspace.trust.banner" = "never";
+            "security.workspace.trust.enabled" = false;
+            "security.workspace.trust.startupPrompt" = "never";
+            "security.workspace.trust.untrustedFiles" = "open";
+            "telemetry.telemetryLevel" = "off";
+            "terminal.integrated.cursorBlinking" = true;
+            "terminal.integrated.defaultProfile.linux" = "zsh";
+            "terminal.integrated.enableVisualBell" = false;
+            "terminal.integrated.fastScrollSensitivity" = 3;
+            "terminal.integrated.fontFamily" = builtins.head osConfig.fonts.fontconfig.defaultFonts.monospace;
+            # Error `GCVM_L2_PROTECTION_FAULT_STATUS` in `amdgpu` caused by VSCode.
+            # See: https://github.com/microsoft/vscode/issues/238088.
+            "terminal.integrated.gpuAcceleration" = "off";
+            "terminal.integrated.mouseWheelScrollSensitivity" = 1.2;
+            "terminal.integrated.scrollback" = 100000;
+            "terminal.integrated.smoothScrolling" = true;
+            "update.mode" = "none";
+            "window.autoDetectColorScheme" = true;
+            "window.commandCenter" = true;
+            "window.dialogStyle" = "native";
+            "window.menuBarVisibility" = "classic";
+            "window.restoreWindows" = "all";
+            "window.titleBarStyle" = "custom";
+            "workbench.colorTheme" = "Adwaita Light";
+            "workbench.editor.tabActionLocation" = "right";
+            "workbench.iconTheme" = "ayu";
+            "workbench.list.smoothScrolling" = true;
+            "workbench.panel.defaultLocation" = "bottom";
+            "workbench.preferredDarkColorTheme" = "Adwaita Dark";
+            "workbench.sideBar.location" = "left";
+            "workbench.startupEditor" = "newUntitledFile";
           };
         };
       };
