@@ -63,6 +63,10 @@
     ollama.enable = true;
     steam.enable = true;
     virtualization.enable = true;
+    wireguard = {
+      enable = true;
+      clientAddress = "10.0.100.3/32";
+    };
   };
 
   # Machine-specific configuration.

@@ -152,9 +152,19 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    sops-nix = {
+      url = "github:Mic92/sops-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    nix-secrets = {
+      url = "git+ssh://git@github.com/gian-reto/nix-secrets.git?ref=main&shallow=1";
+    };
+
     nix-services = {
       url = "git+ssh://git@github.com/gian-reto/nix-services?ref=main&rev=2f7ad9f8db8846449bf7543569f8641102e45550";
       inputs.nixpkgs.follows = "nixpkgs";
+      inputs.sops-nix.follows = "sops-nix";
     };
 
     # Home Manager ecosystem.

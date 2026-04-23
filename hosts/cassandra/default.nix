@@ -32,6 +32,10 @@
       };
     };
     distributed-builds.enable = true;
+    wireguard = {
+      enable = true;
+      clientAddress = "10.0.100.4/32";
+    };
   };
 
   # Machine-specific configuration.

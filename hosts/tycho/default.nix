@@ -32,6 +32,10 @@
       # Only use nixbuild.net on-demand.
       enableNixIntegration = false;
     };
+    wireguard = {
+      enable = true;
+      clientAddress = "10.0.100.5/32";
+    };
   };
 
   # Machine-specific configuration.

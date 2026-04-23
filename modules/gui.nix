@@ -36,6 +36,7 @@
     features.opencode.enable = true;
     features.op.enable = true;
     features.printing.enable = true;
+    features.sops.enable = true;
     features.ssh.enable = true;
     features.valent.enable = true;
     features.vpn.enable = true;

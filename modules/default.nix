@@ -27,12 +27,14 @@
     ./features/opencode
     ./features/op.nix
     ./features/printing.nix
+    ./features/sops.nix
     ./features/ssh.nix
     ./features/steam.nix
     ./features/valent.nix
     ./features/virtualization.nix
     ./features/vpn.nix
     ./features/vscode.nix
+    ./features/wireguard.nix
     ./features/xdg.nix
     ./features/yubikey.nix
     ./features/zsh.nix
