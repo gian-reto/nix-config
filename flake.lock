@@ -1500,11 +1500,11 @@
     },
     "nixpkgs-helium": {
       "locked": {
-        "lastModified": 1775593516,
-        "narHash": "sha256-/feDOlgrpSOsTuCf7pCi1a5rt3Tz+BQP9AzrWZiJWfQ=",
+        "lastModified": 1777039129,
+        "narHash": "sha256-JwLNK5535uyf0O8IReUoUtcIs9qsaA+WCiYfpptFiJs=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "8823bb624d07e07a006fe055699ed34c4d028ada",
+        "rev": "e567cdb3c189bce756139e28042b5ab44bd5ea31",
         "type": "github"
       },
       "original": {
