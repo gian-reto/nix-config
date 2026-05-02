@@ -162,7 +162,7 @@
     };
 
     nix-services = {
-      url = "git+ssh://git@github.com/gian-reto/nix-services?ref=main&rev=2f7ad9f8db8846449bf7543569f8641102e45550";
+      url = "git+ssh://git@github.com/gian-reto/nix-services?ref=main&rev=9b21a99747ae186eb0e30a575769902238fa1f37";
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.sops-nix.follows = "sops-nix";
     };
