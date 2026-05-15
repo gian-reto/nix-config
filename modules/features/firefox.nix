@@ -27,22 +27,8 @@
     in
       lib.mkIf config.features.firefox.enable {
         home.sessionVariables = {
-          BROWSER = "firefox-devedition";
           MOZ_ENABLE_WAYLAND = 1;
           MOZ_LEGACY_PROFILES = 1;
-        };
-
-        xdg.mimeApps = {
-          enable = true;
-
-          defaultApplications = {
-            "applications/x-www-browser" = ["firefox-devedition.desktop"];
-            "text/html" = ["firefox-devedition.desktop"];
-            "text/xml" = ["firefox-devedition.desktop"];
-            "x-scheme-handler/about" = ["firefox-devedition.desktop"];
-            "x-scheme-handler/http" = ["firefox-devedition.desktop"];
-            "x-scheme-handler/https" = ["firefox-devedition.desktop"];
-          };
         };
 
         programs.firefox = {

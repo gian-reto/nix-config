@@ -205,6 +205,23 @@ in {
     os.environment.etc."chromium/policies/managed/helium.json".text = builtins.toJSON managedPolicies;
 
     hm = {
+      home.sessionVariables = {
+        BROWSER = "helium";
+      };
+
+      xdg.mimeApps = {
+        enable = true;
+
+        defaultApplications = {
+          "applications/x-www-browser" = ["helium.desktop"];
+          "text/html" = ["helium.desktop"];
+          "text/xml" = ["helium.desktop"];
+          "x-scheme-handler/about" = ["helium.desktop"];
+          "x-scheme-handler/http" = ["helium.desktop"];
+          "x-scheme-handler/https" = ["helium.desktop"];
+        };
+      };
+
       programs.helium = {
         enable = true;
         package = heliumPackage;
