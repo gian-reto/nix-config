@@ -186,12 +186,16 @@ in {
             };
           };
           openrouter.models = {
-            "x-ai/grok-4.1-fast" = {
-              name = "Grok 4.1 Fast";
+            "deepseek/deepseek-v4-flash" = {
+              name = "DeepSeek V4 Flash";
               options = {
+                provider = {
+                  only = ["novita" "parasail"];
+                };
                 reasoning = {
                   enabled = true;
                 };
+                reasoningEffort = "xhigh";
               };
             };
             "z-ai/glm-5.1" = {
@@ -265,7 +269,7 @@ in {
           explore = {
             description = "Finds relevant locations in the codebase to start working on a given task, based on a description of the task and the project context.";
             mode = "subagent";
-            model = "openrouter/x-ai/grok-4.1-fast";
+            model = "openrouter/deepseek/deepseek-v4-flash";
             prompt = "{file:prompts/explore.md}";
             permission = {
               bash = "deny";
@@ -284,7 +288,7 @@ in {
           "github-research" = {
             description = "Finds relevant code examples on GitHub based on the given task description, technologies, and other constraints.";
             mode = "subagent";
-            model = "openrouter/x-ai/grok-4.1-fast";
+            model = "openrouter/deepseek/deepseek-v4-flash";
             prompt = "{file:prompts/github-research.md}";
             permission =
               permissionAllowContext7Mcp
@@ -305,7 +309,7 @@ in {
           "web-research" = {
             description = "Conducts web-based research to gather information on a specific topic using a search engine and summarises the findings.";
             mode = "subagent";
-            model = "openrouter/x-ai/grok-4.1-fast";
+            model = "openrouter/deepseek/deepseek-v4-flash";
             prompt = "{file:prompts/web-research.md}";
             permission =
               permissionAllowContext7Mcp
