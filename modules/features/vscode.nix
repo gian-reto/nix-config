@@ -54,6 +54,7 @@ in {
               kamadorueda.alejandra
               mkhl.direnv
               ms-azuretools.vscode-docker
+              ms-vscode-remote.remote-containers
               ms-vsliveshare.vsliveshare
               rust-lang.rust-analyzer
               signageos.signageos-vscode-sops
