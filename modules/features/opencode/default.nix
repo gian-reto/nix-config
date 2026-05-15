@@ -175,7 +175,7 @@ in {
                   include = ["reasoning.encrypted_content"];
                 };
               };
-              "gpt-5.4" = {
+              "gpt-5.5" = {
                 options = {
                   reasoningEffort = "high";
                   textVerbosity = "high";
@@ -194,8 +194,8 @@ in {
                 };
               };
             };
-            "z-ai/glm-5" = {
-              name = "GLM-5";
+            "z-ai/glm-5.1" = {
+              name = "GLM-5.1";
               options = {
                 provider = {
                   only = ["friendli" "fireworks" "novita" "parasail"];
@@ -213,27 +213,35 @@ in {
           build = {
             description = "Builds new features or entire applications based on a high-level description of what needs to be done.";
             mode = "primary";
-            model = "openai/gpt-5.4";
+            model = "openai/gpt-5.5";
             prompt = "{file:prompts/build.md}";
             permission = permissionAllowContext7Mcp;
             temperature = 0.35;
+
+            # Additional model options.
+            reasoningEffort = "high";
+            textVerbosity = "medium";
           };
           "build-expert" = {
             description = "Builds complex new features or entire applications based on a high-level description of what needs to be done.";
             mode = "primary";
-            model = "github-copilot/claude-opus-4.6";
+            model = "openai/gpt-5.5";
             prompt = "{file:prompts/build.md}";
             permission = permissionAllowContext7Mcp;
             temperature = 0.45;
+
+            # Additional model options.
+            reasoningEffort = "xhigh";
+            textVerbosity = "xhigh";
           };
           compaction = {
-            model = "openai/gpt-5.4";
+            model = "openai/gpt-5.5";
             temperature = 0.05;
           };
           consult = {
             description = "Provides expert advice and recommendations based on a deep understanding of the user's needs and the project context.";
             mode = "primary";
-            model = "openai/gpt-5.4";
+            model = "openai/gpt-5.5";
             prompt = "{file:prompts/consult.md}";
             permission =
               permissionAllowContext7Mcp
@@ -245,7 +253,7 @@ in {
           debug = {
             description = "Finds and fixes bugs in the codebase based on error messages, logs, or a description of the issue.";
             mode = "primary";
-            model = "openai/gpt-5.4";
+            model = "openai/gpt-5.5";
             prompt = "{file:prompts/debug.md}";
             permission =
               permissionAllowContext7Mcp
@@ -313,7 +321,7 @@ in {
           };
           summary = {
             hidden = true;
-            model = "openai/gpt-5.4";
+            model = "openai/gpt-5.5";
             temperature = 0.05;
           };
           title = {
