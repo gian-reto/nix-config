@@ -47,7 +47,6 @@
 
         programs.firefox = {
           enable = true;
-
           package = pkgs.wrapFirefox pkgs.firefox-devedition-unwrapped {
             extraPolicies = {
               DisableFirefoxAccounts = true;
@@ -63,6 +62,7 @@
             };
           };
 
+          configPath = "${hmConfig.xdg.configHome}/mozilla/firefox";
           profileVersion = null;
           profiles = {
             "dev-edition-default" = {
@@ -527,7 +527,7 @@
         home.file."firefox-widevinecdm" = lib.mkIf pkgs.stdenv.hostPlatform.isAarch64 {
           enable = true;
 
-          target = ".mozilla/firefox/${hmConfig.home.username}/gmp-widevinecdm";
+          target = "${hmConfig.xdg.configHome}/mozilla/firefox/${hmConfig.home.username}/gmp-widevinecdm";
           source = pkgs.runCommandLocal "firefox-widevinecdm" {} ''
             out=$out/${widevineCdmVersion}
             mkdir -p $out
@@ -540,7 +540,7 @@
         home.file."firefox-theme" = {
           enable = true;
 
-          target = ".mozilla/firefox/${hmConfig.home.username}/chrome/firefox-gnome-theme";
+          target = "${hmConfig.xdg.configHome}/mozilla/firefox/${hmConfig.home.username}/chrome/firefox-gnome-theme";
           source = inputs.firefox-gnome-theme;
         };
       };
