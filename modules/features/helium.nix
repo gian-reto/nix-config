@@ -222,8 +222,8 @@ in {
       home.file = {
         ".local/share/applications/helium.desktop".source = heliumDesktop;
 
-        # Hide the broken Chromium desktop entry shipped by the package.
-        ".local/share/applications/chromium-browser.desktop".text = ''
+        # Hide the broken Helium desktop entry shipped by the package.
+        ".local/share/applications/helium-browser.desktop".text = ''
           [Desktop Entry]
           Type=Application
           Hidden=true
