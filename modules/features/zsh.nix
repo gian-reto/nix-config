@@ -76,9 +76,6 @@
       };
 
       shellAliases = {
-        # Alias `code` to `code-insiders`.
-        code = "code-insiders";
-
         # Misc aliases.
 
         mv = "mv -iv";

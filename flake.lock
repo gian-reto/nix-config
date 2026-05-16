@@ -1682,7 +1682,6 @@
         "nixpkgs-stable": "nixpkgs-stable",
         "sops-nix": "sops-nix",
         "systems": "systems_3",
-        "vscode-insiders": "vscode-insiders",
         "x13s-nixos": "x13s-nixos"
       }
     },
@@ -1765,26 +1764,6 @@
         "owner": "teslamate-org",
         "ref": "v3.0.0",
         "repo": "teslamate",
-        "type": "github"
-      }
-    },
-    "vscode-insiders": {
-      "inputs": {
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1778841004,
-        "narHash": "sha256-FTji/YCDD4ZsSKakpJKP1rDY77qVJqb0G9gjF1hc/Hg=",
-        "owner": "auguwu",
-        "repo": "vscode-insiders-nix",
-        "rev": "4be5d0beb44ef96efcddaaaf33cf2c3ea39fa1c8",
-        "type": "github"
-      },
-      "original": {
-        "owner": "auguwu",
-        "repo": "vscode-insiders-nix",
         "type": "github"
       }
     },

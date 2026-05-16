@@ -22,27 +22,23 @@ in {
       enable = true;
 
       defaultApplications = {
-        "text/plain" = ["code-insiders.desktop"];
-      };
-    };
-
-    home.file.".vscode-insiders/argv.json" = lib.mkIf config.features.desktop.enable {
-      text = builtins.toJSON {
-        disable-hardware-acceleration = false;
-        enable-crash-reporter = false;
-        # Fix keyring integration.
-        password-store = "gnome-libsecret";
+        "text/plain" = ["code.desktop"];
       };
     };
 
     programs.vscode = {
       enable = true;
 
-      package = pkgs.vscode-insiders;
-      mutableExtensionsDir = true;
+      argvSettings = {
+        disable-hardware-acceleration = false;
+        enable-crash-reporter = false;
+        # Fix keyring integration.
+        password-store = "gnome-libsecret";
+      };
+      mutableExtensionsDir = false;
       profiles = {
         default = {
-          enableExtensionUpdateCheck = true;
+          enableExtensionUpdateCheck = false;
           enableUpdateCheck = false;
 
           extensions =

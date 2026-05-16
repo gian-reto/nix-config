@@ -47,7 +47,7 @@ in {
         branch.sort = "committerdate";
         commit.gpgSign = true;
         core = {
-          editor = "code-insiders --wait --new-window";
+          editor = "code --wait --new-window";
         };
         gpg.program = "${hmConfig.programs.gpg.package}/bin/gpg2";
         init.defaultBranch = "main";
@@ -68,7 +68,7 @@ in {
       package = pkgs.gh;
       settings = {
         color_labels = "enabled";
-        editor = "code-insiders --wait --new-window";
+        editor = "code --wait --new-window";
         git_protocol = "ssh";
         pager = lib.mkIf config.features.bat.enable "bat";
       };
@@ -106,12 +106,12 @@ in {
           # Full edit preset settings (in place of `editPreset = "vscode"`).
           # Based on:
           # https://github.com/jesseduffield/lazygit/blob/61636d820c9bb6f0f52b0821b7114e9c7ba38e0b/pkg/config/editor_presets.go#L94
-          # but adapted to `code-insiders`.
-          edit = "code-insiders --reuse-window -- {{filename}}";
-          editAtLine = "code-insiders --reuse-window --goto -- {{filename}}:{{line}}";
-          editAtLineAndWait = "code-insiders --reuse-window --goto --wait -- {{filename}}:{{line}}";
+          # but adapted to VSCode.
+          edit = "code --reuse-window -- {{filename}}";
+          editAtLine = "code --reuse-window --goto -- {{filename}}:{{line}}";
+          editAtLineAndWait = "code --reuse-window --goto --wait -- {{filename}}:{{line}}";
           editInTerminal = false;
-          openDirInEditor = "code-insiders -- {{dir}}";
+          openDirInEditor = "code -- {{dir}}";
 
           # Other settings.
           open = "xdg-open {{filename}}";

@@ -224,10 +224,6 @@
     };
 
     # VSCode stuff.
-    vscode-insiders = {
-      url = "github:auguwu/vscode-insiders-nix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     nix-vscode-extensions = {
       url = "github:nix-community/nix-vscode-extensions";
       inputs.nixpkgs.follows = "nixpkgs";

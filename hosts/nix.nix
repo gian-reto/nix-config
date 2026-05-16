@@ -68,7 +68,6 @@ in {
 
     nixpkgs.overlays = [
       (import ../pkgs/overlays)
-      inputs.vscode-insiders.overlays.default
     ];
 
     nix = {
