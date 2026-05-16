@@ -70,7 +70,6 @@ in {
                   csstools.postcss
                   dbaeumer.vscode-eslint
                   dnut.rewrap-revived
-                  github.copilot
                   github.copilot-chat
                   heybourn.headwind
                   mikestead.dotenv
@@ -192,6 +191,7 @@ in {
             "workbench.list.smoothScrolling" = true;
             "workbench.panel.defaultLocation" = "bottom";
             "workbench.preferredDarkColorTheme" = "Adwaita Dark";
+            "workbench.secondarySideBar.defaultVisibility" = "hidden";
             "workbench.sideBar.location" = "left";
             "workbench.startupEditor" = "newUntitledFile";
           };
