@@ -75,7 +75,6 @@ in {
                   mikestead.dotenv
                   mrmlnc.vscode-json5
                   redhat.vscode-yaml
-                  s-nlf-fh.glassit
                   solomonkinard.git-blame
                   svelte.svelte-vscode
                   tamasfe.even-better-toml
@@ -103,6 +102,22 @@ in {
               "editor.defaultFormatter" = "svelte.svelte-vscode";
             };
             "breadcrumbs.enabled" = true;
+            "dev.containers.defaultExtensions" = [
+              "amatiasq.sort-imports"
+              "christian-kohler.path-intellisense"
+              "dnut.rewrap-revived"
+              "esbenp.prettier-vscode"
+              "github.copilot-chat"
+              "jnoortheen.nix-ide"
+              "kamadorueda.alejandra"
+              "ms-vscode-remote.remote-containers"
+              "rust-lang.rust-analyzer"
+              "solomonkinard.git-blame"
+              "svelte.svelte-vscode"
+              "wayou.vscode-todo-highlight"
+            ];
+            "dev.containers.dockerComposePath" = lib.getExe pkgs.podman-compose;
+            "dev.containers.dockerPath" = lib.getExe pkgs.podman;
             "editor.bracketPairColorization.enabled" = true;
             "editor.codeActionsOnSave" = {
               "source.fixAll" = "explicit";
@@ -154,6 +169,16 @@ in {
               "yaml" = true;
             };
             "js/ts.updateImportsOnFileMove.enabled" = "always";
+            "json.schemaDownload.trustedDomains" = {
+              "https://biomejs.dev" = true;
+              "https://developer.microsoft.com/json-schemas/" = true;
+              "https://json-schema.org/" = true;
+              "https://json.schemastore.org/" = true;
+              "https://raw.githubusercontent.com/devcontainers/spec/" = true;
+              "https://raw.githubusercontent.com/microsoft/vscode/" = true;
+              "https://schemastore.azurewebsites.net/" = true;
+              "https://www.schemastore.org/" = true;
+            };
             "nix.enableLanguageServer" = true;
             "nix.serverPath" = "${lib.getExe pkgs.nil}";
             "nix.serverSettings" = {
