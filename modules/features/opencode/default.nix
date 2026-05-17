@@ -178,7 +178,7 @@ in {
               "gpt-5.5" = {
                 options = {
                   reasoningEffort = "high";
-                  textVerbosity = "high";
+                  textVerbosity = "medium";
                   reasoningSummary = "auto";
                   include = ["reasoning.encrypted_content"];
                 };
@@ -236,7 +236,7 @@ in {
 
             # Additional model options.
             reasoningEffort = "xhigh";
-            textVerbosity = "xhigh";
+            textVerbosity = "medium";
           };
           compaction = {
             model = "openai/gpt-5.5";
