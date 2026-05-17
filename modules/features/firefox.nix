@@ -46,6 +46,18 @@
               FirefoxHome.Snippets = false;
               OverrideFirstRunPage = "";
             };
+
+            nativeMessagingHosts = let
+              opNativeMessagingHost = pkgs.writeTextDir "lib/mozilla/native-messaging-hosts/com.1password.1password.json" (builtins.toJSON {
+                name = "com.1password.1password";
+                description = "1Password BrowserSupport";
+                path = "/run/wrappers/bin/1Password-BrowserSupport";
+                type = "stdio";
+                allowed_extensions = [
+                  "{d634138d-c276-4fc8-924b-40a0ea21d284}"
+                ];
+              });
+            in [opNativeMessagingHost];
           };
 
           configPath = "${hmConfig.xdg.configHome}/mozilla/firefox";
