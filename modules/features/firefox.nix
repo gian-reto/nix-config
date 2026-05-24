@@ -200,7 +200,6 @@
                   with inputs.firefox-addons.packages.${pkgs.stdenv.hostPlatform.system};
                     map gaslight [
                       decentraleyes
-                      don-t-fuck-with-paste
                       clearurls
                       consent-o-matic
                       cookie-autodelete

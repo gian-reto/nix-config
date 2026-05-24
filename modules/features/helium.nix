@@ -282,8 +282,6 @@ in {
         extensions = [
           {id = "aeblfdkhhhdcdjpifhhbdiojplfjncoa";} # 1Password Password Manager.
           {id = "cdglnehniifkbagbbombnjghhcihifij";} # Kagi Search.
-          {id = "efaagigdgamehbpimpiagfpoihlkgamh";} # Don't Fuck With Paste.
-          {id = "kceglpglilklghkgofolieongaolnaob";} # Cookie AutoDelete.
           {id = "ldpochfccmkkmhdbclfhpagapcfdljkj";} # Decentraleyes.
           {id = "mdjildafknihdffpkfmmpnpoiajfjnjd";} # Consent-O-Matic.
         ];
