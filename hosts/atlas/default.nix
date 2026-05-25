@@ -1,4 +1,5 @@
 {
+  config,
   inputs,
   lib,
   pkgs,
@@ -92,6 +93,20 @@
 
     networking = {
       hostName = "atlas";
+    };
+
+    # TODO: Remove after printer testing is done.
+    hardware.printers = lib.mkIf config.features.printing.enable {
+      ensureDefaultPrinter = "Citizen_PMU3300";
+
+      ensurePrinters = [
+        {
+          description = "Citizen PMU3300 Thermal Printer";
+          deviceUri = "usb://CITIZEN/PMU3300?serial=00000000";
+          model = "raw";
+          name = "Citizen_PMU3300";
+        }
+      ];
     };
 
     # Only needed for `trantor` VM.
