@@ -22,59 +22,64 @@ in {
       enable = true;
       enableDefaultConfig = false;
 
-      matchBlocks."*" = {
-        forwardAgent = false;
-        addKeysToAgent = "no";
-        compression = false;
-        serverAliveInterval = 0;
-        serverAliveCountMax = 3;
-        hashKnownHosts = false;
-        userKnownHostsFile = "~/.ssh/known_hosts";
-        controlMaster = "no";
-        controlPath = "~/.ssh/master-%r@%n:%p";
-        controlPersist = "no";
+      settings = {
+        "Host github.com" = {
+          HostName = "github.com";
+          IdentityAgent = gpgAgentPath;
+          User = "git";
+        };
+
+        "Host atlas" = {
+          HostName = "192.168.10.10";
+          IdentityAgent = gpgAgentPath;
+          User = "root";
+        };
+
+        "Host cassandra" = {
+          HostName = "192.168.10.11";
+          IdentityAgent = gpgAgentPath;
+          User = "root";
+        };
+
+        "Host orion" = {
+          HostName = "192.168.10.13";
+          IdentityAgent = gpgAgentPath;
+          User = "root";
+        };
+
+        "Host trantor" = {
+          HostName = "192.168.20.20";
+          IdentityAgent = gpgAgentPath;
+          User = "root";
+        };
+
+        "Host tycho" = {
+          HostName = "192.168.10.12";
+          IdentityAgent = gpgAgentPath;
+          User = "root";
+        };
+
+        "Host vm" = {
+          HostName = "localhost";
+          Port = 2222;
+          IdentityAgent = gpgAgentPath;
+          User = "root";
+        };
+
+        "*" = {
+          AddKeysToAgent = "no";
+          Compression = false;
+          ControlMaster = "no";
+          ControlPath = "~/.ssh/master-%r@%n:%p";
+          ControlPersist = "no";
+          ForwardAgent = false;
+          HashKnownHosts = false;
+          IdentityAgent = _1passwordAgentPath;
+          ServerAliveCountMax = 3;
+          ServerAliveInterval = 0;
+          UserKnownHostsFile = "~/.ssh/known_hosts";
+        };
       };
-
-      extraConfig = ''
-        Host github.com
-          HostName github.com
-          IdentityAgent ${gpgAgentPath}
-          User git
-
-        Host atlas
-          HostName 192.168.10.10
-          IdentityAgent ${gpgAgentPath}
-          User root
-
-        Host cassandra
-          HostName 192.168.10.11
-          IdentityAgent ${gpgAgentPath}
-          User root
-
-        Host orion
-          HostName 192.168.10.13
-          IdentityAgent ${gpgAgentPath}
-          User root
-
-        Host trantor
-          HostName 192.168.20.20
-          IdentityAgent ${gpgAgentPath}
-          User root
-
-        Host tycho
-          HostName 192.168.10.12
-          IdentityAgent ${gpgAgentPath}
-          User root
-
-        Host vm
-          HostName localhost
-          Port 2222
-          IdentityAgent ${gpgAgentPath}
-          User root
-
-        Host *
-          IdentityAgent ${_1passwordAgentPath}
-      '';
     };
   };
 }
