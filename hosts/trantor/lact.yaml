@@ -1,0 +1,24 @@
+# LACT config for the AMD Radeon AI PRO R9700 on `trantor`. Nix owns this file
+# through `/etc/lact/config.yaml`, so edit this file instead of the GUI. The GPU
+# key is `vendor:device-subvendor:subdevice-pciaddr` and must be updated if the
+# card moves slots.
+version: 5
+daemon:
+  log_level: info
+  admin_group: wheel
+  disable_clocks_cleanup: false
+apply_settings_timer: 5
+gpus:
+  1002:7551-1043:0626-0000:03:00.0:
+    fan_control_enabled: false
+    pmfw_options:
+      target_temperature: 50
+      zero_rpm: false
+    power_cap: 210.0
+    performance_level: auto
+    max_memory_clock: 1309
+    gpu_clock_offsets:
+      0: 0
+    voltage_offset: -50
+current_profile: null
+auto_switch_profiles: false

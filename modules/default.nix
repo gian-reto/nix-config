@@ -15,6 +15,7 @@
     ./features/fastfetch.nix
     ./features/firefox.nix
     ./features/flatpak.nix
+    ./features/gfx1201.nix
     ./features/ghostty.nix
     ./features/git.nix
     ./features/gpg.nix

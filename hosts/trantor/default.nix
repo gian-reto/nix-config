@@ -13,6 +13,10 @@
   ];
 
   # Enable my modules!
+  features.gfx1201 = {
+    enable = true;
+    lact.configFile = ./lact.yaml;
+  };
   server.enable = true;
 
   os = {
