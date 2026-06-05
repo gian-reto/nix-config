@@ -13,12 +13,8 @@ gpus:
     fan_control_enabled: false
     pmfw_options:
       target_temperature: 50
-      zero_rpm: false
     power_cap: 210.0
     performance_level: auto
-    max_memory_clock: 1309
-    gpu_clock_offsets:
-      0: 0
     voltage_offset: -50
 current_profile: null
 auto_switch_profiles: false

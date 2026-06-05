@@ -114,6 +114,7 @@ in {
         lm_sensors # `sensors` CLI for temperatures and fan speeds.
         mesa-demos
         nvtopPackages.amd # Real-time GPU utilization (replaces `nvtopPackages.nvidia`).
+        pciutils # `lspci` for PCI device inspection.
         rocmPackages.rocminfo # Enumerate HSA agents; verify `gfx1201` is visible.
         rocmPackages.rocm-smi # GPU power, temperature, clock states.
         vulkan-tools # `vulkaninfo`, `vkcube`, etc.
