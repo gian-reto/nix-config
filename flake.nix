@@ -138,7 +138,6 @@
     # Nix ecosystem.
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-25.11";
-    nixpkgs-helium.url = "github:nixos/nixpkgs/pull/498572/head";
     hardware.url = "github:nixos/nixos-hardware";
     systems.url = "github:nix-systems/default-linux";
 
@@ -246,7 +245,7 @@
     };
 
     helium = {
-      url = "github:cjavad/nixpille-helium";
+      url = "github:penal-colony/helium-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 

@@ -409,16 +409,16 @@
         ]
       },
       "locked": {
-        "lastModified": 1780039347,
-        "narHash": "sha256-ILsVso3ubjrnSbT5fGlqQ/jtIjDSu+007Gm0lB35/rc=",
-        "owner": "cjavad",
-        "repo": "nixpille-helium",
-        "rev": "e789a64f1b1267760ed218ba3f402c5d0d721ee6",
+        "lastModified": 1780509663,
+        "narHash": "sha256-FWdZq6FN/0rFiIoTNW4aEMM4g6NiHzBZ080TiJZTMdc=",
+        "owner": "penal-colony",
+        "repo": "helium-nix",
+        "rev": "3de4068c885b0bc5ce22f23d7ba063cb9666c938",
         "type": "github"
       },
       "original": {
-        "owner": "cjavad",
-        "repo": "nixpille-helium",
+        "owner": "penal-colony",
+        "repo": "helium-nix",
         "type": "github"
       }
     },
@@ -1520,22 +1520,6 @@
         "type": "github"
       }
     },
-    "nixpkgs-helium": {
-      "locked": {
-        "lastModified": 1779743697,
-        "narHash": "sha256-idef6DY6gQF3VkKsVFoq5+zks3sg+gOSx4J2OX+F5Lw=",
-        "owner": "nixos",
-        "repo": "nixpkgs",
-        "rev": "b6f048d8fc768d4ca57bc3cec0a4551e3b5c2b92",
-        "type": "github"
-      },
-      "original": {
-        "owner": "nixos",
-        "ref": "pull/498572/head",
-        "repo": "nixpkgs",
-        "type": "github"
-      }
-    },
     "nixpkgs-lib": {
       "locked": {
         "lastModified": 1765674936,
@@ -1694,7 +1678,6 @@
         "nix-vscode-extensions": "nix-vscode-extensions",
         "nixos-fairphone-fp5": "nixos-fairphone-fp5",
         "nixpkgs": "nixpkgs_5",
-        "nixpkgs-helium": "nixpkgs-helium",
         "nixpkgs-stable": "nixpkgs-stable",
         "sops-nix": "sops-nix",
         "systems": "systems_3",
