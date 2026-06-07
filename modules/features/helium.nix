@@ -4,7 +4,12 @@
   lib,
   pkgs,
   ...
-}: {
+}: let
+  pkgsHelium = import inputs.nixpkgs-helium {
+    system = pkgs.stdenv.hostPlatform.system;
+    config.allowUnfree = true;
+  };
+in {
   options.features.helium.enable = lib.mkOption {
     description = ''
       Whether to enable Helium browser.
@@ -17,13 +22,6 @@
   config = lib.mkIf config.features.helium.enable {
     hmModules = [inputs.helium.homeManagerModules.helium];
     osModules = [inputs.helium.nixosModules.helium];
-
-    os.nixpkgs.overlays = [
-      # Instantiate Helium through the host package set so Widevine respects host nixpkgs config.
-      (final: _: {
-        helium = final.callPackage (inputs.helium + /default.nix) {};
-      })
-    ];
 
     # Whitelist Helium in 1Password's supported browsers.
     features.op.allowedBrowsers = lib.mkIf config.features.op.enable ["helium"];
@@ -66,7 +64,7 @@
 
       programs.helium = {
         enable = true;
-        package = pkgs.helium.override {
+        package = (pkgsHelium.callPackage (inputs.helium + /default.nix) {}).override {
           enableWideVine = true;
         };
 
