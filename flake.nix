@@ -230,8 +230,7 @@
 
     # Other stuff.
     adw-shell = {
-      url = "github:gian-reto/adw-shell/abaaa31d8a8e1d78b14c3d093d645614a14a70ee";
-      inputs.nixpkgs.follows = "nixpkgs";
+      url = "github:gian-reto/adw-shell/4d7b8cf65e34252e56b4be5b440bdd6b29aa9c55";
     };
 
     firefox-addons = {
