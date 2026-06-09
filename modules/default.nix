@@ -20,7 +20,7 @@
     ./features/git.nix
     ./features/gpg.nix
     ./features/gtk.nix
-    ./features/helium.nix
+    ./features/helium
     ./features/i18n.nix
     ./features/network.nix
     ./features/nfs.nix

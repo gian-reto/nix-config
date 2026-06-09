@@ -9,6 +9,12 @@
     system = pkgs.stdenv.hostPlatform.system;
     config.allowUnfree = true;
   };
+
+  heliumSource = pkgsHelium.applyPatches {
+    name = "helium-patched";
+    src = inputs.helium;
+    patches = [./patches/widevine-libexec-path.patch];
+  };
 in {
   options.features.helium.enable = lib.mkOption {
     description = ''
@@ -64,7 +70,7 @@ in {
 
       programs.helium = {
         enable = true;
-        package = (pkgsHelium.callPackage (inputs.helium + /default.nix) {}).override {
+        package = (pkgsHelium.callPackage (heliumSource + /default.nix) {}).override {
           enableWideVine = true;
         };
 
