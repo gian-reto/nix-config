@@ -50,27 +50,40 @@ in {
         };
       };
 
-      # 1Password integration.
       xdg.configFile = let
-        extensionId = "aeblfdkhhhdcdjpifhhbdiojplfjncoa";
+        decentraleyesExtensionId = "ldpochfccmkkmhdbclfhpagapcfdljkj";
+        opExtensionId = "aeblfdkhhhdcdjpifhhbdiojplfjncoa";
+
+        mkExtensionUrl = extensionId: "https://clients2.google.com/service/update2/crx?response=redirect&os=linux&arch=${
+          if pkgs.stdenv.hostPlatform.isAarch64
+          then "arm64"
+          else "x64"
+        }&os_arch=${
+          if pkgs.stdenv.hostPlatform.isAarch64
+          then "aarch64"
+          else "x86_64"
+        }&nacl_arch=${
+          if pkgs.stdenv.hostPlatform.isAarch64
+          then "aarch64"
+          else "x86-64"
+        }&prod=chromiumcrx&prodchannel=stable&prodversion=130.0.0.0&acceptformat=crx3&x=id%3D${extensionId}%26installsource%3Dondemand%26uc";
       in
-        lib.mkIf config.features.op.enable {
-          "net.imput.helium/External Extensions/${extensionId}.json".text = lib.toJSON {
+        {
+          "net.imput.helium/External Extensions/${decentraleyesExtensionId}.json".text = lib.toJSON {
             external_crx = "${pkgs.fetchurl {
-              name = "${extensionId}.crx";
-              url = "https://clients2.google.com/service/update2/crx?response=redirect&os=linux&arch=${
-                if pkgs.stdenv.hostPlatform.isAarch64
-                then "arm64"
-                else "x64"
-              }&os_arch=${
-                if pkgs.stdenv.hostPlatform.isAarch64
-                then "aarch64"
-                else "x86_64"
-              }&nacl_arch=${
-                if pkgs.stdenv.hostPlatform.isAarch64
-                then "aarch64"
-                else "x86-64"
-              }&prod=chromiumcrx&prodchannel=stable&prodversion=130.0.0.0&acceptformat=crx3&x=id%3D${extensionId}%26installsource%3Dondemand%26uc";
+              name = "${decentraleyesExtensionId}.crx";
+              url = mkExtensionUrl decentraleyesExtensionId;
+              hash = "sha256-SyV7LbLi1v88eWVNeBR4RB8ROnqhfM0HuI+RvLjvmUw=";
+            }}";
+            external_version = "3.0.1";
+          };
+        }
+        # 1Password integration.
+        // lib.optionalAttrs config.features.op.enable {
+          "net.imput.helium/External Extensions/${opExtensionId}.json".text = lib.toJSON {
+            external_crx = "${pkgs.fetchurl {
+              name = "${opExtensionId}.crx";
+              url = mkExtensionUrl opExtensionId;
               hash = "sha256-6btg83FaHq2wlEqeypqDwQBTASpELilTAMJXjk52pks=";
             }}";
             external_version = "8.12.22.17";
@@ -103,11 +116,6 @@ in {
           {
             id = "cdglnehniifkbagbbombnjghhcihifij";
             hash = "sha256-weiUUUiZeeIlz/k/d9VDSKNwcQtmAahwSIHt7Frwh7E=";
-          }
-          # Decentraleyes.
-          {
-            id = "ldpochfccmkkmhdbclfhpagapcfdljkj";
-            hash = "sha256-SyV7LbLi1v88eWVNeBR4RB8ROnqhfM0HuI+RvLjvmUw=";
           }
           # Consent-O-Matic.
           {
