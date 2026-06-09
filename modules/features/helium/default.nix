@@ -51,22 +51,46 @@ in {
       };
 
       # 1Password integration.
-      xdg.configFile = lib.mkIf config.features.op.enable {
-        "net.imput.helium/NativeMessagingHosts/com.1password.1password.json".text = lib.toJSON {
-          name = "com.1password.1password";
-          description = "1Password BrowserSupport";
-          path = "/run/wrappers/bin/1Password-BrowserSupport";
-          type = "stdio";
-          allowed_origins = [
-            "chrome-extension://aeblfdkhhhdcdjpifhhbdiojplfjncoa/"
-            "chrome-extension://bkpbhnjcbehoklfkljkkbbmipaphipgl/"
-            "chrome-extension://dppgmdbiimibapkepcbdbmkaabgiofem/"
-            "chrome-extension://gejiddohjgogedgjnonbofjigllpkmbf/"
-            "chrome-extension://hjlinigoblmkhjejkmbegnoaljkphmgo/"
-            "chrome-extension://khgocmkkpikpnmmkgmdnfckapcdkgfaf/"
-          ];
+      xdg.configFile = let
+        extensionId = "aeblfdkhhhdcdjpifhhbdiojplfjncoa";
+      in
+        lib.mkIf config.features.op.enable {
+          "net.imput.helium/External Extensions/${extensionId}.json".text = lib.toJSON {
+            external_crx = "${pkgs.fetchurl {
+              name = "${extensionId}.crx";
+              url = "https://clients2.google.com/service/update2/crx?response=redirect&os=linux&arch=${
+                if pkgs.stdenv.hostPlatform.isAarch64
+                then "arm64"
+                else "x64"
+              }&os_arch=${
+                if pkgs.stdenv.hostPlatform.isAarch64
+                then "aarch64"
+                else "x86_64"
+              }&nacl_arch=${
+                if pkgs.stdenv.hostPlatform.isAarch64
+                then "aarch64"
+                else "x86-64"
+              }&prod=chromiumcrx&prodchannel=stable&prodversion=130.0.0.0&acceptformat=crx3&x=id%3D${extensionId}%26installsource%3Dondemand%26uc";
+              hash = "sha256-6btg83FaHq2wlEqeypqDwQBTASpELilTAMJXjk52pks=";
+            }}";
+            external_version = "8.12.22.17";
+          };
+
+          "net.imput.helium/NativeMessagingHosts/com.1password.1password.json".text = lib.toJSON {
+            name = "com.1password.1password";
+            description = "1Password BrowserSupport";
+            path = "/run/wrappers/bin/1Password-BrowserSupport";
+            type = "stdio";
+            allowed_origins = [
+              "chrome-extension://aeblfdkhhhdcdjpifhhbdiojplfjncoa/"
+              "chrome-extension://bkpbhnjcbehoklfkljkkbbmipaphipgl/"
+              "chrome-extension://dppgmdbiimibapkepcbdbmkaabgiofem/"
+              "chrome-extension://gejiddohjgogedgjnonbofjigllpkmbf/"
+              "chrome-extension://hjlinigoblmkhjejkmbegnoaljkphmgo/"
+              "chrome-extension://khgocmkkpikpnmmkgmdnfckapcdkgfaf/"
+            ];
+          };
         };
-      };
 
       programs.helium = {
         enable = true;
@@ -75,11 +99,6 @@ in {
         };
 
         extensions = [
-          # 1Password Password Manager.
-          {
-            id = "aeblfdkhhhdcdjpifhhbdiojplfjncoa";
-            hash = "sha256-6btg83FaHq2wlEqeypqDwQBTASpELilTAMJXjk52pks=";
-          }
           # Kagi Search.
           {
             id = "cdglnehniifkbagbbombnjghhcihifij";
