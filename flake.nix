@@ -243,12 +243,8 @@
       flake = false;
     };
 
-    # Nixpkgs pinned to a version which includes Chromium 148.0.7778.167,
-    # which the pinned `penal-colony/helium-nix` version is based on.
-    nixpkgs-helium.url = "github:nixos/nixpkgs/eef00dfd8a712b34af845f9350bac681b1228bd1";
-    helium = {
-      url = "github:penal-colony/helium-nix/73229f6c6a7a1fdba3d358a062e33021bb1907e6";
-      inputs.nixpkgs.follows = "nixpkgs-helium";
+    nix-helium = {
+      url = "github:gian-reto/helium-nix?ref=gta/develop";
     };
 
     # LLM stuff.

@@ -5,15 +5,9 @@
   pkgs,
   ...
 }: let
-  pkgsHelium = import inputs.nixpkgs-helium {
+  pkgsHelium = import inputs.nix-helium.inputs.nixpkgs {
     system = pkgs.stdenv.hostPlatform.system;
     config.allowUnfree = true;
-  };
-
-  heliumSource = pkgsHelium.applyPatches {
-    name = "helium-patched";
-    src = inputs.helium;
-    patches = [./patches/widevine-libexec-path.patch];
   };
 in {
   options.features.helium.enable = lib.mkOption {
@@ -26,8 +20,8 @@ in {
   };
 
   config = lib.mkIf config.features.helium.enable {
-    hmModules = [inputs.helium.homeManagerModules.helium];
-    osModules = [inputs.helium.nixosModules.helium];
+    hmModules = [inputs.nix-helium.homeManagerModules.helium];
+    osModules = [inputs.nix-helium.nixosModules.helium];
 
     # Whitelist Helium in 1Password's supported browsers.
     features.op.allowedBrowsers = lib.mkIf config.features.op.enable ["helium"];
@@ -50,64 +44,27 @@ in {
         };
       };
 
-      xdg.configFile = let
-        decentraleyesExtensionId = "ldpochfccmkkmhdbclfhpagapcfdljkj";
-        opExtensionId = "aeblfdkhhhdcdjpifhhbdiojplfjncoa";
-
-        mkExtensionUrl = extensionId: "https://clients2.google.com/service/update2/crx?response=redirect&os=linux&arch=${
-          if pkgs.stdenv.hostPlatform.isAarch64
-          then "arm64"
-          else "x64"
-        }&os_arch=${
-          if pkgs.stdenv.hostPlatform.isAarch64
-          then "aarch64"
-          else "x86_64"
-        }&nacl_arch=${
-          if pkgs.stdenv.hostPlatform.isAarch64
-          then "aarch64"
-          else "x86-64"
-        }&prod=chromiumcrx&prodchannel=stable&prodversion=130.0.0.0&acceptformat=crx3&x=id%3D${extensionId}%26installsource%3Dondemand%26uc";
-      in
-        {
-          "net.imput.helium/External Extensions/${decentraleyesExtensionId}.json".text = lib.toJSON {
-            external_crx = "${pkgs.fetchurl {
-              name = "${decentraleyesExtensionId}.crx";
-              url = mkExtensionUrl decentraleyesExtensionId;
-              hash = "sha256-SyV7LbLi1v88eWVNeBR4RB8ROnqhfM0HuI+RvLjvmUw=";
-            }}";
-            external_version = "3.0.1";
-          };
-        }
-        # 1Password integration.
-        // lib.optionalAttrs config.features.op.enable {
-          "net.imput.helium/External Extensions/${opExtensionId}.json".text = lib.toJSON {
-            external_crx = "${pkgs.fetchurl {
-              name = "${opExtensionId}.crx";
-              url = mkExtensionUrl opExtensionId;
-              hash = "sha256-6btg83FaHq2wlEqeypqDwQBTASpELilTAMJXjk52pks=";
-            }}";
-            external_version = "8.12.22.17";
-          };
-
-          "net.imput.helium/NativeMessagingHosts/com.1password.1password.json".text = lib.toJSON {
-            name = "com.1password.1password";
-            description = "1Password BrowserSupport";
-            path = "/run/wrappers/bin/1Password-BrowserSupport";
-            type = "stdio";
-            allowed_origins = [
-              "chrome-extension://aeblfdkhhhdcdjpifhhbdiojplfjncoa/"
-              "chrome-extension://bkpbhnjcbehoklfkljkkbbmipaphipgl/"
-              "chrome-extension://dppgmdbiimibapkepcbdbmkaabgiofem/"
-              "chrome-extension://gejiddohjgogedgjnonbofjigllpkmbf/"
-              "chrome-extension://hjlinigoblmkhjejkmbegnoaljkphmgo/"
-              "chrome-extension://khgocmkkpikpnmmkgmdnfckapcdkgfaf/"
-            ];
-          };
+      # 1Password integration.
+      xdg.configFile = lib.mkIf config.features.op.enable {
+        "net.imput.helium/NativeMessagingHosts/com.1password.1password.json".text = lib.toJSON {
+          name = "com.1password.1password";
+          description = "1Password BrowserSupport";
+          path = "/run/wrappers/bin/1Password-BrowserSupport";
+          type = "stdio";
+          allowed_origins = [
+            "chrome-extension://aeblfdkhhhdcdjpifhhbdiojplfjncoa/"
+            "chrome-extension://bkpbhnjcbehoklfkljkkbbmipaphipgl/"
+            "chrome-extension://dppgmdbiimibapkepcbdbmkaabgiofem/"
+            "chrome-extension://gejiddohjgogedgjnonbofjigllpkmbf/"
+            "chrome-extension://hjlinigoblmkhjejkmbegnoaljkphmgo/"
+            "chrome-extension://khgocmkkpikpnmmkgmdnfckapcdkgfaf/"
+          ];
         };
+      };
 
       programs.helium = {
         enable = true;
-        package = (pkgsHelium.callPackage (heliumSource + /default.nix) {}).override {
+        package = (pkgsHelium.callPackage (inputs.nix-helium + /default.nix) {}).override {
           enableWideVine = true;
         };
 
@@ -123,6 +80,24 @@ in {
             hash = "sha256-qdMdkakBMffTyrLcPjN+Q/dfTyto5/3oEuDNJKgTvpg=";
           }
         ];
+
+        externalExtensions =
+          [
+            # Decentraleyes.
+            {
+              id = "ldpochfccmkkmhdbclfhpagapcfdljkj";
+              hash = "sha256-SyV7LbLi1v88eWVNeBR4RB8ROnqhfM0HuI+RvLjvmUw=";
+              version = "3.0.1";
+            }
+          ]
+          ++ lib.optionals config.features.op.enable [
+            # 1Password.
+            {
+              id = "aeblfdkhhhdcdjpifhhbdiojplfjncoa";
+              hash = "sha256-6btg83FaHq2wlEqeypqDwQBTASpELilTAMJXjk52pks=";
+              version = "8.12.22.17";
+            }
+          ];
 
         extraFlags = [
           "--enable-features=TouchpadOverscrollHistoryNavigation,WaylandWindowDecorations"

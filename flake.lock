@@ -400,27 +400,6 @@
         "type": "github"
       }
     },
-    "helium": {
-      "inputs": {
-        "nixpkgs": [
-          "nixpkgs-helium"
-        ]
-      },
-      "locked": {
-        "lastModified": 1779695465,
-        "narHash": "sha256-PLUPFV5zMO0T+hXwlhuOh6gzhtb/YrfkiU0a6MXLBZI=",
-        "owner": "penal-colony",
-        "repo": "helium-nix",
-        "rev": "73229f6c6a7a1fdba3d358a062e33021bb1907e6",
-        "type": "github"
-      },
-      "original": {
-        "owner": "penal-colony",
-        "repo": "helium-nix",
-        "rev": "73229f6c6a7a1fdba3d358a062e33021bb1907e6",
-        "type": "github"
-      }
-    },
     "home-manager": {
       "inputs": {
         "nixpkgs": [
@@ -1384,6 +1363,25 @@
         "type": "github"
       }
     },
+    "nix-helium": {
+      "inputs": {
+        "nixpkgs": "nixpkgs_6"
+      },
+      "locked": {
+        "lastModified": 1781354284,
+        "narHash": "sha256-6T7i/XJQumSZmSi+1/Nw25VdeJZ2YtaawsmFSKZ8Wek=",
+        "owner": "gian-reto",
+        "repo": "helium-nix",
+        "rev": "d8f11295cabed6a165b18d8b34da469bae7dbb30",
+        "type": "github"
+      },
+      "original": {
+        "owner": "gian-reto",
+        "ref": "gta/develop",
+        "repo": "helium-nix",
+        "type": "github"
+      }
+    },
     "nix-index-database": {
       "inputs": {
         "nixpkgs": [
@@ -1522,22 +1520,6 @@
         "type": "github"
       }
     },
-    "nixpkgs-helium": {
-      "locked": {
-        "lastModified": 1778672786,
-        "narHash": "sha256-Blg88K1jwG+P0Mr27+rKMFCufdrWkV3wWh9AdYtz0FQ=",
-        "owner": "nixos",
-        "repo": "nixpkgs",
-        "rev": "eef00dfd8a712b34af845f9350bac681b1228bd1",
-        "type": "github"
-      },
-      "original": {
-        "owner": "nixos",
-        "repo": "nixpkgs",
-        "rev": "eef00dfd8a712b34af845f9350bac681b1228bd1",
-        "type": "github"
-      }
-    },
     "nixpkgs-lib": {
       "locked": {
         "lastModified": 1765674936,
@@ -1648,6 +1630,22 @@
     },
     "nixpkgs_6": {
       "locked": {
+        "lastModified": 1780749050,
+        "narHash": "sha256-3av0pIjlOWQ6rDbNOmpUSvbNnJkGORQKKjb4LtCZsIY=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "a799d3e3886da994fa307f817a6bc705ae538eeb",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "ref": "nixos-unstable",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "nixpkgs_7": {
+      "locked": {
         "lastModified": 1780243769,
         "narHash": "sha256-x5UQuRsH3MqI0U9afaXSNqzTPSeZlRLvFAav2Ux1pNw=",
         "owner": "nixos",
@@ -1692,7 +1690,6 @@
         "firefox-addons": "firefox-addons",
         "firefox-gnome-theme": "firefox-gnome-theme",
         "hardware": "hardware",
-        "helium": "helium",
         "home-manager": "home-manager",
         "hyprland": "hyprland",
         "hyprland-contrib": "hyprland-contrib",
@@ -1703,13 +1700,13 @@
         "mcp-nixos": "mcp-nixos",
         "mcp-servers-nix": "mcp-servers-nix",
         "nix": "nix",
+        "nix-helium": "nix-helium",
         "nix-index-database": "nix-index-database",
         "nix-secrets": "nix-secrets",
         "nix-services": "nix-services",
         "nix-vscode-extensions": "nix-vscode-extensions",
         "nixos-fairphone-fp5": "nixos-fairphone-fp5",
-        "nixpkgs": "nixpkgs_6",
-        "nixpkgs-helium": "nixpkgs-helium",
+        "nixpkgs": "nixpkgs_7",
         "nixpkgs-stable": "nixpkgs-stable",
         "sops-nix": "sops-nix",
         "systems": "systems_3",
