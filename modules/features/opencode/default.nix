@@ -152,8 +152,8 @@ in {
         "github_search_repositories" = "allow";
       };
       permissionAllowKagiMcp = {
+        "kagisearch_kagi_extract" = "allow";
         "kagisearch_kagi_search_fetch" = "allow";
-        "kagisearch_kagi_summarizer" = "allow";
       };
     in {
       enable = true;
@@ -408,10 +408,12 @@ in {
               "--rm"
               "-e"
               "KAGI_API_KEY"
-              "mcp/kagisearch"
+              "--entrypoint"
+              "kagimcp"
+              "mcp/kagisearch:latest"
             ];
             environment = {
-              "KAGI_API_KEY" = "op://Personal/s47avhmxjyaqgpvexzolwcirba/api-token";
+              "KAGI_API_KEY" = "op://Personal/s47avhmxjyaqgpvexzolwcirba/api-key-v1-opencode";
             };
           };
           nixos = {
