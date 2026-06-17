@@ -1430,17 +1430,17 @@
         "teslamate": "teslamate"
       },
       "locked": {
-        "lastModified": 1781719901,
-        "narHash": "sha256-fz+BMU9yL3ovz/ndn/HPfyWvVboVN0D3Ynl2bLoylKc=",
+        "lastModified": 1781722378,
+        "narHash": "sha256-pT7EQGL4NFiESxVaP+8EQ78jZE9vcepYhZ72I+p3iGk=",
         "ref": "main",
-        "rev": "b7035eda9b39f4eba940d49ea6ccca69797fb71c",
-        "revCount": 111,
+        "rev": "272e7ed07fc8e457c8795dc0fff13a2a0db7facf",
+        "revCount": 112,
         "type": "git",
         "url": "ssh://git@github.com/gian-reto/nix-services"
       },
       "original": {
         "ref": "main",
-        "rev": "b7035eda9b39f4eba940d49ea6ccca69797fb71c",
+        "rev": "272e7ed07fc8e457c8795dc0fff13a2a0db7facf",
         "type": "git",
         "url": "ssh://git@github.com/gian-reto/nix-services"
       }
