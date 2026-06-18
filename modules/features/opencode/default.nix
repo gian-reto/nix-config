@@ -397,6 +397,7 @@ in {
           kagisearch = {
             type = "local";
             enabled = true;
+            timeout = 60000;
             command = [
               "op"
               "run"
@@ -408,9 +409,19 @@ in {
               "--rm"
               "-e"
               "KAGI_API_KEY"
-              "--entrypoint"
+              "-e"
+              "FASTMCP_LOG_LEVEL=ERROR"
+              "-e"
+              "UV_PYTHON_DOWNLOADS=never"
+              "--mount"
+              "type=volume,src=opencode-mcp-kagisearch-uv-cache,dst=/root/.cache/uv"
+              "ghcr.io/astral-sh/uv:python3.12-trixie-slim"
+              "uvx"
+              "--python"
+              "3.12"
+              "--from"
+              "kagimcp==1.0.0"
               "kagimcp"
-              "mcp/kagisearch:latest"
             ];
             environment = {
               "KAGI_API_KEY" = "op://Personal/s47avhmxjyaqgpvexzolwcirba/api-key-v1-opencode";
