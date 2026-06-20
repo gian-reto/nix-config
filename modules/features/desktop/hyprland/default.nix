@@ -8,7 +8,6 @@
   ...
 }: let
   cfg = config.features.desktop;
-  mod = "SUPER";
 in {
   imports = [
     ./hyprpaper.nix
@@ -83,207 +82,122 @@ in {
 
     xdg.mimeApps.enable = true;
 
-    wayland.windowManager.hyprland = {
+    wayland.windowManager.hyprland = let
+      cfgMonitors =
+        lib.filter ({monitor, ...}: monitor.id != null)
+        (lib.imap1 (workspace: monitor: {inherit workspace monitor;}) [
+          cfg.monitors.main
+          cfg.monitors.secondary
+          cfg.monitors.tertiary
+          cfg.monitors.quaternary
+        ]);
+      mod = "SUPER";
+      uwsmExe = lib.getExe osConfig.programs.uwsm.package;
+      uwsmApp = cmd: "${uwsmExe} app -- ${cmd}";
+
+      context = {
+        inherit mod;
+
+        commands = let
+          _1password = lib.getExe' pkgs._1password-gui "1password";
+          brightnessctl = lib.getExe pkgs.brightnessctl;
+          defaultAppFor = type: "${lib.getExe pkgs.handlr-regex} launch ${type}";
+          grimblast = lib.getExe inputs.hyprland-contrib.packages.${pkgs.stdenv.hostPlatform.system}.grimblast;
+          notify-send = lib.getExe' pkgs.libnotify "notify-send";
+          pactl = lib.getExe' pkgs.pulseaudio "pactl";
+          playerctl = lib.getExe' hmConfig.services.playerctld.package "playerctl";
+          tesseract = lib.getExe pkgs.tesseract;
+        in
+          {
+            # General binds.
+            "${mod} + SHIFT + R" = "hyprctl reload; systemctl --user restart adw-shell";
+            "${mod} + l" = "loginctl lock-session";
+
+            # Default application binds.
+            "${mod} + Return" = defaultAppFor "x-scheme-handler/terminal";
+            "${mod} + e" = defaultAppFor "text/plain";
+            "${mod} + b" = defaultAppFor "x-scheme-handler/https";
+
+            # Utility binds.
+            "${mod} + SHIFT + V" = uwsmApp "alacritty --class clipse -e 'clipse'";
+            "${mod} + SPACE" = "ags request toggle-launcher --instance 'adw-shell'";
+            "CTRL + SHIFT + SPACE" = uwsmApp "${_1password} --quick-access";
+
+            # Screenshot binds.
+            "${mod} + SHIFT + 3" = "${grimblast} --notify --freeze copy output";
+            "${mod} + SHIFT + 4" = "${grimblast} --notify --freeze copy area";
+            "${mod} + SHIFT + 5" = "${grimblast} --freeze save area - | ${tesseract} - - | wl-copy && ${notify-send} -t 3000 'OCR result copied to buffer'";
+
+            # Backlight control binds.
+            "XF86MonBrightnessDown" = "${brightnessctl} -c backlight set 10%-";
+            "XF86MonBrightnessUp" = "${brightnessctl} -c backlight set 10%+";
+
+            # Audio control binds.
+            "XF86AudioLowerVolume" = "${pactl} set-sink-volume @DEFAULT_SINK@ -5%";
+            "XF86AudioMicMute" = "${pactl} set-source-mute @DEFAULT_SOURCE@ toggle";
+            "XF86AudioMute" = "${pactl} set-sink-mute @DEFAULT_SINK@ toggle";
+            "XF86AudioRaiseVolume" = "${pactl} set-sink-volume @DEFAULT_SINK@ +5%";
+          }
+          // lib.optionalAttrs hmConfig.services.playerctld.enable {
+            XF86AudioMedia = "${playerctl} play-pause";
+            XF86AudioNext = "${playerctl} next";
+            XF86AudioPlay = "${playerctl} play-pause";
+            XF86AudioPrev = "${playerctl} previous";
+            XF86AudioStop = "${playerctl} stop";
+          };
+
+        monitors =
+          map ({monitor, ...}: {
+            mode = "${toString monitor.width}x${toString monitor.height}@${toString monitor.refreshRate}";
+            output = monitor.id;
+            position = monitor.position;
+            scale = toString monitor.scale;
+            transform = monitor.rotation;
+          })
+          cfgMonitors;
+
+        startupCommands =
+          [
+            "hyprctl setcursor ${hmConfig.home.pointerCursor.name} ${toString hmConfig.home.pointerCursor.size}"
+            (uwsmApp "hyprlock")
+            (uwsmApp "clipse -listen")
+          ]
+          ++ (lib.optionals hmConfig.services.hypridle.enable [
+            (uwsmApp "hypridle")
+          ]);
+
+        workspaceRules =
+          map ({
+            workspace,
+            monitor,
+          }: {
+            workspace = toString workspace;
+            monitor = monitor.id;
+            default = true;
+          })
+          cfgMonitors;
+      };
+    in {
       enable = true;
 
-      configType = "hyprlang";
+      configType = "lua";
       package = null;
       portalPackage = null;
-
       # Disable home-manager's systemd integration since UWSM handles this.
       systemd.enable = false;
 
-      settings = let
-        active = "0x66585E6A";
-        inactive = "0x66434852";
-        uwsmExe = lib.getExe osConfig.programs.uwsm.package;
-        # Helper to wrap app launches with uwsm.
-        uwsmApp = cmd: "${uwsmExe} app -- ${cmd}";
-        # Binds ${mod} + [shift +] {1..10} to [move to] workspace {1..10}.
-        workspaces = builtins.concatLists (builtins.genList (
-            x: let
-              ws = let
-                c = (x + 1) / 10;
-              in
-                builtins.toString (x + 1 - (c * 10));
-            in [
-              "${mod}, ${ws}, workspace, ${toString (x + 1)}"
-              "${mod} CTRL, ${ws}, movetoworkspace, ${toString (x + 1)}"
-            ]
-          )
-          10);
-      in {
-        exec-once =
-          [
-            "hyprctl setcursor ${hmConfig.home.pointerCursor.name} ${toString hmConfig.home.pointerCursor.size}"
-            "${uwsmExe} app -- hyprlock"
-            "${uwsmExe} app -- clipse -listen"
-          ]
-          ++ (lib.optionals hmConfig.services.hypridle.enable [
-            "${uwsmExe} app -- hypridle"
-          ]);
+      extraConfig = let
+        toLua = lib.generators.toLua {};
+      in ''
+        local hm_xdg_config_home = os.getenv("XDG_CONFIG_HOME") or ${toLua hmConfig.xdg.configHome}
+        package.path = hm_xdg_config_home .. "/hypr/?.lua;" .. hm_xdg_config_home .. "/hypr/?/init.lua;" .. package.path
 
-        general = {
-          gaps_in = 3;
-          gaps_out = 6;
-          border_size = 1;
-          "col.active_border" = active;
-          "col.inactive_border" = inactive;
+        require("config")(${toLua context})
+      '';
 
-          resize_on_border = true;
-        };
-
-        misc = {
-          disable_hyprland_logo = true;
-          disable_hyprland_guiutils_check = true;
-          disable_splash_rendering = true;
-        };
-
-        monitor =
-          [
-            "${cfg.monitors.main.id},${toString cfg.monitors.main.width}x${toString cfg.monitors.main.height}@${toString cfg.monitors.main.refreshRate},${cfg.monitors.main.position},${toString cfg.monitors.main.scale},transform,${toString cfg.monitors.main.rotation}"
-          ]
-          ++ (lib.optionals (cfg.monitors.secondary.id != null) ["${cfg.monitors.secondary.id},${toString cfg.monitors.secondary.width}x${toString cfg.monitors.secondary.height}@${toString cfg.monitors.secondary.refreshRate},${cfg.monitors.secondary.position},${toString cfg.monitors.secondary.scale},transform,${toString cfg.monitors.secondary.rotation}"])
-          ++ (lib.optionals (cfg.monitors.tertiary.id != null) ["${cfg.monitors.tertiary.id},${toString cfg.monitors.tertiary.width}x${toString cfg.monitors.tertiary.height}@${toString cfg.monitors.tertiary.refreshRate},${cfg.monitors.tertiary.position},${toString cfg.monitors.tertiary.scale},transform,${toString cfg.monitors.tertiary.rotation}"])
-          ++ (lib.optionals (cfg.monitors.quaternary.id != null) ["${cfg.monitors.quaternary.id},${toString cfg.monitors.quaternary.width}x${toString cfg.monitors.quaternary.height}@${toString cfg.monitors.quaternary.refreshRate},${cfg.monitors.quaternary.position},${toString cfg.monitors.quaternary.scale},transform,${toString cfg.monitors.quaternary.rotation}"]);
-
-        # Bind workspaces to monitors.
-        workspace =
-          [
-            "1,monitor:${cfg.monitors.main.id},default:true"
-          ]
-          ++ (lib.optionals (cfg.monitors.secondary.id != null) ["2,monitor:${cfg.monitors.secondary.id},default:true"])
-          ++ (lib.optionals (cfg.monitors.tertiary.id != null) ["3,monitor:${cfg.monitors.tertiary.id},default:true"])
-          ++ (lib.optionals (cfg.monitors.quaternary.id != null) ["4,monitor:${cfg.monitors.quaternary.id},default:true"]);
-
-        input = {
-          kb_layout = "us";
-          kb_options = "compose:ralt";
-
-          sensitivity = 0.45;
-
-          follow_mouse = 1;
-          natural_scroll = true;
-
-          touchpad = {
-            natural_scroll = true;
-            scroll_factor = 0.5;
-            clickfinger_behavior = true;
-          };
-        };
-
-        gesture = [
-          "3, horizontal, workspace"
-        ];
-
-        windowrule = let
-          clipse = "match:class ^(clipse)$";
-          fileChooser = "match:class ^(xdg-desktop-portal-gtk)$, match:title ^(Open Folder|Open File|Open Files|File Operation Progress)$";
-          nautilusPreviewer = "match:class ^(org.gnome.NautilusPreviewer)$";
-          op = "match:class ^(1Password)$, match:float true";
-          pavucontrol = "match:class ^(org.pulseaudio.pavucontrol)$";
-        in [
-          "${clipse}, center on, float on, size 600 720"
-          "${fileChooser}, center on, float on"
-          "${nautilusPreviewer}, center on, float on, min_size 600 720"
-          "${op}, center on"
-          "${pavucontrol}, no_blur on"
-        ];
-
-        layerrule = [
-          "match:namespace gtk4-layer-shell, blur on"
-          "match:namespace gtk4-layer-shell, ignore_alpha 0.75"
-          "match:namespace gtk4-layer-shell, xray 0"
-        ];
-
-        decoration = {
-          rounding = 10;
-          blur = {
-            enabled = true;
-            size = 4;
-            passes = 3;
-            new_optimizations = true;
-            ignore_opacity = true;
-            popups = true;
-          };
-        };
-
-        animations = {
-          enabled = true;
-          animation = [
-            "border, 1, 2, default"
-            "fade, 1, 3, default"
-            "windows, 1, 3, default, popin 80%"
-            "workspaces, 1, 2, default, slide"
-          ];
-        };
-
-        bindm = [
-          "${mod},mouse:272,movewindow"
-          "${mod},mouse:273,resizewindow"
-        ];
-
-        bind = let
-          _1password = lib.getExe' pkgs._1password-gui "1password";
-          brightnessctl = lib.getExe pkgs.brightnessctl;
-          grimblast = lib.getExe inputs.hyprland-contrib.packages.${pkgs.stdenv.hostPlatform.system}.grimblast;
-          tesseract = lib.getExe pkgs.tesseract;
-          pactl = lib.getExe' pkgs.pulseaudio "pactl";
-          notify-send = lib.getExe' pkgs.libnotify "notify-send";
-          defaultAppFor = type: "${lib.getExe pkgs.handlr-regex} launch ${type}";
-        in
-          [
-            # General binds.
-            "${mod} SHIFT,R,exec,hyprctl reload; systemctl --user restart adw-shell"
-            # Default applications.
-            "${mod},Return,exec,${defaultAppFor "x-scheme-handler/terminal"}"
-            "${mod},e,exec,${defaultAppFor "text/plain"}"
-            "${mod},b,exec,${defaultAppFor "x-scheme-handler/https"}"
-            # Applications.
-            "CTRL SHIFT,SPACE,exec,${uwsmApp "${_1password} --quick-access"}"
-            "${mod} SHIFT,V,exec,${uwsmApp "alacritty --class clipse -e 'clipse'"}"
-            # Shell commands.
-            "${mod},space,exec,ags request toggle-launcher --instance 'adw-shell'"
-            # Window management.
-            "${mod},Tab,cyclenext"
-            "${mod} SHIFT,Tab,cyclenext,prev"
-            "${mod},w,killactive"
-            "${mod},q,killactive"
-            "${mod},f,togglefloating"
-            "${mod},left,workspace,-1"
-            "${mod},right,workspace,+1"
-            "${mod} CTRL,left,movetoworkspace,-1"
-            "${mod} CTRL,right,movetoworkspace,+1"
-            ",XF86MonBrightnessUp,exec,${brightnessctl} -c backlight set 10%+"
-            ",XF86MonBrightnessDown,exec,${brightnessctl} -c backlight set 10%-"
-            # Volume control.
-            ",XF86AudioRaiseVolume,exec,${pactl} set-sink-volume @DEFAULT_SINK@ +5%"
-            ",XF86AudioLowerVolume,exec,${pactl} set-sink-volume @DEFAULT_SINK@ -5%"
-            ",XF86AudioMute,exec,${pactl} set-sink-mute @DEFAULT_SINK@ toggle"
-            ",XF86AudioMicMute,exec,${pactl} set-source-mute @DEFAULT_SOURCE@ toggle"
-            # Screen lock.
-            "${mod},l,exec,loginctl lock-session"
-            # Screenshotting.
-            "${mod} SHIFT,3,exec,${grimblast} --notify --freeze copy output"
-            "${mod} SHIFT,4,exec,${grimblast} --notify --freeze copy area"
-            # OCR.
-            "${mod} SHIFT,5,exec,${grimblast} --freeze save area - | ${tesseract} - - | wl-copy && ${notify-send} -t 3000 'OCR result copied to buffer'"
-          ]
-          ++ workspaces
-          ++ (
-            let
-              playerctl = lib.getExe' hmConfig.services.playerctld.package "playerctl";
-              # playerctld = lib.getExe' hmConfig.services.playerctld.package "playerctld";
-            in
-              lib.optionals hmConfig.services.playerctld.enable [
-                # Media control.
-                ",XF86AudioMedia,exec,${playerctl} play-pause"
-                ",XF86AudioPlay,exec,${playerctl} play-pause"
-                ",XF86AudioNext,exec,${playerctl} next"
-                ",XF86AudioPrev,exec,${playerctl} previous"
-                ",XF86AudioStop,exec,${playerctl} stop"
-              ]
-          );
+      extraLuaFiles.config = {
+        content = ./config.lua;
+        autoLoad = false;
       };
     };
   };
