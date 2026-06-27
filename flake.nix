@@ -244,7 +244,7 @@
     };
 
     nix-helium = {
-      url = "github:gian-reto/helium-nix?ref=gta/develop";
+      url = "github:penal-colony/helium-nix";
     };
 
     # LLM stuff.

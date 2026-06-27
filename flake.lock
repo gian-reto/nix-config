@@ -1368,16 +1368,15 @@
         "nixpkgs": "nixpkgs_6"
       },
       "locked": {
-        "lastModified": 1781354284,
-        "narHash": "sha256-6T7i/XJQumSZmSi+1/Nw25VdeJZ2YtaawsmFSKZ8Wek=",
-        "owner": "gian-reto",
+        "lastModified": 1782022846,
+        "narHash": "sha256-OdUUVz+CZfPlsrdy4Nprn53JP/tccWTLhsc0iGOJr7c=",
+        "owner": "penal-colony",
         "repo": "helium-nix",
-        "rev": "d8f11295cabed6a165b18d8b34da469bae7dbb30",
+        "rev": "73afc17b6285242545452fa3c3f737993f807b18",
         "type": "github"
       },
       "original": {
-        "owner": "gian-reto",
-        "ref": "gta/develop",
+        "owner": "penal-colony",
         "repo": "helium-nix",
         "type": "github"
       }
