@@ -5,7 +5,7 @@
   pkgs,
   ...
 }: let
-  pkgsHelium = import inputs.nix-helium.inputs.nixpkgs {
+  pkgsHelium = import inputs.nixpkgs-helium {
     system = pkgs.stdenv.hostPlatform.system;
     config.allowUnfree = true;
   };
@@ -20,8 +20,8 @@ in {
   };
 
   config = lib.mkIf config.features.helium.enable {
-    hmModules = [inputs.nix-helium.homeManagerModules.helium];
-    osModules = [inputs.nix-helium.nixosModules.helium];
+    hmModules = [./home-manager.nix];
+    osModules = [./nixos.nix];
 
     # Whitelist Helium in 1Password's supported browsers.
     features.op.allowedBrowsers = lib.mkIf config.features.op.enable ["helium"];
@@ -35,12 +35,12 @@ in {
         enable = true;
 
         defaultApplications = {
-          "applications/x-www-browser" = ["helium.desktop"];
-          "text/html" = ["helium.desktop"];
-          "text/xml" = ["helium.desktop"];
-          "x-scheme-handler/about" = ["helium.desktop"];
-          "x-scheme-handler/http" = ["helium.desktop"];
-          "x-scheme-handler/https" = ["helium.desktop"];
+          "applications/x-www-browser" = ["helium-browser.desktop"];
+          "text/html" = ["helium-browser.desktop"];
+          "text/xml" = ["helium-browser.desktop"];
+          "x-scheme-handler/about" = ["helium-browser.desktop"];
+          "x-scheme-handler/http" = ["helium-browser.desktop"];
+          "x-scheme-handler/https" = ["helium-browser.desktop"];
         };
       };
 
@@ -64,7 +64,7 @@ in {
 
       programs.helium = {
         enable = true;
-        package = (pkgsHelium.callPackage (inputs.nix-helium + /default.nix) {}).override {
+        package = pkgsHelium.helium.override {
           enableWideVine = true;
         };
 

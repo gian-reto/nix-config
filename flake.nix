@@ -137,6 +137,7 @@
   inputs = {
     # Nix ecosystem.
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixpkgs-helium.url = "github:nixos/nixpkgs/pull/498572/head";
     nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-26.05";
     hardware.url = "github:nixos/nixos-hardware";
     systems.url = "github:nix-systems/default-linux";
@@ -241,10 +242,6 @@
     firefox-gnome-theme = {
       url = "github:rafaelmardojai/firefox-gnome-theme";
       flake = false;
-    };
-
-    nix-helium = {
-      url = "github:penal-colony/helium-nix";
     };
 
     # LLM stuff.
