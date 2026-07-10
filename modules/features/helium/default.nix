@@ -9,6 +9,10 @@
     system = pkgs.stdenv.hostPlatform.system;
     config.allowUnfree = true;
   };
+
+  extensions =
+    (lib.importJSON ./extensions.lock.json).${pkgs.stdenv.hostPlatform.system}
+    or (throw "Helium extensions are not pinned for ${pkgs.stdenv.hostPlatform.system}.");
 in {
   options.features.helium.enable = lib.mkOption {
     description = ''
@@ -68,36 +72,11 @@ in {
           enableWideVine = true;
         };
 
-        extensions = [
-          # Kagi Search.
-          {
-            id = "cdglnehniifkbagbbombnjghhcihifij";
-            hash = "sha256-weiUUUiZeeIlz/k/d9VDSKNwcQtmAahwSIHt7Frwh7E=";
-          }
-          # Consent-O-Matic.
-          {
-            id = "mdjildafknihdffpkfmmpnpoiajfjnjd";
-            hash = "sha256-qdMdkakBMffTyrLcPjN+Q/dfTyto5/3oEuDNJKgTvpg=";
-          }
-        ];
-
         externalExtensions =
-          [
-            # Decentraleyes.
-            {
-              id = "ldpochfccmkkmhdbclfhpagapcfdljkj";
-              hash = "sha256-SyV7LbLi1v88eWVNeBR4RB8ROnqhfM0HuI+RvLjvmUw=";
-              version = "3.0.1";
-            }
-          ]
-          ++ lib.optionals config.features.op.enable [
-            # 1Password.
-            {
-              id = "aeblfdkhhhdcdjpifhhbdiojplfjncoa";
-              hash = "sha256-IXb+zodhSzVGAYqZbYqt4qEZ/G5Q/zh8Pl4e+47LVnc=";
-              version = "8.12.26.40";
-            }
-          ];
+          lib.filter (
+            extension: config.features.op.enable || extension.id != "aeblfdkhhhdcdjpifhhbdiojplfjncoa"
+          )
+          extensions;
 
         extraFlags = [
           "--enable-features=TouchpadOverscrollHistoryNavigation,WaylandWindowDecorations"

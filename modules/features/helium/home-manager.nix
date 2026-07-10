@@ -6,73 +6,29 @@
 }: let
   cfg = config.programs.helium;
 
-  archInfo = let
-    platform = pkgs.stdenv.hostPlatform;
-  in
-    if platform.isAarch64
-    then {
-      arch = "arm64";
-      osArch = "aarch64";
-      naclArch = "aarch64";
-    }
-    else if platform.isx86_64
-    then {
-      arch = "x64";
-      osArch = "x86_64";
-      naclArch = "x86-64";
-    }
-    else throw "Helium extension fetching is only supported on aarch64-linux and x86_64-linux.";
-
-  # Resolve extensions and external extensions, and generate policy files for the latter.
-  extensionProductVersion = cfg.package.upstream-info.version or (throw "programs.helium.package must expose upstream-info.version.");
+  # Resolve external extensions and add them to the Nix store.
   fetchExtension = {
-    id,
     hash,
+    id,
+    url,
+    version,
   }:
     pkgs.fetchurl {
-      name = "${id}.crx";
-      url = "https://clients2.google.com/service/update2/crx?response=redirect&os=linux&arch=${archInfo.arch}&os_arch=${archInfo.osArch}&nacl_arch=${archInfo.naclArch}&prod=chromiumcrx&prodchannel=stable&prodversion=${extensionProductVersion}&acceptformat=crx3&x=id%3D${id}%26installsource%3Dondemand%26uc";
-      inherit hash;
+      inherit url hash;
+      name = "${id}-${version}.crx";
     };
-  unpackExtension = {
-    id,
-    hash,
-  }:
-    pkgs.runCommand "helium-ext-${id}"
-    {
-      nativeBuildInputs = [pkgs.unzip];
-      src = fetchExtension {inherit id hash;};
-    }
-    ''
-      mkdir -p $out
-      unzip -q $src -d $out || true
-      [ -n "$(ls -A $out 2>/dev/null)" ] || { echo "ERROR: unpacking $src produced no files" >&2; exit 1; }
-      rm -rf $out/_metadata
-    '';
-  resolvedExtensions =
-    map (spec: {
-      inherit (spec) id;
-      unpacked = unpackExtension {inherit (spec) id hash;};
-    })
-    cfg.extensions;
-  resolvedExternalExtensions =
-    map (spec: {
-      inherit (spec) id version;
-      crx = fetchExtension {inherit (spec) id hash;};
-    })
-    cfg.externalExtensions;
   externalExtensionFiles = lib.listToAttrs (map (extension: {
       name = "net.imput.helium/External Extensions/${extension.id}.json";
       value.text = lib.toJSON {
-        external_crx = "${extension.crx}";
+        external_crx = "${fetchExtension {inherit (extension) hash id url version;}}";
         external_version = extension.version;
       };
     })
-    resolvedExternalExtensions);
-  managedExtensionIds = map (extension: extension.id) (cfg.extensions ++ cfg.externalExtensions);
+    cfg.externalExtensions);
+
   policyAttrs =
     {
-      ExtensionInstallAllowlist = managedExtensionIds;
+      ExtensionInstallAllowlist = map (extension: extension.id) cfg.externalExtensions;
     }
     // cfg.extraPolicies;
 
@@ -97,15 +53,10 @@
       ''
     else null;
 
-  # Make wrapped `helium` package with extensions and extra flags, and preferences.
-  loadExtensionFlags =
-    if resolvedExtensions != []
-    then ["--load-extension=${lib.concatStringsSep "," (map (extension: "${extension.unpacked}") resolvedExtensions)}"]
-    else [];
-  wrapperFlags = loadExtensionFlags ++ cfg.extraFlags;
-  wrapperFlagArguments = lib.concatMapStringsSep " " (flag: "--add-flags ${lib.escapeShellArg flag}") wrapperFlags;
+  # Make wrapped `helium` package with extra flags and preferences.
+  wrapperFlagArguments = lib.concatMapStringsSep " " (flag: "--add-flags ${lib.escapeShellArg flag}") cfg.extraFlags;
   heliumWrapped =
-    if wrapperFlags == [] && cfg.preferences == {}
+    if cfg.extraFlags == [] && cfg.preferences == {}
     then cfg.package
     else
       pkgs.symlinkJoin {
@@ -128,31 +79,6 @@ in {
       description = "The Helium browser package to use.";
     };
 
-    extensions = lib.mkOption {
-      type = lib.types.listOf (lib.types.submodule {
-        options = {
-          id = lib.mkOption {
-            type = lib.types.str;
-            description = "Extension ID from the Chrome Web Store URL.";
-          };
-          hash = lib.mkOption {
-            type = lib.types.str;
-            description = "Nix hash of the extension CRX file.";
-          };
-        };
-      });
-      default = [];
-      description = "Chromium extensions to install declaratively through load-extension flags.";
-      example = lib.literalExpression ''
-        [
-          {
-            id = "nngceckbapebfimnlniiiahkandclblb";
-            hash = "sha256-...";
-          }
-        ]
-      '';
-    };
-
     externalExtensions = lib.mkOption {
       type = lib.types.listOf (lib.types.submodule {
         options = {
@@ -168,6 +94,10 @@ in {
             type = lib.types.str;
             description = "Extension version from the CRX manifest.";
           };
+          url = lib.mkOption {
+            type = lib.types.str;
+            description = "Pinned URL of the extension CRX file.";
+          };
         };
       });
       default = [];
@@ -178,6 +108,7 @@ in {
             id = "aeblfdkhhhdcdjpifhhbdiojplfjncoa";
             hash = "sha256-...";
             version = "8.12.22.17";
+            url = "https://clients2.googleusercontent.com/crx/blobs/...";
           }
         ]
       '';
