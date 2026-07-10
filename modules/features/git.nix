@@ -92,11 +92,12 @@ in {
           commit = {
             signOff = true;
           };
-          paging = {
-            colorArg = "always";
-            pager = "delta --dark --paging=never --line-numbers --hyperlinks --hyperlinks-file-link-format=\"lazygit-edit://{path}:{line}\"";
-            useConfig = false;
-          };
+          pagers = [
+            {
+              colorArg = "always";
+              pager = "delta --dark --paging=never --line-numbers --hyperlinks --hyperlinks-file-link-format=\"lazygit-edit://{path}:{line}\"";
+            }
+          ];
         };
         gui = {
           filterMode = "fuzzy";
