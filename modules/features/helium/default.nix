@@ -94,8 +94,8 @@ in {
             # 1Password.
             {
               id = "aeblfdkhhhdcdjpifhhbdiojplfjncoa";
-              hash = "sha256-6btg83FaHq2wlEqeypqDwQBTASpELilTAMJXjk52pks=";
-              version = "8.12.22.17";
+              hash = "sha256-IXb+zodhSzVGAYqZbYqt4qEZ/G5Q/zh8Pl4e+47LVnc=";
+              version = "8.12.26.40";
             }
           ];
 
