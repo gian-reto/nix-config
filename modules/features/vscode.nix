@@ -80,6 +80,7 @@ in {
                   svelte.svelte-vscode
                   tamasfe.even-better-toml
                   teabyii.ayu
+                  thenuprojectcontributors.vscode-nushell-lang
                   wayou.vscode-todo-highlight
                   wholroyd.jinja
                   yzhang.markdown-all-in-one
