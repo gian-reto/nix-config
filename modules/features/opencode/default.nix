@@ -101,14 +101,6 @@ in {
         # Context7
         "context7*" = "deny";
 
-        # Git
-        "git*" = "deny";
-        "git_git_branch" = "allow";
-        "git_git_diff*" = "allow";
-        "git_git_log" = "allow";
-        "git_git_show" = "allow";
-        "git_git_status" = "allow";
-
         # GitHub
         "github*" = "deny";
 
@@ -124,8 +116,8 @@ in {
 
       # Granular permissions for specific MCP tools.
       permissionAllowContext7Mcp = {
-        "context7_query_docs" = "allow";
-        "context7_resolve_library_id" = "allow";
+        "context7_query-docs" = "allow";
+        "context7_resolve-library-id" = "allow";
       };
       permissionAllowGithubMcp = {
         # GitHub: Context
@@ -167,15 +159,15 @@ in {
         provider = {
           openai = {
             models = {
-              "gpt-5.3-codex" = {
+              "gpt-5.6-terra" = {
                 options = {
-                  reasoningEffort = "high";
+                  reasoningEffort = "medium";
                   textVerbosity = "medium";
                   reasoningSummary = "auto";
                   include = ["reasoning.encrypted_content"];
                 };
               };
-              "gpt-5.5" = {
+              "gpt-5.6-sol" = {
                 options = {
                   reasoningEffort = "high";
                   textVerbosity = "medium";
@@ -185,30 +177,30 @@ in {
               };
             };
           };
-          openrouter.models = {
-            "deepseek/deepseek-v4-flash" = {
-              name = "DeepSeek V4 Flash";
-              options = {
-                provider = {
-                  only = ["novita" "parasail"];
-                };
-                reasoning = {
-                  enabled = true;
-                };
-                reasoningEffort = "xhigh";
-              };
-            };
-            "z-ai/glm-5.1" = {
-              name = "GLM-5.1";
-              options = {
-                provider = {
-                  only = ["friendli" "fireworks" "novita" "parasail"];
-                };
-              };
-            };
-          };
+          # openrouter.models = {
+          #   "deepseek/deepseek-v4-flash" = {
+          #     name = "DeepSeek V4 Flash";
+          #     options = {
+          #       provider = {
+          #         only = ["novita" "parasail"];
+          #       };
+          #       reasoning = {
+          #         enabled = true;
+          #       };
+          #       reasoningEffort = "xhigh";
+          #     };
+          #   };
+          #   "z-ai/glm-5.1" = {
+          #     name = "GLM-5.1";
+          #     options = {
+          #       provider = {
+          #         only = ["friendli" "fireworks" "novita" "parasail"];
+          #       };
+          #     };
+          #   };
+          # };
         };
-        small_model = "openai/gpt-5.4-mini";
+        small_model = "openai/gpt-5.6-terra";
 
         # Global permissions.
         permission = permission;
@@ -217,7 +209,7 @@ in {
           build = {
             description = "Builds new features or entire applications based on a high-level description of what needs to be done.";
             mode = "primary";
-            model = "openai/gpt-5.5";
+            model = "openai/gpt-5.6-terra";
             prompt = "{file:prompts/build.md}";
             permission = permissionAllowContext7Mcp;
             temperature = 0.35;
@@ -229,47 +221,23 @@ in {
           "build-expert" = {
             description = "Builds complex new features or entire applications based on a high-level description of what needs to be done.";
             mode = "primary";
-            model = "openai/gpt-5.5";
+            model = "openai/gpt-5.6-sol";
             prompt = "{file:prompts/build.md}";
             permission = permissionAllowContext7Mcp;
             temperature = 0.45;
 
             # Additional model options.
-            reasoningEffort = "xhigh";
+            reasoningEffort = "max";
             textVerbosity = "medium";
           };
           compaction = {
-            model = "openai/gpt-5.5";
+            model = "openai/gpt-5.6-terra";
             temperature = 0.05;
-          };
-          consult = {
-            description = "Provides expert advice and recommendations based on a deep understanding of the user's needs and the project context.";
-            mode = "primary";
-            model = "openai/gpt-5.5";
-            prompt = "{file:prompts/consult.md}";
-            permission =
-              permissionAllowContext7Mcp
-              // {
-                edit = "deny";
-              };
-            temperature = 0.6;
-          };
-          debug = {
-            description = "Finds and fixes bugs in the codebase based on error messages, logs, or a description of the issue.";
-            mode = "primary";
-            model = "openai/gpt-5.5";
-            prompt = "{file:prompts/debug.md}";
-            permission =
-              permissionAllowContext7Mcp
-              // {
-                edit = "deny";
-              };
-            temperature = 0.3;
           };
           explore = {
             description = "Finds relevant locations in the codebase to start working on a given task, based on a description of the task and the project context.";
             mode = "subagent";
-            model = "openrouter/deepseek/deepseek-v4-flash";
+            model = "openai/gpt-5.6-terra";
             prompt = "{file:prompts/explore.md}";
             permission = {
               bash = "deny";
@@ -280,6 +248,10 @@ in {
             };
             steps = 70;
             temperature = 0.3;
+
+            # Additional model options.
+            reasoningEffort = "medium";
+            textVerbosity = "medium";
           };
           general = {
             # Disable built-in `general` agent.
@@ -288,7 +260,7 @@ in {
           "github-research" = {
             description = "Finds relevant code examples on GitHub based on the given task description, technologies, and other constraints.";
             mode = "subagent";
-            model = "openrouter/deepseek/deepseek-v4-flash";
+            model = "openai/gpt-5.6-terra";
             prompt = "{file:prompts/github-research.md}";
             permission =
               permissionAllowContext7Mcp
@@ -301,6 +273,10 @@ in {
               };
             steps = 70;
             temperature = 0.25;
+
+            # Additional model options.
+            reasoningEffort = "medium";
+            textVerbosity = "medium";
           };
           plan = {
             # Disable built-in `plan` agent.
@@ -309,7 +285,7 @@ in {
           "web-research" = {
             description = "Conducts web-based research to gather information on a specific topic using a search engine and summarises the findings.";
             mode = "subagent";
-            model = "openrouter/deepseek/deepseek-v4-flash";
+            model = "openai/gpt-5.6-terra";
             prompt = "{file:prompts/web-research.md}";
             permission =
               permissionAllowContext7Mcp
@@ -322,16 +298,24 @@ in {
               };
             steps = 70;
             temperature = 0.25;
+
+            # Additional model options.
+            reasoningEffort = "medium";
+            textVerbosity = "medium";
           };
           summary = {
             hidden = true;
-            model = "openai/gpt-5.5";
+            model = "openai/gpt-5.6-terra";
             temperature = 0.05;
           };
           title = {
             hidden = true;
-            model = "openai/gpt-5.4-mini";
+            model = "openai/gpt-5.6-terra";
             temperature = 0.05;
+
+            # Additional model options.
+            reasoningEffort = "none";
+            textVerbosity = "low";
           };
         };
 
@@ -340,11 +324,6 @@ in {
             type = "local";
             enabled = true;
             command = ["${mcpPackages.context7-mcp}/bin/context7-mcp"];
-          };
-          git = {
-            type = "local";
-            enabled = true;
-            command = ["${mcpPackages.mcp-server-git}/bin/mcp-server-git"];
           };
           github = {
             type = "local";
