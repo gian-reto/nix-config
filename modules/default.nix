@@ -24,6 +24,7 @@
     ./features/i18n.nix
     ./features/network.nix
     ./features/nfs.nix
+    ./features/nushell.nix
     ./features/ollama.nix
     ./features/opencode
     ./features/op.nix

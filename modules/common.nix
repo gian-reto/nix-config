@@ -7,6 +7,7 @@
   config.features.fastfetch.enable = true;
   config.features.i18n.enable = true;
   config.features.network.enable = true;
+  config.features.nushell.enable = true;
   config.features.xdg.enable = true;
   config.features.zsh.enable = true;
 }
