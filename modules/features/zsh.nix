@@ -1,7 +1,8 @@
 {
   config,
-  lib,
   hmConfig,
+  lib,
+  pkgs,
   ...
 }: {
   options.features.zsh.enable = lib.mkOption {
@@ -14,7 +15,14 @@
   };
 
   config.os = lib.mkIf config.features.zsh.enable {
-    programs.zsh.enable = true;
+    programs.zsh = {
+      enable = true;
+
+      # Let `zsh-autocomplete` initialize completion. Otherwise this would
+      # result in two redundant initializations. Re-enable this if
+      # `zsh-autocomplete` is removed.
+      enableGlobalCompInit = false;
+    };
   };
 
   config.hm = lib.mkIf config.features.zsh.enable {
@@ -130,6 +138,15 @@
       };
 
       initContent = lib.mkMerge [
+        (lib.mkOrder 550 ''
+          # Initialize completion before any calls to `compdef`.
+          source ${pkgs.zsh-autocomplete}/share/zsh-autocomplete/zsh-autocomplete.plugin.zsh
+
+          source ${pkgs.zsh-defer}/share/zsh-defer/zsh-defer.plugin.zsh
+          zsh-defer source ${pkgs.zsh-you-should-use}/share/zsh/plugins/you-should-use/you-should-use.plugin.zsh
+          zsh-defer source ${pkgs.zsh-fast-syntax-highlighting}/share/zsh/plugins/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh
+        '')
+
         # Order `1000` is the default (general configuration), and replaces
         # `initExtra`.
         (lib.mkOrder 1000 ''
@@ -184,16 +201,6 @@
         size = 1000000;
         save = 1000000;
         extended = true;
-      };
-
-      antidote = {
-        enable = true;
-        plugins = [
-          # This plugin must initialize completion before any calls to `compdef`.
-          "marlonrichert/zsh-autocomplete"
-          "MichaelAquilina/zsh-you-should-use"
-          "zdharma-continuum/fast-syntax-highlighting kind:defer"
-        ];
       };
     };
   };
