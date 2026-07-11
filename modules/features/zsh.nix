@@ -62,13 +62,13 @@
 
       dotDir = "${hmConfig.xdg.configHome}/zsh";
       autosuggestion.enable = true;
-      enableCompletion = true;
+      enableCompletion = false;
       syntaxHighlighting.enable = false;
 
       historySubstringSearch = {
         enable = true;
-        searchUpKey = ["^[j" "^[[A" "$terminfo[kcuu1]"];
-        searchDownKey = ["^[k" "^[[B" "$terminfo[kcud1]"];
+        searchUpKey = ["^[j" "^[[1;3A" "$terminfo[kUP3]"];
+        searchDownKey = ["^[k" "^[[1;3B" "$terminfo[kDN3]"];
       };
 
       sessionVariables = {
@@ -189,6 +189,8 @@
       antidote = {
         enable = true;
         plugins = [
+          # This plugin must initialize completion before any calls to `compdef`.
+          "marlonrichert/zsh-autocomplete"
           "MichaelAquilina/zsh-you-should-use"
           "zdharma-continuum/fast-syntax-highlighting kind:defer"
         ];
