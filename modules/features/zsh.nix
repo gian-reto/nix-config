@@ -150,6 +150,10 @@
         # Order `1000` is the default (general configuration), and replaces
         # `initExtra`.
         (lib.mkOrder 1000 ''
+          # Move the cursor by one word with Ctrl+Arrow.
+          bindkey '^[[1;5C' forward-word
+          bindkey '^[[1;5D' backward-word
+
           confirm() {
             read "response?''${1:-Are you sure? [y/N]} "
             case "$response" in
