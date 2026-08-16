@@ -1389,17 +1389,17 @@
         "teslamate": "teslamate"
       },
       "locked": {
-        "lastModified": 1786810890,
-        "narHash": "sha256-ojJnu0HVHhnT2bDXnuuotHq3lHMJxfXKxYJq6D80wgQ=",
+        "lastModified": 1786848584,
+        "narHash": "sha256-j3a9+IE78y3nKpCYu3Jr/P6xWZPPb69gAMUJJkQ7L9M=",
         "ref": "main",
-        "rev": "4e9c386b071c3f2d2fdae762f674c6d9da253d7a",
-        "revCount": 118,
+        "rev": "d30db56e5e074690914bfda2ee6b406cbbb60d73",
+        "revCount": 127,
         "type": "git",
         "url": "ssh://git@github.com/gian-reto/nix-services"
       },
       "original": {
         "ref": "main",
-        "rev": "4e9c386b071c3f2d2fdae762f674c6d9da253d7a",
+        "rev": "d30db56e5e074690914bfda2ee6b406cbbb60d73",
         "type": "git",
         "url": "ssh://git@github.com/gian-reto/nix-services"
       }
@@ -1739,16 +1739,16 @@
     "teslamate": {
       "flake": false,
       "locked": {
-        "lastModified": 1781456747,
-        "narHash": "sha256-smwPcpmyY70n0+/eN0OqwjGXgQ5NdsB8B6Rs3Mes3eU=",
+        "lastModified": 1786726601,
+        "narHash": "sha256-i7mR/YFKaiTGBHKEiscgpwOqb1r8NwWu4C+yBQxjDJU=",
         "owner": "teslamate-org",
         "repo": "teslamate",
-        "rev": "46a755b7ae45f818fce11db4df6cdccc16d8f9b5",
+        "rev": "d6c43bc8c48784da8f0b701945b80b20911b3d1a",
         "type": "github"
       },
       "original": {
         "owner": "teslamate-org",
-        "ref": "v4.0.1",
+        "ref": "v4.1.1",
         "repo": "teslamate",
         "type": "github"
       }
