@@ -1,7 +1,6 @@
 {
   config,
   lib,
-  pkgs,
   ...
 }: {
   options.features.vpn.enable = lib.mkOption {
@@ -17,10 +16,7 @@
     services.mullvad-vpn = {
       enable = true;
 
-      package =
-        if config.gui.enable
-        then pkgs.mullvad-vpn
-        else pkgs.mullvad;
+      gui.enable = config.gui.enable;
     };
   };
 }

@@ -15,9 +15,9 @@
 
   config.os = lib.mkIf config.features.containers.enable {
     virtualisation = {
-      # Always use `docker.io` as the default registry for unqualified image names
-      # to avoid ambiguity.
-      containers.registries.search = [
+      # Always use `docker.io` as the default registry for unqualified image
+      # names to avoid ambiguity.
+      containers.registries.settings.unqualified-search-registries = [
         "docker.io"
       ];
       docker.enable = lib.mkForce false;

@@ -92,10 +92,10 @@ in {
           commit = {
             signOff = true;
           };
-          pagers = [
+          diffRenderers = [
             {
               colorArg = "always";
-              pager = "delta --dark --paging=never --line-numbers --hyperlinks --hyperlinks-file-link-format=\"lazygit-edit://{path}:{line}\"";
+              command = "delta --dark --paging=never --line-numbers --hyperlinks --hyperlinks-file-link-format=\"lazygit-edit://{path}:{line}\"";
             }
           ];
         };
