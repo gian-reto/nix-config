@@ -19,6 +19,7 @@
     features.desktop.enable = true;
 
     # Enable related features.
+    features.ai.enable = true;
     features.alacritty.enable = true;
     features.audio.enable = true;
     features.bluetooth.enable = true;

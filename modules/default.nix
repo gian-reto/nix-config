@@ -1,6 +1,7 @@
 {
   imports = [
     # Features.
+    ./features/ai
     ./features/alacritty.nix
     ./features/android.nix
     ./features/audio.nix
