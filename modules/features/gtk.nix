@@ -77,7 +77,7 @@
     services = {
       # Needed for GNOME services outside of GNOME Desktop.
       dbus.packages = with pkgs; [
-        gcr
+        gcr_3
         gnome-settings-daemon
         # GNOME desktop search engine. Used by some GNOME apps.
         tinysparql

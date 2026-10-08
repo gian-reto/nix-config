@@ -21,7 +21,11 @@
         enableFishIntegration = false;
         enableNushellIntegration = config.features.nushell.enable;
         enableZshIntegration = config.features.zsh.enable;
-        ignoreCase = true;
+
+        environment = {
+          # Match case insensitive.
+          CARAPACE_MATCH = 1;
+        };
       };
 
       zsh.initContent = lib.mkIf config.features.zsh.enable ''

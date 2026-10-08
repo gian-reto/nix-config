@@ -29,7 +29,7 @@
       };
     };
 
-    home.packages = lib.optional hmConfig.gtk.enable pkgs.gcr;
+    home.packages = lib.optional hmConfig.gtk.enable pkgs.gcr_3;
 
     programs = let
       fixGpg = ''
