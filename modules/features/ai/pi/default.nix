@@ -12,6 +12,9 @@
   jsonFormat = pkgs.formats.json {};
 
   acpConfig = jsonFormat.generate "acp.json" (import ./acp.nix);
+  herdsmanConfig = jsonFormat.generate "pi-herdsman-config.json" {
+    contextRetirement = false;
+  };
 
   piSettings = jsonFormat.generate "pi-settings.json" {
     defaultModel = "gpt-6.1-sol";
@@ -37,7 +40,7 @@
     ];
     lastChangelogVersion = pkgs.pi-coding-agent.version;
     packages = [
-      "${extensionPackages.piHerdrSubagents}"
+      "${extensionPackages.piHerdsman}"
     ];
     skills = [
       "${pkgs.herdr}/share/herdr/skills/herdr"
@@ -56,9 +59,9 @@
       coreutils
       direnv
       git
+      herdr
     ];
     text = ''
-      export HERDR_BIN='${lib.getExe extensionPackages.herdrWithSubagents}'
       export PI_OFFLINE=1
 
       exec ${lib.getExe pkgs.pi-coding-agent} \
@@ -71,7 +74,10 @@
     name = "pi";
     text = ''
       export ACP_AUTO_UPDATE=0
-      export PI_HERDR_PI_BIN='${lib.getExe piRuntime}'
+
+      if [ "''${PI_SUBAGENT_CHILD:-0}" = 1 ]; then
+        exec ${lib.getExe piRuntime} "$@"
+      fi
 
       exec ${lib.getExe piRuntime} \
         -e '${extensionPackages.billionContextPi}/dist/index.js' \
@@ -92,6 +98,7 @@ in {
         ".pi/agent/extensions/pi-permission-system/config.json".source = permissionConfig;
         ".pi/agent/keybindings.json".source = ./keybindings.json;
         ".pi/agent/mcp.json".source = mcpConfig;
+        ".pi/agent/pi-herdsman/config.json".source = herdsmanConfig;
         ".pi/agent/prompts" = {
           recursive = true;
           source = ./prompts;

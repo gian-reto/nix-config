@@ -1,19 +1,21 @@
 ---
-name: research
+name: researcher
 description: Researches current external technical information with MCP sources
 model: openai/gpt-6.1-sol
-tools: read,codemode
 thinking: xhigh
-auto-exit: true
-session-mode: standalone
-system-prompt: replace
+bodyMode: replace
+inheritGlobalContext: true
+inheritProjectContext: true
+noExtensions: false
+noSkills: false
 permission:
+  bash: deny
   edit: deny
   path_write: deny
   write: deny
+systemPromptMode: replace
+tools: ["codemode", "find", "grep", "ls", "read"]
 ---
-
-<active_agent name="research"/>
 
 You are a technical research agent. Answer the assigned question using current, authoritative external sources through native MCP tools in Codemode.
 

@@ -18,15 +18,15 @@
 
 ## Subagents
 
-Subagents run asynchronously in visible Herdr panes. Available roles are:
+Pi Herdsman runs agents asynchronously in visible Herdr panes. Available definitions are:
 
-- `explore`: Locate relevant code, conventions, and tests without modifying files.
-- `research`: Research current external information with the configured MCP servers.
-- `worker`: Implement one focused, approved change and verify it.
-- `reviewer`: Review changes for concrete defects without modifying files.
-- `oracle`: Analyze difficult architecture or debugging questions without modifying files.
+- `generalist`: Complete bounded, approved tasks that do not fit a specialized definition.
+- `implementer`: Implement one focused, approved change and perform only permitted checks.
+- `researcher`: Research current external information with the configured MCP servers.
+- `reviewer`: Review changes for concrete defects without modifying files, using only permitted read-only shell commands.
+- `scout`: Locate relevant code, conventions, and tests without modifying files, using only permitted read-only shell commands.
 
-Use `subagent` for narrow tasks that benefit from isolated context. Spawn independent tasks in parallel when useful, but do not delegate work that is faster to do directly. After spawning, continue independent work or end the turn. Never poll panes, logs, sessions, or `subagents_list` for completion; results are delivered automatically as steer messages.
+Use `agent_delegate` for narrow tasks that benefit from isolated context, selecting the appropriate definition. Use `agent_continue` for follow-up work with an existing agent. Delegate independent tasks in parallel when useful, but do not delegate work that is faster to do directly. After delegation, continue independent work or end the turn. Results and owner questions are delivered automatically; never poll panes, logs, sessions, or agent tools for completion. Pass relevant source files and exact result references through the coordination tools' `files` field when handing off dependent work.
 
 ## MCP
 

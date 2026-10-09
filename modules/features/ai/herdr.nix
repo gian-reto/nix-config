@@ -4,8 +4,6 @@
   pkgs,
   ...
 }: let
-  extensionPackages = import ./pi/extensions {inherit pkgs;};
-
   herdrConfig = (pkgs.formats.toml {}).generate "herdr-config.toml" {
     onboarding = false;
 
@@ -20,7 +18,7 @@
   };
 in {
   config.hm = lib.mkIf config.features.ai.enable {
-    home.packages = [extensionPackages.herdrWithSubagents];
+    home.packages = [pkgs.herdr];
 
     xdg.configFile."herdr/config.toml".source = herdrConfig;
   };
