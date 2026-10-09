@@ -56,6 +56,13 @@
     decompress = "allow";
     edit = "allow";
     external_directory = "ask";
+    external_directory_read = {
+      "*" = "ask";
+      "/nix/store" = "allow";
+      "/nix/store/**" = "allow";
+      "~/.cache/pi/acp-decompress" = "allow";
+      "~/.cache/pi/acp-decompress/**" = "allow";
+    };
     find = "allow";
     grep = "allow";
     ls = "allow";

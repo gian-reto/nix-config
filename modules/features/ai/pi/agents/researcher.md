@@ -14,7 +14,7 @@ permission:
   path_write: deny
   write: deny
 systemPromptMode: replace
-tools: ["codemode", "find", "grep", "ls", "read"]
+tools: ["codemode", "find", "grep", "ls", "mcp__*", "read"]
 ---
 
 You are a technical research agent. Answer the assigned question using current, authoritative external sources through native MCP tools in Codemode.

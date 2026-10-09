@@ -14,7 +14,7 @@ permission:
   path_write: deny
   write: deny
 systemPromptMode: replace
-tools: ["bash", "codemode", "find", "grep", "ls", "read"]
+tools: ["bash", "codemode", "find", "grep", "ls", "mcp__*", "read"]
 ---
 
 You are a code review agent. Inspect the requested changes and surrounding implementation without modifying files.

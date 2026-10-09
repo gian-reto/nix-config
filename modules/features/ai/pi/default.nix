@@ -14,6 +14,7 @@
   acpConfig = jsonFormat.generate "acp.json" (import ./acp.nix);
   herdsmanConfig = jsonFormat.generate "pi-herdsman-config.json" {
     contextRetirement = false;
+    spawnPlacement = "subtree";
   };
 
   piSettings = jsonFormat.generate "pi-settings.json" {
@@ -91,11 +92,13 @@ in {
         ".pi/acp.json".source = acpConfig;
         ".pi/agent/AGENTS.md".source = ./AGENTS.md;
         ".pi/agent/agents" = {
-          recursive = true;
           source = ./agents;
         };
         ".pi/agent/extensions/herdr-agent-state.ts".source = "${pkgs.herdr.src}/src/integration/assets/pi/herdr-agent-state.ts";
         ".pi/agent/extensions/pi-permission-system/config.json".source = permissionConfig;
+        # Hack: A stub directory prevents the permissions extension from saving
+        # config changes to disk.
+        ".pi/agent/extensions/pi-permission-system/config.json.tmp/.keep".text = "";
         ".pi/agent/keybindings.json".source = ./keybindings.json;
         ".pi/agent/mcp.json".source = mcpConfig;
         ".pi/agent/pi-herdsman/config.json".source = herdsmanConfig;

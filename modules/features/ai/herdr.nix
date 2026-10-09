@@ -7,7 +7,13 @@
   herdrConfig = (pkgs.formats.toml {}).generate "herdr-config.toml" {
     onboarding = false;
 
-    theme.name = "terminal";
+    theme = {
+      custom = {
+        accent = "#81d0ff";
+        surface_dim = "#1e1e1e";
+      };
+      name = "terminal";
+    };
 
     ui.show_agent_labels_on_pane_borders = true;
 

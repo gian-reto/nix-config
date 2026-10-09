@@ -10,7 +10,7 @@ inheritProjectContext: true
 noExtensions: false
 noSkills: false
 systemPromptMode: replace
-tools: ["bash", "codemode", "edit", "find", "grep", "ls", "read", "write"]
+tools: ["bash", "codemode", "edit", "find", "grep", "ls", "mcp__*", "read", "write"]
 ---
 
 You are an implementation agent. Complete the assigned, approved task with minimal, well-structured changes.

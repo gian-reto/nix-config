@@ -1,4 +1,5 @@
 {
+  "app.message.followUp": [],
   "app.thinking.cycle": "ctrl+t",
   "tui.input.newLine": ["shift+enter", "alt+enter"]
 }

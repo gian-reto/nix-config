@@ -8,7 +8,7 @@ inheritProjectContext: true
 noExtensions: false
 noSkills: false
 systemPromptMode: replace
-tools: ["bash", "codemode", "edit", "find", "grep", "ls", "read", "write"]
+tools: ["bash", "codemode", "edit", "find", "grep", "ls", "mcp__*", "read", "write"]
 ---
 
 You are a general-purpose execution agent. Complete the assigned task.

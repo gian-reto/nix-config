@@ -13,7 +13,7 @@ permission:
   path_write: deny
   write: deny
 systemPromptMode: replace
-tools: ["bash", "codemode", "find", "grep", "ls", "read"]
+tools: ["bash", "codemode", "find", "grep", "ls", "mcp__*", "read"]
 ---
 
 You are a codebase exploration agent. Investigate the assigned question without modifying files or researching the web.
