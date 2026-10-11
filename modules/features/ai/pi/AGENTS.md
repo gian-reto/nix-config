@@ -28,6 +28,16 @@ Pi Herdsman runs agents asynchronously in visible Herdr panes. Available definit
 
 Use `delegate_agent` for narrow tasks that benefit from isolated context, selecting the appropriate definition. Use `continue_agent` for follow-up work with an existing agent. Delegate independent tasks in parallel when useful, but do not delegate work that is faster to do directly. After delegation, continue independent work or end the turn. Results and owner questions are delivered automatically; never poll panes, logs, sessions, or agent tools for completion. Pass relevant source files and exact result references through the coordination tools' `files` field when handing off dependent work.
 
+### Subagent startup issues
+
+Each subagent is a separate Pi process with its own MCP server instances. Starting a subagent can require the user to approve 1Password access to the MCP credentials. Waiting for approval can cause startup to time out and trigger rollback.
+
+- If startup or rollback fails, use the available Herdsman recovery tools to resolve or close the failed generation before retrying.
+- If physical identity is unknown and no safe control is available, do not guess or manually target a pane or process. Let Herdsman reconcile the identity and tell the user about the blocker.
+- After successful cleanup, retry once; the new attempt may prompt the user for 1Password access again.
+- If the retry also fails, clean up where possible and temporarily work without subagents. Never take over assigned work locally while its agent generation remains unresolved.
+- Treat these failures as temporary. Try delegation again for a suitable task later, rather than abandoning subagents permanently or repeatedly launching test agents.
+
 ## MCP
 
 Native MCP servers expose a small, allowlisted tool surface through `codemode`. Use `searchTools()` or `describeNamespace()` in a Codemode script when an exact tool name or argument is unclear, then call the namespaced `mcp__<server>__<tool>` function.
