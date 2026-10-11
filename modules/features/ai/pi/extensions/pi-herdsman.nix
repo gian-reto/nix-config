@@ -5,10 +5,12 @@
   lib,
   stdenvNoCC,
 }: let
-  version = "0.21.3";
+  # Note: When upgrading the version, make sure to re-check the tools provided
+  # by this extension and update ../permissions.nix accordingly.
+  version = "0.25.1";
   source = fetchurl {
     url = "https://registry.npmjs.org/pi-herdsman/-/pi-herdsman-${version}.tgz";
-    hash = "sha512-w2WMtEKviIJulMx5uPiYrcxzQBXCpc44kUkvNoFElWrQ1//RtCT8v71j2wZkQs4z9iLH/e/G0L0MGoi8pWRF+A==";
+    hash = "sha512-0B07XIGrsky/HzWHjD8ifjzwkYNk47X5WxsqZSVvUMeY/DCq3cXMdZCt/zOumTprPJf43Pz2V+14bl27JvSfew==";
   };
 in
   stdenvNoCC.mkDerivation {

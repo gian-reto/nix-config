@@ -26,7 +26,7 @@ Pi Herdsman runs agents asynchronously in visible Herdr panes. Available definit
 - `reviewer`: Review changes for concrete defects without modifying files, using only permitted read-only shell commands.
 - `scout`: Locate relevant code, conventions, and tests without modifying files, using only permitted read-only shell commands.
 
-Use `agent_delegate` for narrow tasks that benefit from isolated context, selecting the appropriate definition. Use `agent_continue` for follow-up work with an existing agent. Delegate independent tasks in parallel when useful, but do not delegate work that is faster to do directly. After delegation, continue independent work or end the turn. Results and owner questions are delivered automatically; never poll panes, logs, sessions, or agent tools for completion. Pass relevant source files and exact result references through the coordination tools' `files` field when handing off dependent work.
+Use `delegate_agent` for narrow tasks that benefit from isolated context, selecting the appropriate definition. Use `continue_agent` for follow-up work with an existing agent. Delegate independent tasks in parallel when useful, but do not delegate work that is faster to do directly. After delegation, continue independent work or end the turn. Results and owner questions are delivered automatically; never poll panes, logs, sessions, or agent tools for completion. Pass relevant source files and exact result references through the coordination tools' `files` field when handing off dependent work.
 
 ## MCP
 

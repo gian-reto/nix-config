@@ -2,19 +2,6 @@
   permission = {
     "*" = "ask";
 
-    acp_cache = "allow";
-    acp_status = "allow";
-    agent_close = "allow";
-    agent_continue = "allow";
-    agent_delegate = "allow";
-    agent_inspect = "allow";
-    agent_interrupt = "allow";
-    agent_list = "allow";
-    agent_reply = "allow";
-    agent_steer = "allow";
-    agent_transcript = "allow";
-    ask_owner = "allow";
-
     bash = {
       "*" = "ask";
 
@@ -52,8 +39,6 @@
     };
 
     codemode = "allow";
-    compress = "allow";
-    decompress = "allow";
     edit = "allow";
     external_directory = "ask";
     external_directory_read = {
@@ -88,8 +73,36 @@
     };
 
     read = "allow";
-    search_context = "allow";
     skill = "allow";
     write = "allow";
+
+    # Tools of `billion-context-pi`.
+    acp_cache = "allow";
+    acp_status = "allow";
+    compress = "allow";
+    decompress = "allow";
+    search_context = "allow";
+
+    # Tools of `pi-herdsman`.
+    ask_owner = "allow";
+    close_agent = "allow";
+    continue_agent = "allow";
+    delegate_agent = "allow";
+    delegate_project = "allow";
+    inspect_agent = "allow";
+    inspect_staff = "allow";
+    interrupt_agent = "allow";
+    list_agents = "allow";
+    list_peers = "allow";
+    list_staff = "allow";
+    message_peer = "allow";
+    message_staff = "allow";
+    message_supervisor = "allow";
+    read_agent_transcript = "allow";
+    read_staff_transcript = "allow";
+    reply_agent = "allow";
+    resume_project = "allow";
+    steer_agent = "allow";
+    stop_lead = "allow";
   };
 }

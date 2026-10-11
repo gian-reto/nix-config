@@ -5,6 +5,8 @@
   lib,
   stdenvNoCC,
 }: let
+  # Note: When upgrading the version, make sure to re-check the tools provided
+  # by this extension and update ../permissions.nix accordingly.
   version = "0.1.83";
   source = fetchurl {
     url = "https://registry.npmjs.org/billion-context-pi/-/billion-context-pi-${version}.tgz";
