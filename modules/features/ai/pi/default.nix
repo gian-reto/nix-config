@@ -10,8 +10,17 @@
   deviceIdentifier = "${builtins.substring 0 8 deviceIdentifierHash}-${builtins.substring 8 4 deviceIdentifierHash}-5${builtins.substring 13 3 deviceIdentifierHash}-8${builtins.substring 17 3 deviceIdentifierHash}-${builtins.substring 20 12 deviceIdentifierHash}";
   extensionPackages = import ./extensions {inherit pkgs;};
   jsonFormat = pkgs.formats.json {};
+  profileName = "apparmor-pi-${deviceIdentifier}";
+  apparmorProfile = pkgs.runCommand "pi-apparmor-profile" {} ''
+    substitute ${./profile.apparmor} "$out" \
+      --replace-fail '@apparmorProfiles@' '${pkgs.apparmor-profiles}' \
+      --replace-fail '@profileName@' '${profileName}'
+  '';
 
   acpConfig = jsonFormat.generate "acp.json" (import ./acp.nix);
+  apparmorExecutorConfig = jsonFormat.generate "pi-apparmor-executor-config.json" {
+    profile = profileName;
+  };
   herdsmanConfig = jsonFormat.generate "pi-herdsman-config.json" {
     contextRetirement = false;
     spawnPlacement = "subtree";
@@ -41,6 +50,8 @@
     ];
     lastChangelogVersion = pkgs.pi-coding-agent.version;
     packages = [
+      "${extensionPackages.piApparmorExecutor}"
+      "${extensionPackages.piHerdrPermissions}"
       "${extensionPackages.piHerdsman}"
     ];
     skills = [
@@ -56,13 +67,23 @@
   piRuntime = pkgs.writeShellApplication {
     name = "pi-runtime";
     runtimeInputs = with pkgs; [
+      apparmor-bin-utils
       bash
       coreutils
       direnv
+      fd
       git
       herdr
+      nodejs_24
+      ripgrep
     ];
     text = ''
+      namespaceFeatures=/sys/kernel/security/apparmor/features/namespaces/mask
+      if [[ ! -r "$namespaceFeatures" ]] || [[ "$(<"$namespaceFeatures")" != *userns_create* ]]; then
+        echo "The Pi filesystem policy requires AppArmor user-namespace mediation support." >&2
+        exit 1
+      fi
+
       export PI_OFFLINE=1
 
       exec ${lib.getExe pkgs.pi-coding-agent} \
@@ -86,6 +107,16 @@
     '';
   };
 in {
+  config.os = lib.mkIf config.features.ai.enable {
+    security.apparmor = {
+      enable = true;
+      policies.${profileName} = {
+        path = apparmorProfile;
+        state = "enforce";
+      };
+    };
+  };
+
   config.hm = lib.mkIf config.features.ai.enable {
     home = {
       file = {
@@ -95,13 +126,13 @@ in {
           source = ./agents;
         };
         ".pi/agent/extensions/herdr-agent-state.ts".source = "${pkgs.herdr.src}/src/integration/assets/pi/herdr-agent-state.ts";
-        ".pi/agent/extensions/pi-herdr-permissions".source = ./extensions/pi-herdr-permissions;
         ".pi/agent/extensions/pi-permission-system/config.json".source = permissionConfig;
         # Hack: A stub directory prevents the permissions extension from saving
         # config changes to disk.
         ".pi/agent/extensions/pi-permission-system/config.json.tmp/.keep".text = "";
         ".pi/agent/keybindings.json".source = ./keybindings.json;
         ".pi/agent/mcp.json".source = mcpConfig;
+        ".pi/agent/pi-apparmor-executor/config.json".source = apparmorExecutorConfig;
         ".pi/agent/pi-herdsman/config.json".source = herdsmanConfig;
         ".pi/agent/prompts" = {
           recursive = true;

@@ -1,0 +1,50 @@
+abi "@apparmorProfiles@/etc/apparmor.d/abi/4.0",
+
+profile "@profileName@" flags=(mediate_deleted) {
+  # Tool subprocesses inherit filesystem restrictions.
+  /** rwklmix,
+  network inet,
+  network inet6,
+  network netlink,
+
+  # Node uses anonymous Unix socketpairs for worker and subprocess stdio.
+  unix (create, getattr, setattr, getopt, setopt, shutdown) addr=none,
+  unix (connect, send, receive) addr=none peer=(addr=none),
+
+  # Named execution brokers and signalling Pi could escape confinement.
+  audit deny /{run,var/run}/{dbus,systemd,podman}/** rwkl,
+  audit deny /{run,var/run}/user/*/{bus,systemd/**,podman/**,docker.sock} rwkl,
+  audit deny /{run,var/run}/docker.sock rwkl,
+  audit deny /nix/var/nix/daemon-socket/** rwkl,
+  deny dbus,
+  signal (send, receive) peer="@profileName@",
+  signal (receive) peer=unconfined,
+
+  # Permit same-profile discovery and read-only inspection by parent processes.
+  ptrace (read) peer="@profileName@",
+  ptrace (readby),
+
+  # Nested launches may re-enter this profile, but cannot select another one.
+  change_profile -> "@profileName@",
+
+  # Path remapping and process inspection could bypass filename protection.
+  deny capability,
+  deny mount,
+  deny umount,
+  deny pivot_root,
+  deny ptrace (trace, tracedby),
+  deny userns,
+
+  # Prevent tool calls from replacing trusted extensions or launch settings.
+  audit deny /**/.pi/ w,
+  audit deny /**/.pi/** wkl,
+
+  # Deny rules also cover new files and take precedence over the broad allow.
+  audit deny /*.env rwklmx,
+  audit deny /**/*.env rwklmx,
+  # Exclude only the exact example suffix, since allows cannot override denies.
+  audit deny /*.env.{,[^e]*,e,e[^x]*,ex,ex[^a]*,exa,exa[^m]*,exam,exam[^p]*,examp,examp[^l]*,exampl,exampl[^e]*,example?*} rwklmx,
+  audit deny /**/*.env.{,[^e]*,e,e[^x]*,ex,ex[^a]*,exa,exa[^m]*,exam,exam[^p]*,examp,examp[^l]*,exampl,exampl[^e]*,example?*} rwklmx,
+  # Protect matching files and directory trees, not just their basenames.
+  audit deny /**.decrypted~** rwklmx,
+}
