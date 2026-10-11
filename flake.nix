@@ -11,6 +11,29 @@
       sha256 = "sha256:11raq3s4d7b0crihx8pilhfp74xp58syc36xrsx6hdscyiild1z7";
     });
   in {
+    devShells = forAllSystems (
+      system: let
+        pkgs = nixpkgs.legacyPackages.${system};
+      in {
+        default = pkgs.mkShell {
+          packages = [
+            pkgs.corepack
+            pkgs.nodejs_24
+          ];
+
+          # Keep Corepack from modifying project package metadata.
+          COREPACK_ENABLE_AUTO_PIN = "0";
+
+          shellHook = ''
+            echo "Nix configuration development shell"
+            echo "node: $(node --version)"
+            echo "corepack: $(corepack --version)"
+            echo "pnpm: $(pnpm --version)"
+          '';
+        };
+      }
+    );
+
     packages = forAllSystems (
       system: let
         pkgs = nixpkgs.legacyPackages.${system};

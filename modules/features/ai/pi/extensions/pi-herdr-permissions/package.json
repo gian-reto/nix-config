@@ -1,0 +1,24 @@
+{
+  "name": "pi-herdr-permissions",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Report visible Pi permission dialogs as blocked in Herdr.",
+  "type": "module",
+  "packageManager": "pnpm@10.33.4",
+  "scripts": {
+    "check": "tsc --noEmit"
+  },
+  "peerDependencies": {
+    "@earendil-works/pi-coding-agent": "*"
+  },
+  "devDependencies": {
+    "@earendil-works/pi-coding-agent": "1.1.0",
+    "@types/node": "^24.0.0",
+    "typescript": "^5.9.3"
+  },
+  "pi": {
+    "extensions": [
+      "./index.ts"
+    ]
+  }
+}

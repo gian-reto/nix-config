@@ -15,7 +15,14 @@
       name = "terminal";
     };
 
-    ui.show_agent_labels_on_pane_borders = true;
+    ui = {
+      show_agent_labels_on_pane_borders = true;
+      sidebar.agents.rows = [
+        ["state_icon" "machine" "workspace" "tab"]
+        ["agent" "state_text"]
+      ];
+      status_indicators = "symbols";
+    };
 
     update = {
       manifest_check = false;

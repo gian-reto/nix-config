@@ -95,6 +95,7 @@ in {
           source = ./agents;
         };
         ".pi/agent/extensions/herdr-agent-state.ts".source = "${pkgs.herdr.src}/src/integration/assets/pi/herdr-agent-state.ts";
+        ".pi/agent/extensions/pi-herdr-permissions".source = ./extensions/pi-herdr-permissions;
         ".pi/agent/extensions/pi-permission-system/config.json".source = permissionConfig;
         # Hack: A stub directory prevents the permissions extension from saving
         # config changes to disk.
