@@ -34,8 +34,7 @@ export type Operation =
     };
 
 type Reply =
-  | { result: unknown }
-  | { error: { message: string; code?: string } };
+  { result: unknown } | { error: { message: string; code?: string } };
 
 export function createSandbox(getRuntime: () => SandboxRuntime) {
   let runtime: SandboxRuntime | undefined;
@@ -65,13 +64,11 @@ export function createSandbox(getRuntime: () => SandboxRuntime) {
           try {
             process.kill(-child.pid, signal);
           } catch (error) {
-            if (
-              !(
-                error instanceof Error &&
-                "code" in error &&
-                error.code === "ESRCH"
-              )
-            ) {
+            if (!(
+              error instanceof Error &&
+              "code" in error &&
+              error.code === "ESRCH"
+            )) {
               failure ??=
                 error instanceof Error ? error : new Error(String(error));
             }

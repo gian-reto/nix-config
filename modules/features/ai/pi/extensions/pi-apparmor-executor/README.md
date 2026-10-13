@@ -54,10 +54,14 @@ The consumer is responsible for the policy's restrictions, including subprocess 
 
 The repository policy protects common sensitive files (`.env`, etc.) and Pi control files, and blocks common execution brokers, as well as daemon-backed Nix builds.
 
-## Checks
+## Development
 
 From the repository root:
 
 ```sh
-nix develop .#default --command bash -c 'cd modules/features/ai/pi/extensions/pi-apparmor-executor && pnpm check'
+nix develop
+cd modules/features/ai/pi/extensions/pi-apparmor-executor
+pnpm install --frozen-lockfile --ignore-scripts
+pnpm check
+pnpm format
 ```

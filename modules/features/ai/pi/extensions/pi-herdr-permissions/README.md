@@ -11,6 +11,7 @@ nix develop
 cd modules/features/ai/pi/extensions/pi-herdr-permissions
 pnpm install --frozen-lockfile --ignore-scripts
 pnpm check
+pnpm format
 ```
 
 The local development dependencies provide Pi and Node types for TypeScript and editor support. Pi supplies its API at runtime, so this extension has no runtime dependencies or compilation step. Home Manager installs the directory, and Pi discovers its `index.ts` entry point.
