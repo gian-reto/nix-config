@@ -5,10 +5,10 @@
   lib,
   stdenvNoCC,
 }: let
-  version = "40.1.1";
+  version = "42.0.0";
   source = fetchurl {
     url = "https://registry.npmjs.org/@gotgenes/pi-permission-system/-/pi-permission-system-${version}.tgz";
-    hash = "sha512-ySm2TUjWR3/Nowcb2inhhDBMmwvaEaBSquQiPEJaULLlBkLj6LJ+qx2ceSPyflfzABgW3osq7Ze3hVLQh5eGlw==";
+    hash = "sha512-imhOymTbnj1iqnJDujqtnp79Su63PyQ+SAP0UqooC2E9yL9HzP/ISYTYkthvhq2aNbwTPBZZSjqI3jBdvmZ7ZQ==";
   };
   dependencies = [
     {
@@ -42,8 +42,8 @@
     {
       name = "zod";
       source = fetchurl {
-        url = "https://registry.npmjs.org/zod/-/zod-4.4.3.tgz";
-        hash = "sha512-ytENFjIJFl2UwYglde2jchW2Hwm4GJFLDiSXWdTrJQBIN9Fcyp7n4DhxJEiWNAJMV1/BqWfW/kkg71UDcHJyTQ==";
+        url = "https://registry.npmjs.org/zod/-/zod-4.6.7.tgz";
+        hash = "sha512-g8W2D2kU6a8untc053fX1uVBKzM7yqAxW/3zwk83+6RyF2+SKOuV+c0wBDhUwzV1PaGapmZH+rmcUzPf+3CGwg==";
       };
     }
   ];
