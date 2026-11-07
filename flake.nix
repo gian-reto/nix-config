@@ -51,6 +51,10 @@
         )
     );
 
+    wrappers = import ./pkgs/wrappers {
+      wlib = inputs.nix-wrapper-modules.lib;
+    };
+
     formatter = forAllSystems (
       system: let
         pkgs = nixpkgs.legacyPackages.${system};
@@ -265,6 +269,11 @@
     firefox-gnome-theme = {
       url = "github:rafaelmardojai/firefox-gnome-theme";
       flake = false;
+    };
+
+    nix-wrapper-modules = {
+      url = "github:nix-community/nix-wrapper-modules/eb41f7cdde918a6467715b189cdadb6d476456c8";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
 
     # LLM stuff.

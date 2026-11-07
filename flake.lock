@@ -1449,6 +1449,27 @@
         "type": "github"
       }
     },
+    "nix-wrapper-modules": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1793683960,
+        "narHash": "sha256-0xLhR6xGbG2oC5RpJYf/o0Tl2nlUUh3H9pulE+ogK0k=",
+        "owner": "nix-community",
+        "repo": "nix-wrapper-modules",
+        "rev": "eb41f7cdde918a6467715b189cdadb6d476456c8",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-community",
+        "repo": "nix-wrapper-modules",
+        "rev": "eb41f7cdde918a6467715b189cdadb6d476456c8",
+        "type": "github"
+      }
+    },
     "nixos-fairphone-fp5": {
       "inputs": {
         "flake-utils": "flake-utils",
@@ -1687,6 +1708,7 @@
         "nix-secrets": "nix-secrets",
         "nix-services": "nix-services",
         "nix-vscode-extensions": "nix-vscode-extensions",
+        "nix-wrapper-modules": "nix-wrapper-modules",
         "nixos-fairphone-fp5": "nixos-fairphone-fp5",
         "nixpkgs": "nixpkgs_6",
         "nixpkgs-helium": "nixpkgs-helium",

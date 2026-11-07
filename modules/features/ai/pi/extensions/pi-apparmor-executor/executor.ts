@@ -4,6 +4,7 @@ import { spawn } from "node:child_process";
 
 export interface SandboxRuntime {
   profileName: string;
+  excludedEnvironmentVariables: readonly string[];
   sdk: string;
   worker: string;
 }
@@ -36,6 +37,15 @@ export type Operation =
 type Reply =
   { result: unknown } | { error: { message: string; code?: string } };
 
+function filterEnvironment(
+  environment: NodeJS.ProcessEnv,
+  excluded: readonly string[],
+): NodeJS.ProcessEnv {
+  const filtered = { ...environment };
+  for (const name of excluded) delete filtered[name];
+  return filtered;
+}
+
 export function createSandbox(getRuntime: () => SandboxRuntime) {
   let runtime: SandboxRuntime | undefined;
   const signals = new AsyncLocalStorage<AbortSignal | undefined>();
@@ -47,11 +57,17 @@ export function createSandbox(getRuntime: () => SandboxRuntime) {
     if (signal?.aborted) return Promise.reject(new Error("Operation aborted"));
     return new Promise((resolve, reject) => {
       runtime ??= getRuntime();
+      const excluded = runtime.excludedEnvironmentVariables;
+      const filteredRequest =
+        request.operation === "shell" && request.env
+          ? { ...request, env: filterEnvironment(request.env, excluded) }
+          : request;
       const child = spawn(
         "aa-exec",
         ["-p", runtime.profileName, "--", "node", runtime.worker],
         {
           detached: true,
+          env: filterEnvironment(process.env, excluded),
           stdio: ["pipe", "pipe", "pipe", "pipe"],
         },
       );
@@ -127,7 +143,7 @@ export function createSandbox(getRuntime: () => SandboxRuntime) {
           );
         }
       });
-      child.stdin.end(JSON.stringify({ ...request, runtime }));
+      child.stdin.end(JSON.stringify({ ...filteredRequest, runtime }));
       if (signal?.aborted) abort();
     });
   }

@@ -3,17 +3,23 @@
   lib,
   pkgs,
 }: let
+  env = import ../env.nix;
+  # Empty environment with all variables from env set to empty strings to mask
+  # them from the MCP servers that don't need them.
+  emptyEnv = lib.genAttrs (builtins.attrNames env) (_: "");
   mcpNixos = inputs.mcp-nixos.packages.${pkgs.stdenv.hostPlatform.system}.default;
 in {
   mcpServers = {
     firecrawl = {
       command = lib.getExe pkgs.firecrawl-mcp;
       description = "Search developer documentation, source repositories, issues, and pull requests";
-      env = {
-        FIRECRAWL_API_KEY = "!op read 'op://Personal/ygludx6tv7xe6i7rpoaszthph4/api-key-pi'";
-        FIRECRAWL_NO_ENDPOINT_FEEDBACK = "1";
-        FIRECRAWL_NO_SEARCH_FEEDBACK = "1";
-      };
+      env =
+        emptyEnv
+        // {
+          FIRECRAWL_API_KEY = "\${FIRECRAWL_API_KEY}";
+          FIRECRAWL_NO_ENDPOINT_FEEDBACK = "1";
+          FIRECRAWL_NO_SEARCH_FEEDBACK = "1";
+        };
       exposure = "hidden";
       timeout = 120;
       toolExposure.firecrawl_developer_search = "codemode";
@@ -43,7 +49,11 @@ in {
       ];
       command = lib.getExe pkgs.podman;
       description = "Search the web and extract page content";
-      env.KAGI_API_KEY = "!op read 'op://Personal/s47avhmxjyaqgpvexzolwcirba/api-key-v1-opencode'";
+      env =
+        emptyEnv
+        // {
+          KAGI_API_KEY = "\${KAGI_API_KEY}";
+        };
       exposure = "hidden";
       timeout = 60;
       toolExposure = {
@@ -55,6 +65,7 @@ in {
     nixos = {
       command = "${mcpNixos}/bin/mcp-nixos";
       description = "Query current Nix packages, options, flakes, documentation, and version history";
+      env = emptyEnv;
       exposure = "hidden";
       timeout = 60;
       toolExposure = {
@@ -66,6 +77,7 @@ in {
     time = {
       command = lib.getExe pkgs.mcp-server-time;
       description = "Get current times and convert between time zones";
+      env = emptyEnv;
       exposure = "hidden";
       timeout = 30;
       toolExposure = {

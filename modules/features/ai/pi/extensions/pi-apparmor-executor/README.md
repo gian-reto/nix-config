@@ -14,11 +14,12 @@ Install the package through Pi's `packages` setting:
 }
 ```
 
-Create `~/.pi/agent/pi-apparmor-executor/config.json` with the profile name:
+Create `~/.pi/agent/pi-apparmor-executor/config.json` with the profile name and, optionally, the names of environment variables that should be excluded from being passed into the tools' environments:
 
 ```json
 {
-  "profile": "my-tool-profile"
+  "profile": "my-tool-profile",
+  "excludedEnvironmentVariables": ["EXAMPLE_API_KEY"]
 }
 ```
 
@@ -44,7 +45,7 @@ Edit previews use a confined, read-only execution of the native edit algorithm, 
 
 ## Boundary
 
-This is tool-only isolation, not a sandbox around Pi. Other extensions, MCP implementations and artifact readers remain outside the helpers. A filesystem-capable MCP or an unconfined extension that reads an arbitrary supplied path is not protected by these replacements. Note: Workers inherit Pi's environment.
+This is tool-only isolation, not a sandbox around Pi. Other extensions, MCP implementations and artifact readers remain outside the helpers. A filesystem-capable MCP or an unconfined extension that reads an arbitrary supplied path is not protected by these replacements. Note: Workers inherit Pi's environment, except for names explicitly listed in `excludedEnvironmentVariables`.
 
 The consumer is responsible for the policy's restrictions, including subprocess inheritance, namespace and broker access, and protection of trusted extensions, settings and command paths. Do not treat this as a complete boundary against hostile extensions or every file-access interface.
 

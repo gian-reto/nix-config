@@ -47,8 +47,24 @@ export default function apparmorExecutor(pi: ExtensionAPI): void {
         `Set "profile" in ${configurationPath} to the name of an enforced AppArmor profile`,
       );
     }
+    const excludedEnvironmentVariables =
+      "excludedEnvironmentVariables" in configuration
+        ? configuration.excludedEnvironmentVariables
+        : [];
+    if (
+      !Array.isArray(excludedEnvironmentVariables) ||
+      !excludedEnvironmentVariables.every(
+        (name: unknown): name is string =>
+          typeof name === "string" && /^[A-Za-z_][A-Za-z0-9_]*$/.test(name),
+      )
+    ) {
+      throw new Error(
+        `Set "excludedEnvironmentVariables" in ${configurationPath} to an array of environment-variable names`,
+      );
+    }
     return {
       profileName: configuration.profile,
+      excludedEnvironmentVariables,
       sdk: pathToFileURL(join(getPackageDir(), "dist", "index.js")).href,
       worker: fileURLToPath(new URL("./worker.ts", import.meta.url)),
     };
