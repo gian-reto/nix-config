@@ -5,18 +5,69 @@
     bash = {
       "*" = "ask";
 
+      "[ *" = "allow";
       "alejandra *" = "allow";
+      "basename *" = "allow";
+      "cat *" = "allow";
+      "cd *" = "allow";
+      "cmp *" = "allow";
+      "col *" = "allow";
+      "comm *" = "allow";
+      "command -v *" = "allow";
+      "cut *" = "allow";
+      "df *" = "allow";
+      "dirname *" = "allow";
+      "du *" = "allow";
+      "echo *" = "allow";
+
+      # These exceptions sort after the broad allow in the generated JSON.
+      "find *" = "allow";
+      "find *-delete*" = "ask";
+      "find *-exec*" = "ask";
+      "find *-fls*" = "ask";
+      "find *-fprint*" = "ask";
+      "find *-ok*" = "ask";
+      "free *" = "allow";
 
       "gh help *" = "allow";
       "gh search *" = "allow";
 
+      # Fixed prefixes need their own execution and file-output exceptions.
+      "git --no-pager diff *" = "allow";
+      "git --no-pager diff *--ext*" = "ask";
+      "git --no-pager diff *--ou*" = "ask";
+      "git --no-pager diff *--textc*" = "ask";
+      "git --no-pager log *" = "allow";
+      "git --no-pager log *--ext*" = "ask";
+      "git --no-pager log *--ou*" = "ask";
+      "git --no-pager log *--textc*" = "ask";
+      "git --no-pager show *" = "allow";
+      "git --no-pager show *--ext*" = "ask";
+      "git --no-pager show *--ou*" = "ask";
+      "git --no-pager show *--textc*" = "ask";
+      "git check-ignore *" = "allow";
       "git diff *" = "allow";
+      "git diff *--ext*" = "ask";
+      "git diff *--ou*" = "ask";
+      "git diff *--textc*" = "ask";
       "git log *" = "allow";
+      "git log *--ext*" = "ask";
+      "git log *--ou*" = "ask";
+      "git log *--textc*" = "ask";
+      "git ls-files *" = "allow";
+      "git ls-tree *" = "allow";
+      "git rev-parse *" = "allow";
       "git show *" = "allow";
+      "git show *--ext*" = "ask";
+      "git show *--ou*" = "ask";
+      "git show *--textc*" = "ask";
       "git stash list *" = "allow";
       "git status *" = "allow";
 
+      "head *" = "allow";
+      "id *" = "allow";
       "journalctl *" = "allow";
+      "jq *" = "allow";
       "ls *" = "allow";
       "lsd *" = "allow";
       "man *" = "allow";
@@ -29,13 +80,26 @@
       "nil parse *" = "allow";
 
       "nixos-rebuild *" = "deny";
+      "paste *" = "allow";
+      "printf *" = "allow";
+      "ps *" = "allow";
       "pwd *" = "allow";
+      "readlink *" = "allow";
+      "realpath *" = "allow";
+      "rg *" = "allow";
+      "rg *--hostname-bin*" = "ask";
+      "rg *--pre*" = "ask";
+      "sha256sum *" = "allow";
+      "stat *" = "allow";
 
-      "systemctl list-timers *" = "allow";
-      "systemctl list-units *" = "allow";
-      "systemctl status *" = "allow";
-
+      "tail *" = "allow";
+      "test *" = "allow";
+      "tr *" = "allow";
       "tree *" = "allow";
+      "uname *" = "allow";
+      "wc *" = "allow";
+      "which *" = "allow";
+      "whoami *" = "allow";
     };
 
     codemode = "allow";
