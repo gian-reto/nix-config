@@ -16,6 +16,24 @@
 - Do not stage, commit, amend, push, force-push, reset, clean, or stash unless the user explicitly requests it.
 - Treat pre-existing changes as user-owned and do not overwrite them.
 
+## Tools and Codemode
+
+- Codemode runs in QuickJS, not Node.js. It has no Node APIs, filesystem, network, or timers.
+- Use `codemode` for orchestration and data processing. Use dedicated tools for file access, searches, and edits.
+- Prefer dedicated tools and existing read-only commands for bounded extraction. Use external interpreters only when those tools cannot provide the required functionality. Keep the remaining processing in Codemode.
+- When using Bash, prefer the preapproved commands listed as `"allow"` in the appendix. Only use other commands when necessary, so that the user isn't interrupted to approve them unnecessarily.
+- For shell extraction, prefer `jq` for JSON/JSONL and `rg`, `head`, or `tail` for text.
+- Do not embed interpreter programs in Bash for ordinary data processing that Codemode could perform.
+- Keep each shell command focused on one operation. Avoid long command chains and embedded scripts.
+- Run independent calls with `Promise.allSettled()` and inspect every result. Await dependent steps in order.
+- Check each Bash result's `exit_code`. Nonzero exits do not throw. Stop dependent work on unexpected failures.
+- Do not parse truncated output as complete data. Retrieve the full output when needed.
+- Keep validation proportional. Reuse existing checks, and avoid large ad-hoc test harnesses for small edits.
+- Print only task-relevant results.
+- Do not use Python.
+
+**Most importantly, try to give each Bash call one task.** Use Codemode to capture results, process data step by step, and coordinate subsequent calls. Do not chain the entire workflow into a single Bash command.
+
 ## Subagents
 
 Pi Herdsman runs agents asynchronously in visible Herdr panes. Available definitions are:
@@ -27,6 +45,8 @@ Pi Herdsman runs agents asynchronously in visible Herdr panes. Available definit
 - `scout`: Locate relevant code, conventions, and tests without modifying files, using only permitted read-only shell commands.
 
 Use `delegate_agent` for narrow tasks that benefit from isolated context, selecting the appropriate definition. Use `continue_agent` for follow-up work with an existing agent. Delegate independent tasks in parallel when useful, but do not delegate work that is faster to do directly. After delegation, continue independent work or end the turn. Results and owner questions are delivered automatically; never poll panes, logs, sessions, or agent tools for completion. Pass relevant source files and exact result references through the coordination tools' `files` field when handing off dependent work.
+
+Give subagents the objective, relevant files, known facts and references, and the desired result format. Usually, let them choose their tools and methods on their own. Prescribe an approach only when the task requires it. Otherwise, offer procedural guidance only if they get stuck.
 
 ## MCP
 
@@ -53,3 +73,5 @@ When a dependency must be inspected in depth, clone it into a project-local igno
 4. Implement only the approved scope, following existing style and structure.
 5. Run focused formatting, linting, and tests that do not apply system state.
 6. Summarize changes, verification, remaining risks, and any manual follow-up.
+
+# Appendix

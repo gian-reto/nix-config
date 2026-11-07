@@ -71,12 +71,22 @@ in {
 
       file = let
         jsonFormat = pkgs.formats.json {};
+        permissions = import ./permissions.nix;
       in {
         ".pi/acp.json".source = jsonFormat.generate "pi-acp.json" (import ./acp.nix);
-        ".pi/agent/AGENTS.md".source = ./AGENTS.md;
+        ".pi/agent/AGENTS.md".text =
+          builtins.readFile ./AGENTS.md
+          + ''
+
+            ## Bash permissions
+
+            ```json
+            ${builtins.toJSON permissions.permission.bash}
+            ```
+          '';
         ".pi/agent/agents".source = ./agents;
         ".pi/agent/extensions/herdr-agent-state.ts".source = "${pkgs.herdr.src}/src/integration/assets/pi/herdr-agent-state.ts";
-        ".pi/agent/extensions/pi-permission-system/config.json".source = jsonFormat.generate "pi-permissions.json" (import ./permissions.nix);
+        ".pi/agent/extensions/pi-permission-system/config.json".source = jsonFormat.generate "pi-permissions.json" permissions;
         # A stub directory prevents the permissions extension from persisting changes.
         ".pi/agent/extensions/pi-permission-system/config.json.tmp/.keep".text = "";
         ".pi/agent/keybindings.json".source = ./keybindings.json;
