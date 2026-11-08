@@ -1,5 +1,6 @@
 {
   commandEffects.jq.effects = "read";
+  promptTimeoutMs = 2 * 60 * 1000;
 
   permission = {
     "*" = "ask";
