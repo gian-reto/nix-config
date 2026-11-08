@@ -154,12 +154,13 @@
 
     # Tools of `pi-herdsman`.
     ask_owner = "allow";
-    close_agent = "allow";
+    attach_handoff = "allow";
     continue_agent = "allow";
     delegate_agent = "allow";
-    delegate_project = "allow";
+    delegate_work = "allow";
     inspect_agent = "allow";
     inspect_staff = "allow";
+    integrate_branch = "ask";
     interrupt_agent = "allow";
     list_agents = "allow";
     list_peers = "allow";
@@ -168,10 +169,13 @@
     message_staff = "allow";
     message_supervisor = "allow";
     read_agent_transcript = "allow";
+    read_evidence = "allow";
     read_staff_transcript = "allow";
+    remove_worktree = "ask";
     reply_agent = "allow";
-    resume_project = "allow";
+    resume_work = "allow";
     steer_agent = "allow";
+    stop_agent = "allow";
     stop_lead = "allow";
   };
 }

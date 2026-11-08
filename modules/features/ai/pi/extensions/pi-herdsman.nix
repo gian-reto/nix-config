@@ -7,10 +7,10 @@
 }: let
   # Note: When upgrading the version, make sure to re-check the tools provided
   # by this extension and update ../permissions.nix accordingly.
-  version = "0.25.1";
+  version = "0.42.1";
   source = fetchurl {
     url = "https://registry.npmjs.org/pi-herdsman/-/pi-herdsman-${version}.tgz";
-    hash = "sha512-0B07XIGrsky/HzWHjD8ifjzwkYNk47X5WxsqZSVvUMeY/DCq3cXMdZCt/zOumTprPJf43Pz2V+14bl27JvSfew==";
+    hash = "sha512-i6f4/580Q6/JSxkp6Lllp5n3oEB2wdG9juxXSyRxA+rbq8ADC3uO8NydwcqIK1yT/oc1XhcrpDfmhL6IiqS1sQ==";
   };
 in
   stdenvNoCC.mkDerivation {
