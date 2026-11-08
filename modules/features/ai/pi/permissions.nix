@@ -1,4 +1,6 @@
 {
+  commandEffects.jq.effects = "read";
+
   permission = {
     "*" = "ask";
 
