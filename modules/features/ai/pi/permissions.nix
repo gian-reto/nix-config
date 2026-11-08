@@ -114,6 +114,8 @@
       "/nix/store/**" = "allow";
       "~/.cache/pi/acp-decompress" = "allow";
       "~/.cache/pi/acp-decompress/**" = "allow";
+      "~/.pi/agent/sessions" = "allow";
+      "~/.pi/agent/sessions/**" = "allow";
     };
     find = "allow";
     grep = "allow";
