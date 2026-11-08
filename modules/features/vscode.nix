@@ -161,6 +161,7 @@ in {
             "files.associations" = {
               "*.svg" = "html";
             };
+            "git-blame.config.showBlameInline" = true;
             "github.copilot.enable" = {
               "*" = true;
               "asciidoc" = true;

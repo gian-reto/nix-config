@@ -13,6 +13,10 @@
   };
 
   config.hm = lib.mkIf config.features.nushell.enable {
-    programs.nushell.enable = true;
+    programs.nushell = {
+      enable = true;
+
+      loadSessionVariables = true;
+    };
   };
 }

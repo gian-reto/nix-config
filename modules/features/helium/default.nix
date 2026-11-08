@@ -70,6 +70,38 @@ in {
         enable = true;
         package = pkgsHelium.helium.override {
           enableWideVine = true;
+
+          # FIXME: Preserve the TypeScript patch across pruning in the unwrapped
+          # browser, see:
+          # https://github.com/NixOS/nixpkgs/pull/498572#issuecomment-6532833048.
+          newScope = scope:
+            pkgsHelium.newScope (scope
+              // {
+                mkChromiumDerivation = arguments:
+                  (scope.mkChromiumDerivation arguments).overrideAttrs (previous: {
+                    prePatch =
+                      (previous.prePatch or "")
+                      + ''
+                        cp third_party/typescript/linux-amd64/3pp/patches/typescript_native_preview.patch \
+                          "$TMPDIR/helium-typescript-native-preview.patch"
+                      '';
+                    postPatch =
+                      lib.replaceStrings
+                      ["--input=../3pp/patches/typescript_native_preview.patch"]
+                      [''--input="$TMPDIR/helium-typescript-native-preview.patch"'']
+                      previous.postPatch;
+
+                    # Chromium 156 no longer has the legacy executable placeholder.
+                    installPhase =
+                      if lib.versionAtLeast previous.version "156"
+                      then
+                        lib.replaceStrings
+                        [''--replace-fail "/usr/bin/@@usr_bin_symlink_name" "helium"'']
+                        [""]
+                        previous.installPhase
+                      else previous.installPhase;
+                  });
+              });
         };
 
         externalExtensions =

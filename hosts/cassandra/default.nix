@@ -48,7 +48,6 @@
     hardware.lenovo-thinkpad-x13s.enable = true;
 
     boot = {
-      initrd.systemd.enable = true;
       loader = {
         systemd-boot = {
           enable = true;

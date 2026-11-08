@@ -9,3 +9,4 @@ final: prev:
   zsh-autocomplete = prev.callPackage ./zsh-autocomplete {};
 }
 // (import ./opencode final prev)
+// (import ./pi-coding-agent final prev)

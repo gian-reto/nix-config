@@ -50,6 +50,7 @@
 
         # Color settings.
         theme = "Adwaita Dark";
+        background-blur = true;
         background-opacity = 0.75;
       };
     };

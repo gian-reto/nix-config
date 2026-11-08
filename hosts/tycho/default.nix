@@ -46,7 +46,6 @@
     };
 
     boot = {
-      initrd.systemd.enable = true;
       blacklistedKernelModules = ["amdxdna"];
       loader = {
         systemd-boot = {
