@@ -34,7 +34,6 @@
     features.gtk.enable = true;
     features.helium.enable = true;
     features.nfs.enable = true;
-    features.opencode.enable = true;
     features.op.enable = true;
     features.printing.enable = true;
     features.sops.enable = true;

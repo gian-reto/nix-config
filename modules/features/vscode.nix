@@ -90,7 +90,6 @@ in {
             )
             ++ (with extensions.open-vsx; [
               piousdeer.adwaita-theme
-              sst-dev.opencode
             ]);
 
           userSettings = {

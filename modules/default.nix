@@ -28,7 +28,6 @@
     ./features/nfs.nix
     ./features/nushell.nix
     ./features/ollama.nix
-    ./features/opencode
     ./features/op.nix
     ./features/printing.nix
     ./features/sops.nix

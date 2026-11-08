@@ -8,5 +8,4 @@ final: prev:
   # https://github.com/marlonrichert/zsh-autocomplete/issues/891.
   zsh-autocomplete = prev.callPackage ./zsh-autocomplete {};
 }
-// (import ./opencode final prev)
 // (import ./pi-coding-agent final prev)
