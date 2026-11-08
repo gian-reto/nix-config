@@ -81,6 +81,8 @@ in {
                   tamasfe.even-better-toml
                   teabyii.ayu
                   thenuprojectcontributors.vscode-nushell-lang
+                  theqtcompany.qt-core
+                  theqtcompany.qt-qml
                   wayou.vscode-todo-highlight
                   wholroyd.jinja
                   yzhang.markdown-all-in-one

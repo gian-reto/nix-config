@@ -35,6 +35,7 @@
     ./features/steam.nix
     ./features/valent.nix
     ./features/virtualization.nix
+    ./features/voxtype
     ./features/vpn.nix
     ./features/vscode.nix
     ./features/wireguard.nix

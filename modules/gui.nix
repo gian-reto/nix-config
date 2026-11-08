@@ -39,6 +39,7 @@
     features.sops.enable = true;
     features.ssh.enable = true;
     features.valent.enable = true;
+    features.voxtype.enable = true;
     features.vpn.enable = true;
     features.vscode.enable = true;
     features.yubikey.enable = true;
