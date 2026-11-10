@@ -190,6 +190,8 @@ in {
                 "${lib.getExe pkgs.alejandra}"
               ];
             };
+            "qt-qml.doNotAskForQmllsDownload" = true;
+            "qt-qml.qmlls.customExePath" = lib.getExe' pkgs.qt6.qtdeclarative "qmlls";
             "redhat.telemetry.enabled" = false;
             "security.workspace.trust.banner" = "never";
             "security.workspace.trust.enabled" = false;
@@ -216,6 +218,9 @@ in {
             "window.titleBarStyle" = "custom";
             "workbench.colorTheme" = "Adwaita Light";
             "workbench.editor.tabActionLocation" = "right";
+            "workbench.editorAssociations" = {
+              "*.qrc" = "qt-core.qrcEditor";
+            };
             "workbench.iconTheme" = "ayu";
             "workbench.list.smoothScrolling" = true;
             "workbench.panel.defaultLocation" = "bottom";
