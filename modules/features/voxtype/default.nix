@@ -67,9 +67,7 @@ in {
       settings = {
         audio = {
           feedback = {
-            enabled = true;
-            theme = "subtle";
-            volume = 0.35;
+            enabled = false;
           };
           pause_media = true;
         };
