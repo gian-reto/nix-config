@@ -40,6 +40,8 @@ Item {
     readonly property real glowOpacity: 1.0
     readonly property real borderWidth: 1 / scaleFactor
     readonly property real cutoutInset: 1 / scaleFactor
+    readonly property real waveformGain: 6.0
+    readonly property real waveformExponent: 0.6
     implicitWidth: 189 * scaleFactor
     implicitHeight: 64 * scaleFactor
 
@@ -186,9 +188,10 @@ Item {
     Timer {
         interval: 40; repeat: true; running: root.animating
         onTriggered: {
-            const target = Math.min(1, Math.sqrt(root.rms) * 2.2)
-            root.envelope += (target - root.envelope) * (target > root.envelope ? 0.5 : 0.2)
-            const live = root.daemonState === "transcribing" ? 0 : root.envelope * (0.55 + 0.45 * Math.random())
+            // Expand speech visually while keeping very low levels near the baseline.
+            const target = Math.min(1, Math.pow(root.rms, root.waveformExponent) * root.waveformGain)
+            root.envelope += (target - root.envelope) * (target > root.envelope ? 0.7 : 0.4)
+            const live = root.daemonState === "transcribing" ? 0 : root.envelope * (0.75 + 0.25 * Math.random())
             root.levels = [live].concat(root.levels.slice(0, root.levels.length - 1))
             if (root.recording) root.elapsed = Math.floor((Date.now() - root.startedAt) / 1000)
         }
