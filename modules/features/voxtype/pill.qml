@@ -28,12 +28,18 @@ SOFTWARE.
 pragma ComponentBehavior: Bound
 
 import QtQuick
+import QtQuick.Effects
 
 Item {
     id: root
     readonly property real scaleFactor: 1.5
-    readonly property real backgroundOpacity: 0.65
+    readonly property real housingOpacity: 0.85
+    readonly property real recessOpacity: 0.65
+    readonly property real recessBevelOpacity: 0.9
+    readonly property real recessBevelWidth: 0.8 / scaleFactor
+    readonly property real glowOpacity: 1.0
     readonly property real borderWidth: 1 / scaleFactor
+    readonly property real cutoutInset: 1 / scaleFactor
     implicitWidth: 189 * scaleFactor
     implicitHeight: 64 * scaleFactor
 
@@ -65,6 +71,7 @@ Item {
     readonly property color accent: theme ? theme.color("accent", "#3b82f6") : "#3b82f6"
     readonly property bool lightTheme: background.hslLightness > 0.5
     readonly property color floor: lightTheme ? Qt.darker(background, 1.12) : Qt.darker(background, 1.5)
+    readonly property color housingFill: Qt.darker(background, lightTheme ? 1.08 : 1.3)
 
     property real processingMix: daemonState === "transcribing" ? 1 : 0
     Behavior on processingMix { enabled: root.animating; NumberAnimation { duration: 180; easing.type: Easing.InOutCubic } }
@@ -76,6 +83,60 @@ Item {
         more: [[2.5, 7, 2.5, 7, 1], [7, 7, 7, 7, 1], [11.5, 7, 11.5, 7, 1]]
     })
     component Morph: NumberAnimation { duration: 400; easing.type: Easing.BezierSpline; easing.bezierCurve: [0.19, 1, 0.22, 1, 1, 1] }
+
+    component Housing: Item {
+        // These overlapping filled shapes form the bevel; preserve their geometry and order.
+        Rectangle {
+            anchors.fill: parent; anchors.margins: -root.borderWidth
+            radius: height / 2
+            color: Qt.rgba(0, 0, 0, root.lightTheme ? 0.14 : 0.55)
+        }
+        // Keep the bevel thin independently of the pill's overall scale.
+        Rectangle {
+            anchors.fill: parent; radius: height / 2
+            color: Qt.tint(Qt.darker(root.background, 1.1), Qt.rgba(0, 0, 0, root.lightTheme ? 0.12 : 0.45))
+        }
+        Rectangle {
+            width: parent.width; height: parent.height - root.borderWidth; radius: height / 2
+            color: Qt.tint(Qt.lighter(root.background, 1.13), Qt.rgba(1, 0.98, 0.92, root.lightTheme ? 0.6 : 0.18))
+        }
+        Rectangle {
+            y: root.borderWidth; width: parent.width; height: parent.height - 2 * root.borderWidth; radius: height / 2
+            gradient: Gradient {
+                GradientStop { position: 0; color: Qt.lighter(root.housingFill, root.lightTheme ? 1.03 : 1.13) }
+                GradientStop { position: 0.5; color: root.housingFill }
+                GradientStop { position: 1; color: Qt.darker(root.housingFill, 1.1) }
+            }
+        }
+    }
+
+    component SmoothCutout: MultiEffect {
+        autoPaddingEnabled: false
+        maskEnabled: true
+        maskInverted: true
+        // Keep fractional coverage at antialiased mask edges instead of thresholding it away.
+        maskThresholdMin: 0.5
+        maskSpreadAtMin: 1.0
+    }
+
+    component RecessRim: Item {
+        // Matching capsules keep the lower highlight rounded around the end caps.
+        Rectangle {
+            anchors.fill: parent; radius: height / 2
+            antialiasing: true
+            color: Qt.tint(Qt.lighter(root.background, 1.13),
+                Qt.rgba(1, 0.98, 0.92, root.lightTheme ? 0.58 : 0.18))
+        }
+        Rectangle {
+            anchors.fill: parent; radius: height / 2
+            antialiasing: true
+            gradient: Gradient {
+                GradientStop { position: 0; color: Qt.darker(root.floor, root.lightTheme ? 1.25 : 2.0) }
+                GradientStop { position: 0.38; color: Qt.darker(root.floor, root.lightTheme ? 1.25 : 2.0) }
+                GradientStop { position: 1; color: Qt.alpha(root.floor, 0) }
+            }
+        }
+    }
 
     function syncState() {
         // Derived bindings may not have updated when daemonStateChanged runs.
@@ -168,81 +229,169 @@ Item {
                 yScale: xScale
             }
             Item {
+                id: recessMask
                 anchors.fill: parent
-                // Composite the background once so overlapping details stay translucent.
-                opacity: root.backgroundOpacity
+                visible: false
+                layer.enabled: true
+                layer.smooth: true
+                layer.textureSize: Qt.size(width * root.scaleFactor, height * root.scaleFactor)
+                // Overlap the recess by one pixel after scaling to cover antialiased edges.
+                Rectangle {
+                    x: pebble.x + groove.x + root.cutoutInset
+                    y: pebble.y + groove.y + root.cutoutInset
+                    width: groove.width - 2 * root.cutoutInset
+                    height: groove.height - 2 * root.cutoutInset
+                    radius: height / 2
+                    color: "white"
+                }
+            }
+            Item {
+                id: recessFloorMask
+                anchors.fill: parent
+                visible: false
+                layer.enabled: true
+                layer.smooth: true
+                layer.textureSize: Qt.size(width * root.scaleFactor, height * root.scaleFactor)
+                Rectangle {
+                    x: pebble.x + groove.x + grooveFloor.x
+                    y: pebble.y + groove.y + grooveFloor.y
+                    width: grooveFloor.width; height: grooveFloor.height
+                    radius: height / 2
+                    antialiasing: true
+                    color: "white"
+                }
+            }
+            Item {
+                id: silhouetteMask
+                anchors.fill: parent
+                visible: false
+                layer.enabled: true
+                layer.smooth: true
+                layer.textureSize: Qt.size(width * root.scaleFactor, height * root.scaleFactor)
+                Rectangle {
+                    x: pebble.x - root.borderWidth; y: pebble.y - root.borderWidth
+                    width: pebble.width + 2 * root.borderWidth
+                    height: pebble.height + 2 * root.borderWidth
+                    radius: height / 2
+                    color: "white"
+                }
+            }
+            Item {
+                anchors.fill: parent
+                layer.enabled: true
+                layer.smooth: true
+                layer.textureSize: Qt.size(width * root.scaleFactor, height * root.scaleFactor)
+                // Keep shadow pixels outside the housing so neither material becomes more opaque.
+                layer.effect: SmoothCutout {
+                    maskSource: silhouetteMask
+                }
+                RectangularShadow {
+                    x: pebble.x - root.borderWidth; y: pebble.y - root.borderWidth
+                    width: pebble.width + 2 * root.borderWidth
+                    height: pebble.height + 2 * root.borderWidth
+                    radius: height / 2
+                    blur: 12
+                    spread: 1
+                    offset: Qt.vector2d(0, 2)
+                    color: Qt.rgba(0, 0, 0, root.lightTheme ? 0.16 : 0.24)
+                }
+            }
+            Item {
+                anchors.fill: parent
+                // A continuous backplate prevents gaps between independently antialiased edges.
+                opacity: root.recessOpacity
+                layer.enabled: true
+                layer.smooth: true
+                layer.textureSize: Qt.size(width * root.scaleFactor, height * root.scaleFactor)
+                Housing {
+                    width: pebble.width; height: pebble.height
+                    anchors.centerIn: parent
+                }
+                Item {
+                    x: pebble.x + groove.x; y: pebble.y + groove.y
+                    width: groove.width; height: groove.height
+                    opacity: groove.opacity
+                    RecessRim {
+                        anchors.fill: parent
+                    }
+                    Rectangle {
+                        id: grooveFloor
+                        // A uniform inset keeps the floor and rim's rounded end caps concentric.
+                        x: root.recessBevelWidth; y: root.recessBevelWidth
+                        width: parent.width - 2 * root.recessBevelWidth
+                        height: parent.height - 2 * root.recessBevelWidth
+                        radius: height / 2
+                        color: root.floor
+                    }
+                }
+            }
+            Item {
+                anchors.fill: parent
+                // Account for the backplate to keep the combined housing opacity at its target.
+                opacity: (root.housingOpacity - root.recessOpacity) / (1 - root.recessOpacity)
+                layer.enabled: true
+                layer.smooth: true
+                layer.textureSize: Qt.size(width * root.scaleFactor, height * root.scaleFactor)
+                layer.effect: SmoothCutout {
+                    maskSource: recessMask
+                }
+                Housing {
+                    width: pebble.width; height: pebble.height
+                    anchors.centerIn: parent
+                }
+            }
+            Item {
+                anchors.fill: parent
+                // Accent light stays independent of the translucent material behind it.
+                opacity: groove.opacity
                 layer.enabled: true
                 layer.smooth: true
                 layer.textureSize: Qt.size(width * root.scaleFactor, height * root.scaleFactor)
                 Item {
-                    width: pebble.width; height: pebble.height
-                    anchors.centerIn: parent
-                    Rectangle {
-                        anchors.fill: parent; anchors.margins: -root.borderWidth
-                        radius: height / 2
-                        color: Qt.rgba(0, 0, 0, root.lightTheme ? 0.14 : 0.55)
-                    }
-                    // Keep the bevel thin independently of the pill's overall scale.
+                    x: pebble.x + groove.x + grooveFloor.x
+                    y: pebble.y + groove.y + grooveFloor.y
+                    width: grooveFloor.width; height: grooveFloor.height
                     Rectangle {
                         anchors.fill: parent; radius: height / 2
-                        color: Qt.tint(Qt.darker(root.background, 1.1), Qt.rgba(0, 0, 0, root.lightTheme ? 0.12 : 0.45))
-                    }
-                    Rectangle {
-                        width: parent.width; height: parent.height - root.borderWidth; radius: height / 2
-                        color: Qt.tint(Qt.lighter(root.background, 1.13), Qt.rgba(1, 0.98, 0.92, root.lightTheme ? 0.6 : 0.18))
-                    }
-                    Rectangle {
-                        y: root.borderWidth; width: parent.width; height: parent.height - 2 * root.borderWidth; radius: height / 2
+                        opacity: root.glowOpacity * root.glow * (0.82 + 0.18 * root.envelope)
+                        // The backlight blooms from the centre as the content arrives.
+                        transform: Scale {
+                            origin.x: grooveFloor.width / 2
+                            xScale: 0.55 + 0.45 * root.contentPresence
+                        }
                         gradient: Gradient {
-                            GradientStop { position: 0; color: Qt.lighter(root.background, root.lightTheme ? 1.03 : 1.13) }
-                            GradientStop { position: 0.5; color: root.background }
-                            GradientStop { position: 1; color: Qt.darker(root.background, 1.1) }
+                            orientation: Gradient.Horizontal
+                            GradientStop { position: 0; color: Qt.alpha(root.accent, 0) }
+                            GradientStop { position: 0.22; color: Qt.alpha(root.accent, 0.14) }
+                            GradientStop { position: 0.5; color: Qt.alpha(root.accent, 0.48) }
+                            GradientStop { position: 0.78; color: Qt.alpha(root.accent, 0.14) }
+                            GradientStop { position: 1; color: Qt.alpha(root.accent, 0) }
                         }
                     }
-                    Item {
-                        x: groove.x; y: groove.y
-                        width: groove.width; height: groove.height
-                        opacity: groove.opacity
-                        // Lower lip catches the backlight; the upper edge falls into shadow.
-                        Rectangle {
-                            anchors.fill: parent; radius: height / 2
-                            color: Qt.tint(root.floor, Qt.alpha(root.accent, 0.12 + 0.1 * root.glow))
-                        }
-                        Rectangle {
-                            width: parent.width; height: parent.height - root.borderWidth; radius: height / 2
-                            color: Qt.darker(root.floor, root.lightTheme ? 1.15 : 1.6)
-                        }
-                        Rectangle {
-                            id: grooveFloor
-                            y: 1.25 * root.borderWidth; width: parent.width; height: parent.height - 2.25 * root.borderWidth; radius: height / 2
-                            color: root.floor
-                        }
-                        Rectangle {
-                            anchors.fill: grooveFloor; radius: height / 2
-                            opacity: root.glow * (0.82 + 0.18 * root.envelope)
-                            // The backlight blooms from the centre as the content arrives.
-                            transform: Scale {
-                                origin.x: grooveFloor.width / 2
-                                xScale: 0.55 + 0.45 * root.contentPresence
-                            }
-                            gradient: Gradient {
-                                orientation: Gradient.Horizontal
-                                GradientStop { position: 0; color: Qt.alpha(root.accent, 0) }
-                                GradientStop { position: 0.22; color: Qt.alpha(root.accent, 0.08) }
-                                GradientStop { position: 0.5; color: Qt.alpha(root.accent, 0.3) }
-                                GradientStop { position: 0.78; color: Qt.alpha(root.accent, 0.08) }
-                                GradientStop { position: 1; color: Qt.alpha(root.accent, 0) }
-                            }
-                        }
-                        // Inner shadow under the top edge keeps the glow low in the cut.
-                        Rectangle {
-                            anchors.fill: grooveFloor; radius: height / 2
-                            gradient: Gradient {
-                                GradientStop { position: 0; color: Qt.alpha(Qt.darker(root.floor, 1.4), 0.8) }
-                                GradientStop { position: 0.45; color: Qt.alpha(root.floor, 0) }
-                            }
+                    // Inner shadow under the top edge keeps the glow low in the cut.
+                    Rectangle {
+                        anchors.fill: parent; radius: height / 2
+                        opacity: root.recessOpacity
+                        gradient: Gradient {
+                            GradientStop { position: 0; color: Qt.alpha(Qt.darker(root.floor, 1.4), 0.8) }
+                            GradientStop { position: 0.45; color: Qt.alpha(root.floor, 0) }
                         }
                     }
+                }
+            }
+            Item {
+                anchors.fill: parent
+                // Keep both lips above the glow without adding another recess background.
+                opacity: root.recessBevelOpacity * groove.opacity
+                layer.enabled: true
+                layer.smooth: true
+                layer.textureSize: Qt.size(width * root.scaleFactor, height * root.scaleFactor)
+                layer.effect: SmoothCutout {
+                    maskSource: recessFloorMask
+                }
+                RecessRim {
+                    x: pebble.x + groove.x; y: pebble.y + groove.y
+                    width: groove.width; height: groove.height
                 }
             }
             Item {
