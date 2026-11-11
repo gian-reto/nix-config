@@ -72,8 +72,8 @@ Item {
     readonly property color foreground: theme ? theme.color("foreground", "#e6e8ee") : "#e6e8ee"
     readonly property color accent: theme ? theme.color("accent", "#3b82f6") : "#3b82f6"
     readonly property bool lightTheme: background.hslLightness > 0.5
-    readonly property color floor: lightTheme ? Qt.darker(background, 1.12) : Qt.darker(background, 1.5)
-    readonly property color housingFill: Qt.darker(background, lightTheme ? 1.08 : 1.3)
+    readonly property color floor: lightTheme ? Qt.darker(background, 1.12) : '#0d0c0f'
+    readonly property color housingFill: lightTheme ? Qt.darker(background, 1.08) : "#2e2d32"
 
     property real processingMix: daemonState === "transcribing" ? 1 : 0
     Behavior on processingMix { enabled: root.animating; NumberAnimation { duration: 180; easing.type: Easing.InOutCubic } }
@@ -429,7 +429,7 @@ Item {
                 }
                 Item {
                     id: clockArea
-                    x: 112; width: 41; height: 32.3
+                    x: 110; width: 41; height: 32.3
                     opacity: root.contentPresence
                     // The timer clears before the glyph shows, so text and icon never overlap.
                     readonly property real timerMix: 1 - root.processingMix
