@@ -191,6 +191,9 @@ in {
               ];
             };
             "qt-qml.doNotAskForQmllsDownload" = true;
+            "qt-qml.qmlls.additionalImportPaths" = [
+              "${pkgs.qt6.qtdeclarative}/lib/qt-6/qml"
+            ];
             "qt-qml.qmlls.customExePath" = lib.getExe' pkgs.qt6.qtdeclarative "qmlls";
             "redhat.telemetry.enabled" = false;
             "security.workspace.trust.banner" = "never";
