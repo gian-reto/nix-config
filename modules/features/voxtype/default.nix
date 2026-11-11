@@ -51,7 +51,7 @@ in {
     services.voxtype = {
       enable = true;
       package = voxtype;
-      loadModels = ["base.en"];
+      loadModels = ["small.en"];
       environment = {
         PATH = lib.makeBinPath [
           pkgs.coreutils
@@ -94,7 +94,7 @@ in {
           enabled = true;
         };
         whisper = {
-          model = "base.en";
+          model = "small.en";
           language = "en";
         };
       };
