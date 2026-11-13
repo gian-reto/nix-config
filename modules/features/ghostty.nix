@@ -31,6 +31,7 @@
 
       settings = {
         # Misc. settings.
+        cursor-click-to-move = false;
         auto-update = "off";
 
         # Window settings.
