@@ -190,6 +190,7 @@ in {
                 "${lib.getExe pkgs.alejandra}"
               ];
             };
+            "qt-core.showWelcomePageOnActivation" = false;
             "qt-qml.doNotAskForQmllsDownload" = true;
             "qt-qml.qmlls.additionalImportPaths" = [
               "${pkgs.qt6.qtdeclarative}/lib/qt-6/qml"
