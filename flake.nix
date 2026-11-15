@@ -258,7 +258,7 @@
 
     # Other stuff.
     adw-shell = {
-      url = "github:gian-reto/adw-shell/a734945544044b8f667950ab1a8a195586760e6d";
+      url = "github:gian-reto/adw-shell/69565df996263777da65b6e2a41741410a0870d7";
     };
 
     firefox-addons = {

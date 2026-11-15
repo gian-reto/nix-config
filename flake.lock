@@ -6,17 +6,17 @@
         "nixpkgs": "nixpkgs"
       },
       "locked": {
-        "lastModified": 1794635090,
-        "narHash": "sha256-lb7lKoFND7mHTLHmWKKrtf1cWBaWOXbWlD9o1RNsq0U=",
+        "lastModified": 1794767812,
+        "narHash": "sha256-dqj59vEdieRajqNkDu/1UItVyWFAEL24WEosawCYGQM=",
         "owner": "gian-reto",
         "repo": "adw-shell",
-        "rev": "a734945544044b8f667950ab1a8a195586760e6d",
+        "rev": "69565df996263777da65b6e2a41741410a0870d7",
         "type": "github"
       },
       "original": {
         "owner": "gian-reto",
         "repo": "adw-shell",
-        "rev": "a734945544044b8f667950ab1a8a195586760e6d",
+        "rev": "69565df996263777da65b6e2a41741410a0870d7",
         "type": "github"
       }
     },
